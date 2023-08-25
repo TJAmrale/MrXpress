@@ -8,14 +8,12 @@ const UserContext = createContext({
   user: null,
   token: null,
   setUser: () => {},
-  setToken: () => {}
+  setToken: () => {},
 });
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({
-    name: 'Andrew'
-  });
-  const [token, setTokenState] = useState(123);
+  const [user, setUser] = useState();
+  const [token, setTokenState] = useState();
 
   // On initial load, check if a token exists in local storage
   useEffect(() => {
@@ -28,7 +26,6 @@ export const UserProvider = ({ children }) => {
   // Whenever token state changes, update local storage
   const setToken = (newToken) => {
     setTokenState(newToken);
-
     if (newToken) {
       localStorage.setItem("ACCESS_TOKEN", newToken);
     } else {
@@ -36,6 +33,8 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  // Return the context provider with current user and token values.
+  // All child components will have access to these values.
   return (
     <UserContext.Provider value={{ user, token, setUser, setToken }}>
       {children}

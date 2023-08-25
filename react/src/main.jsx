@@ -3,7 +3,9 @@ import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import router from "./router.jsx";
 import App from "./App.jsx";
-import "./index.css";
+import './assets/styles/custom.scss';
+// import "./index.css";
+import "./App.css";
 import { UserProvider } from "./contexts/UserProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -9,6 +9,7 @@ import TechnicianPage from "./pages/TechnicianPage.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
+  // Authenticated routes
   {
     path: "/app",
     element: <AuthenticatedLayout />,

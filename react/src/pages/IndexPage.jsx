@@ -4,6 +4,7 @@ import HowItWorks from '../components/HowItWorks';
 import WhyWeStandOut from '../components/WhyWeStandOut';
 import FAQs from '../components/FAQs';
 import Footer from '../components/Footer';
+import Testimonials from '../components/Testimonials';
 
 function IndexPage() {
   return (
@@ -12,6 +13,7 @@ function IndexPage() {
       <HeroSection />
       <HowItWorks />
       <WhyWeStandOut />
+      <Testimonials />
       <FAQs />
       <Footer />
     </div>
