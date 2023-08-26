@@ -1,11 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
-import router from "./router.jsx";
-import App from "./App.jsx";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./index.css";
 import './assets/styles/custom.scss';
-// import "./index.css";
-import "./App.css";
+import router from "./router.jsx";
+// import App from "./App.jsx";
 import { UserProvider } from "./contexts/UserProvider.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(

@@ -31,7 +31,7 @@ function HowItWorks() {
 
   return (
     <section id="how-it-works" className="custom-container">
-      <h2 className="text-center">How It Works</h2>
+      <h2 className="section-heading text-center text-body">How It Works</h2>
       <Row xs={1} md={2} lg={4} className="g-4">
         {cardData.map((card) => (
           <Col key={card.title}>

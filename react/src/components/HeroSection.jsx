@@ -13,7 +13,7 @@ function HeroSection() {
           <Col md={7}>
             <h1>{headline}</h1>
             <p>{subheadline}</p>
-            <Button variant="primary" className="px-4 py-2">
+            <Button variant="primary" className="btn-book px-4 py-2">
               Book Now & Get Fixed!
             </Button>
           </Col>

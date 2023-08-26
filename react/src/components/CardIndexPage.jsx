@@ -3,7 +3,7 @@ import { Card } from "react-bootstrap";
 
 function CardIndexPage({title, subtitle, description}) {
   return (
-      <Card>
+      <Card className="h-100">
         <Card.Body className="text-center">
           <Card.Title>{title}</Card.Title>
           <Card.Subtitle>{subtitle}</Card.Subtitle>
