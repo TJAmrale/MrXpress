@@ -12,7 +12,7 @@ const UserContext = createContext({
 });
 
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState();
+  const [user, setUser] = useState({});
   const [token, setTokenState] = useState();
 
   // On initial load, check if a token exists in local storage

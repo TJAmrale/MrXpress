@@ -1,11 +1,26 @@
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { useUserContext } from "../contexts/UserProvider";
+import { useEffect } from "react";
+import axiosClient from "../axios-client";
 
 function NavBar() {
-  const { user, token } = useUserContext();
+  const { user, token, setUser, setToken } = useUserContext();
   const onLogout = (e) => {
     e.preventDefault();
+
+    axiosClient.post('/logout')
+      .then(() => {
+        setUser({});
+        setToken(null);
+      })
   }
+
+  useEffect(() => {
+    axiosClient.get('/user')
+      .then(({data}) => {
+        setUser(data);
+      })
+  }, []);
 
   return (
     <Navbar expand="lg" className="bg-light-subtle shadow-sm">
@@ -20,7 +35,7 @@ function NavBar() {
             <Nav.Link className="px-3" href="">
               Books a Repair
             </Nav.Link>
-            <Nav.Link className="px-3" href="#faq">
+            <Nav.Link className="px-3" href="#faqs">
               FAQ
             </Nav.Link>
             <Nav.Link className="px-3 me-3" href="">

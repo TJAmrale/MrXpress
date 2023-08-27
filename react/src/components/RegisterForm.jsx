@@ -1,6 +1,6 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Container, Form, Button } from "react-bootstrap";
-import axiosClient from "../axios-client.js"
+import axiosClient from "../axios-client.js";
 import { useUserContext } from "../contexts/UserProvider.jsx";
 
 const LoginForm = () => {
@@ -8,7 +8,8 @@ const LoginForm = () => {
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
-  const {setUser, setToken} = useUserContext();
+  const [errors, setErrors] = useState();
+  const { setUser, setToken } = useUserContext();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -19,18 +20,19 @@ const LoginForm = () => {
       password_confirmation: passwordConfirmationRef.current.value,
     };
 
-
-    axiosClient.post('/register', payload)
-      .then(response => {
-        setUser(response.data.user)
-        setToken(response.data.token)
+    console.log(payload);
+    axiosClient
+      .post("/register", payload)
+      .then((response) => {
+        setUser(response.data.user);
+        setToken(response.data.token);
       })
-      .catch(err => {
+      .catch((err) => {
         const response = err.response;
-        if (response) {
-          console.log(response.data.error);
+        if (response && response.status === 422) {
+          setErrors(response.data.errors);
         }
-      })
+      });
   };
 
   return (
@@ -81,13 +83,22 @@ const LoginForm = () => {
           />
         </Form.Group>
 
+        {/* Error text */}
+        {errors && (
+          <div className="alert">
+            {Object.keys(errors).map((key) => (
+              <span key={key}>{errors[key][0]}{" "}</span>
+            ))}
+          </div>
+        )}
+
         {/* Submit Button */}
         <Button
           className="mt-4 w-25 full-width"
           variant="primary"
           type="submit"
         >
-          Login
+          Register
         </Button>
       </Form>
 

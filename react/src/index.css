@@ -19,6 +19,7 @@ section {
 }
 
 #left-section {
+  height: 100%;
   background-image: url(/src/assets/images/left-section-background.jpg);
   background-size: cover;
   background-position: center center;
@@ -28,7 +29,7 @@ section {
   padding-bottom: 1rem;
 }
 
-@media(max-width: 768px) {
+@media(max-width: 992px) {
   button.full-width {
       width: 100%!important;  
   }

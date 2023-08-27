@@ -2,7 +2,7 @@ import axios from "axios"; // Importing axios library
 
 // Creating a new instance of axios with a custom configuration, using a base URL derived from environment variables.
 const axiosClient = axios.create({
-  baseURL: `${import.meta.env.VITE_API_BASE_URL}/api`, // Setting baseURL using environment variable
+  baseURL: `${import.meta.env.VITE_API_BASE_URL}/api` // Setting baseURL using environment variable
 });
 
 // Intercepting every request to add potential authentication headers.
@@ -36,5 +36,6 @@ axiosClient.interceptors.response.use(
     return Promise.reject(error); // Propagate the error for further handling
   }
 );
+
 
 export default axiosClient;
