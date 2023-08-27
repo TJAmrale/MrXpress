@@ -28,9 +28,13 @@ const LoginForm = () => {
         const response = err.response;
         if (response && response.status === 422) {
           if (response.data.errors) {
+            console.log(response);
             setErrors(response.data.errors);
           } else {
-            setErrors
+            console.log("2 ", response);
+            setErrors({
+              email: [response.data.message]
+            })
           }
         }
       });
