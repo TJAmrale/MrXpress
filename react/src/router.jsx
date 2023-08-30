@@ -6,7 +6,8 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import IndexPage from "./pages/IndexPage.jsx";
 import TechnicianPage from "./pages/TechnicianPage.jsx";
-import ManageUsers from "./components/ManageUsers.jsx";
+import ManageUsersPage from "./pages/ManageUsersPage.jsx";
+import ManageUserForm from "./pages/ManageUserForm.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -26,7 +27,15 @@ const router = createBrowserRouter([
       },
       {
         path: "users",
-        element: <ManageUsers />,
+        element: <ManageUsersPage />,
+      },
+      {
+        path: "users/new",
+        element: <ManageUserForm key="userCreate"/>,
+      },
+      {
+        path: "users/:id",
+        element: <ManageUserForm key="userUpdate"/>,
       },
     ],
   },

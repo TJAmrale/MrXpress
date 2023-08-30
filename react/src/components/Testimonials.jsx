@@ -4,7 +4,7 @@ import { Carousel } from "react-bootstrap";
 
 function Testimonials() {
   return (
-    <section id="testimonials" className="custom-container">
+    <section id="testimonials">
       <h2 className="section-heading text-center">What Our Client Says</h2>
       <Carousel data-bs-theme="dark">
       <Carousel.Item>

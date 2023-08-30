@@ -30,7 +30,7 @@ function WhyWeStandOut() {
   ];
 
   return (
-    <section id="why-we-stand-out" className="custom-container">
+    <section id="why-we-stand-out">
       <h2 className="section-heading text-center">Why We Stand Out</h2>
       <Row xs={1} md={2} lg={4} className="g-4">
         {cardData.map((card) => (

@@ -2,6 +2,6 @@
 
 export default function TechnicianPage() {
   return (
-    <div>TechnicianPage</div>
+    <h2>Technician Page - Coming Soon...</h2>
   )
 }

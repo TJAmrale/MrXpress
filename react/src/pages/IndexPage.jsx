@@ -9,7 +9,6 @@ import Testimonials from '../components/Testimonials';
 function IndexPage() {
   return (
     <div id="index-page">
-      <NavBar />
       <HeroSection />
       <HowItWorks />
       <WhyWeStandOut />

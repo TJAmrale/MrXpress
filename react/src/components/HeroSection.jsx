@@ -7,7 +7,7 @@ function HeroSection() {
     "Connect with top technicians and get your phone fixed without any hassle.";
 
   return (
-    <section id="hero-section" className="custom-container">
+    <section id="hero-section">
       <Container fluid>
         <Row>
           <Col md={7}>
