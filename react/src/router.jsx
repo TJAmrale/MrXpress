@@ -6,6 +6,7 @@ import RegisterPage from "./pages/RegisterPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import IndexPage from "./pages/IndexPage.jsx";
 import TechnicianPage from "./pages/TechnicianPage.jsx";
+import ManageUsers from "./components/ManageUsers.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
       {
         path: "technician",
         element: <TechnicianPage />,
+      },
+      {
+        path: "users",
+        element: <ManageUsers />,
       },
     ],
   },

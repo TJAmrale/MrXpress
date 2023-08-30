@@ -3,8 +3,13 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useUserContext } from "../contexts/UserProvider";
 
 export default function AuthenticatedLayout() {
-  // lúc này component defaultLayout lấy giá trị của user và token từ các bậc cha của nó
+  // lúc này component AuthenticatedLayout lấy giá trị của user và token từ các bậc cha của nó
   const { token } = useUserContext();
+  console.log(token);
+
+  // if (token === undefined) {
+  //   return <div>Loading...</div>;
+  // }
 
   if (!token) {
     return <Navigate to="/login" />;
