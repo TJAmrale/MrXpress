@@ -4,34 +4,42 @@ import axiosClient from "../axios-client";
 import { useUserContext } from "../contexts/UserProvider";
 
 const LoginForm = () => {
+  // Create refs for form fields and state for form errors
   const emailRef = useRef();
   const passwordRef = useRef();
   const [errors, setErrors] = useState();
+
+  // Access user context to update user state upon successful login
   const { setUser, setToken } = useUserContext();
 
+  // Handle form submission
   const onSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent default form submission behavior
+    // Build payload with email and password
     const payload = {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     };
 
-    setErrors(null);
+    setErrors(null); // Reset any existing errors
 
+    // Make an API call to login the user
     axiosClient
       .post("/login", payload)
       .then((response) => {
+        // On success, set user and token state
         setUser(response.data.user);
         setToken(response.data.token);
       })
       .catch((err) => {
+        // Handle error scenarios
         const response = err.response;
         if (response && response.status === 422) {
           if (response.data.errors) {
-            console.log(response);
+            // Validation errors
             setErrors(response.data.errors);
           } else {
-            console.log("2 ", response);
+            // Other errors related to email
             setErrors({
               email: [response.data.message]
             })

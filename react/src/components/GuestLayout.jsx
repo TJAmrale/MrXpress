@@ -11,8 +11,7 @@ export default function GuestLayout() {
 
   return (
     <div>
-      {/* This acts as a placeholder where child components (nested routes) will be rendered */}
-      <Outlet />
+      <Outlet /> {/* This acts as a placeholder where child components (nested routes) will be rendered */}
     </div>
   );
 }

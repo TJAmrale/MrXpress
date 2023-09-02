@@ -4,30 +4,39 @@ import axiosClient from "../axios-client.js";
 import { useUserContext } from "../contexts/UserProvider.jsx";
 
 const LoginForm = () => {
+  // Initialize refs for form fields
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
-  const [errors, setErrors] = useState();
+  // Initialize state for holding any form errors
+  const [errors, setErrors] = useState(); 
+  // Retrieve setUser and setToken functions from UserContext
   const { setUser, setToken } = useUserContext();
 
+  // Function to handle form submission
   const onSubmit = (e) => {
     e.preventDefault();
+
+     // Prepare payload for API request
     const payload = {
       name: nameRef.current.value,
       email: emailRef.current.value,
       password: passwordRef.current.value,
       password_confirmation: passwordConfirmationRef.current.value,
     };
-
     console.log(payload);
+
+    // Make an API call to register the user
     axiosClient
       .post("/register", payload)
       .then((response) => {
+        // On successful registration, set user and token in context
         setUser(response.data.user);
         setToken(response.data.token);
       })
       .catch((err) => {
+        // Handle any validation errors
         const response = err.response;
         if (response && response.status === 422) {
           setErrors(response.data.errors);

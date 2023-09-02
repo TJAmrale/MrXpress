@@ -1,3 +1,4 @@
+// Disable specific linting rules
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 
@@ -11,6 +12,7 @@ const UserContext = createContext({
   setToken: () => {},
 });
 
+// UserProvider component that manages user and token state
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [token, setTokenState] = useState();
@@ -19,7 +21,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const storedToken = localStorage.getItem("ACCESS_TOKEN");
     if (storedToken) {
-      setTokenState(storedToken);
+      setTokenState(storedToken);  // If token exists, update state
     }
   }, []);
 
@@ -27,9 +29,9 @@ export const UserProvider = ({ children }) => {
   const setToken = (newToken) => {
     setTokenState(newToken);
     if (newToken) {
-      localStorage.setItem("ACCESS_TOKEN", newToken);
+      localStorage.setItem("ACCESS_TOKEN", newToken); // Store new token in local storage if it exists
     } else {
-      localStorage.removeItem("ACCESS_TOKEN");
+      localStorage.removeItem("ACCESS_TOKEN"); // Remove token from local storage if it's null
     }
   };
 

@@ -3,12 +3,13 @@ import HeroSection from '../components/HeroSection';
 import HowItWorks from '../components/HowItWorks';
 import WhyWeStandOut from '../components/WhyWeStandOut';
 import FAQs from '../components/FAQs';
-import Footer from '../components/Footer';
 import Testimonials from '../components/Testimonials';
+import Footer from '../components/Footer';
 
 function IndexPage() {
   return (
     <div id="index-page">
+      <NavBar />
       <HeroSection />
       <HowItWorks />
       <WhyWeStandOut />

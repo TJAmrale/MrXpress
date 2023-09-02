@@ -16,13 +16,20 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Routes that require authentication using Sanctum
 Route::middleware('auth:sanctum')->group(function () {
+    // Route to fetch authenticated user
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+
+    // Route to logout authenticated user
     Route::post('logout', [AuthController::class, 'logout']);
+
+    // RESTful resource routes for User, includes routes like GET /users, POST /users, etc.
     Route::apiResource('/users', UserController::class);
 });
 
+// Route to register a new user or login a user, doesn't require authentication
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);

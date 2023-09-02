@@ -1,36 +1,36 @@
-// 1. Include functions first
+// 1. Include functions first ----------------------------------
 @import "node_modules/bootstrap/scss/functions";
 
-// 2. Override default variables BEFORE importing Bootstrap's default variables
+// 2. Override default variables BEFORE importing Bootstrap's default variables ----------
 $primary: #c62d42;
 $secondary: #f5f5dc;
 $dark: #2f4f4f;
 $light: #f5f5fa;
 $body-color: #2f4f4f;
 
-// 3. Import Bootstrap's default variables
+// 3. Import Bootstrap's default variables ----------------------
 @import "node_modules/bootstrap/scss/variables";
 
 $card-spacer-x: $spacer * 2;
 $card-spacer-y: $spacer * 2;
 
-// 4. Merge the custom theme colors AFTER importing Bootstrap's default variables
+// 4. Merge the custom theme colors AFTER importing Bootstrap's default variables ---------
 // $custom-colors: (
 // );
 
 // $theme-colors: map-merge($theme-colors, $custom-colors);
 
-// 5. Import maps and other required parts
+// 5. Import maps and other required parts -----------------------
 // @import "node_modules/bootstrap/scss/maps";
 // @import "node_modules/bootstrap/scss/mixins";
 // @import "node_modules/bootstrap/scss/root";
 
-// 7. Utilities API
+// 7. Utilities API ----------------------------------------------
 // @import "node_modules/bootstrap/scss/utilities/api";
 
 @import "node_modules/bootstrap/scss/bootstrap";
 
-// 8. Custom styles
+// 8. Custom styles ----------------------------------------------
 .navbar-collapse {
     flex-grow: 0;
 }
@@ -58,7 +58,7 @@ $card-spacer-y: $spacer * 2;
     }
 }
 
-/* MANAGE USERS PAGE */
+/* Manage Users page */
 #manage-users .heading {
     display: flex;
     justify-content: space-between;
