@@ -5,6 +5,69 @@ MrXpress is a web application designed to streamline the phone repair process. W
 
 This project is part of the Western Sydney University's *Professional Experience* course and aims to not just be an academic exercise but a viable market solution.
 
+## Prerequisites
+
+- **PHP**: Ensure you have PHP (>=7.4) installed. Check with `php -v`.
+- **Composer**: Dependency Manager for PHP. [Download here](https://getcomposer.org/).
+- **Node.js and NPM**: [Download here](https://nodejs.org/).
+- **MySQL**: Ensure MySQL is installed and running. Check with `mysql --version`.
+- **AWS CLI**: If you're planning to integrate with AWS services. [Installation guide](https://aws.amazon.com/cli/).
+
+## Installation & Setup
+
+1. **Clone the Repository**:
+    ```bash
+    git clone https://github.com/andrewnguyen-nsw/mrxpress.git
+    cd mrxpress
+    ```
+
+2. **Backend Setup (Laravel)**:
+    ```bash
+    composer install
+    cp .env.example .env
+    php artisan key:generate
+    ```
+
+3. **Frontend Setup (React)**:
+    ```bash
+    cd react
+    npm install
+    ```
+    - Create the `.env` file inside `react` folder, update it:
+      ```env
+      VITE_API_BASE_URL=http://localhost:8000
+      ```
+
+4. **Database Setup**:
+    - Create a new MySQL database named `laravel`.
+    - Update the `.env` file in your project root with appropriate database connection details:
+      ```env
+      DB_CONNECTION=mysql
+      DB_HOST=127.0.0.1
+      DB_PORT=3306
+      DB_DATABASE=laravel
+      DB_USERNAME=root
+      DB_PASSWORD=your_password_here
+      ```
+
+5. **Run Migrations**:
+    ```bash
+    php artisan migrate
+    ```
+
+## Running the Application
+
+1. **Start the Backend Server**:
+    ```bash
+    php artisan serve
+    ```
+
+2. **Start the Frontend Development Server**:
+    ```bash
+    cd react
+    npm run dev
+    ```
+
 ## Features
 
 - **User Authentication**: Secure login and registration.
@@ -17,7 +80,7 @@ This project is part of the Western Sydney University's *Professional Experience
 
 ## Technologies
 
-- Front-end: ReactJS
+- Front-end: ReactJS, React-Bootstrap
 - Back-end: Laravel
 - Database: MySQL
 
