@@ -41,7 +41,7 @@ function ManageUserForm() {
         .then(() => {
           // TODO Show notificaiton
           console.log(user);
-          navigate("/users");
+          navigate("/app/users");
         })
         .catch((err) => {
           // Handle any validation errors
@@ -56,7 +56,7 @@ function ManageUserForm() {
         .post('/users', user)
         .then(() => {
           // TODO Show notificaiton
-          navigate("/users");
+          navigate("/app/users");
         })
         .catch((err) => {
           // Handle any validation errors
@@ -114,7 +114,10 @@ function ManageUserForm() {
 
             {/* Password Input */}
             <Form.Group className="mt-3" controlId="formBasicPassword">
-              <Form.Label>Password</Form.Label>
+              {user.id && <>
+              <Form.Label>New Password</Form.Label>
+              <em> (If you don't want to change your password, just leave it blank)</em></>}
+              {!user.id && <Form.Label>Password</Form.Label>}
               <Form.Control
                 type="password"
                 name="password"

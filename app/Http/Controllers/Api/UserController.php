@@ -45,9 +45,8 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $data = $request->validated(); // Validate and fetch the data from the request
-        $password = $data['password']; // Check if password is provided for update
-        if (isset($password)) {
-            $data['password'] = bcrypt($password);
+        if (isset($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
         }
         $user->update($data); // Update the user record
         return new UserResource($user); // Return the updated UserResource

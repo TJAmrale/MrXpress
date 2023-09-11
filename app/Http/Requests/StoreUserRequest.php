@@ -31,7 +31,10 @@ class StoreUserRequest extends FormRequest
                 Password::min(8)
                     ->letters()
                     ->symbols()
-            ]
+            ],
+            'role' => 'required|in:1,2,3,4',
+            'phone' => 'required|digits:10|regex:/^04\d+/',
+            'address' => 'required|string|max:150',
         ];
     }
 }

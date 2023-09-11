@@ -18,9 +18,12 @@ class AuthController extends Controller
         $data = $request->validated(); // Validate the incoming request data against the rules defined in RegisterRequest.
 
         $user = User::create([
+            'access_level' => $data['role'],
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),
+            'phone' => $data['phone'],
+            'address' => $data['address'],
         ]); // Create a new user in the database with the validated data
 
         $token = $user->createToken('main')->plainTextToken; // Create a new API token for the user

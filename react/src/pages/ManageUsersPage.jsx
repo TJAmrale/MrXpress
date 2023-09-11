@@ -19,6 +19,7 @@ function ManageUsers() {
       .get("/users")
       .then(({ data }) => {
         setLoading(false); // Stop loading animation
+        console.log(data);
         setUsers(data.data); // Update the users state
       })
       .catch(() => {
@@ -57,6 +58,7 @@ function ManageUsers() {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Create Date</th>
+                <th>Access Level</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -71,10 +73,12 @@ function ManageUsers() {
               ) : (
                 users.map((user) => (
                   <tr key={user.id}>
+                    {console.log(user)}
                     <td>{user.id}</td>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{user.created_at}</td>
+                    <td>{user.access_level}</td>
                     <td>
                       <Link to={"/app/users/" + user.id}>Edit</Link>
                       <button onClick={() => onDelete(user)}>Delete</button>

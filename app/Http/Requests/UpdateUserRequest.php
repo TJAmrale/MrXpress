@@ -24,7 +24,7 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:55',
-            'email' => 'required|email|unique:users,email'.$this->id,
+            'email' => 'required|email|unique:users,email,'.$this->id, // Validate the email is required, is in email format, and is unique among users, excluding the current user's email.
             'password' => [
                 'confirmed',
                 Password::min(8)
