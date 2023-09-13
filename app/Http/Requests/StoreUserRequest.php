@@ -32,7 +32,7 @@ class StoreUserRequest extends FormRequest
                     ->letters()
                     ->symbols()
             ],
-            'role' => 'required|in:1,2,3,4',
+            'access_level' => 'required|in:1,2,3,4',
             'phone' => 'required|digits:10|regex:/^04\d+/',
             'address' => 'required|string|max:150',
         ];

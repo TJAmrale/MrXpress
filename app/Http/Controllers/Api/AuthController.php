@@ -18,7 +18,7 @@ class AuthController extends Controller
         $data = $request->validated(); // Validate the incoming request data against the rules defined in RegisterRequest.
 
         $user = User::create([
-            'access_level' => $data['role'],
+            'access_level' => $data['access_level'],
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => bcrypt($data['password']),

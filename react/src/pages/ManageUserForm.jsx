@@ -13,6 +13,9 @@ function ManageUserForm() {
     id: null,
     name: "",
     email: "",
+    access_level: "",
+    phone: "",
+    address: "",
     password: "",
     password_confirmation: "",
   });
@@ -50,12 +53,12 @@ function ManageUserForm() {
             setErrors(response.data.errors);
           }
         });
-    }
-    else {
+    } else {
       axiosClient
-        .post('/users', user)
+        .post("/users", user)
         .then(() => {
           // TODO Show notificaiton
+          console.log(user);
           navigate("/app/admin/users");
         })
         .catch((err) => {
@@ -87,6 +90,7 @@ function ManageUserForm() {
           </div>
         )}
 
+        {console.log(user)}
         {/* Form */}
         {!loading && (
           <Form onSubmit={onSubmit}>
@@ -112,11 +116,55 @@ function ManageUserForm() {
               />
             </Form.Group>
 
+            {/* Role Input */}
+            <Form.Group className="mt-3" controlId="formBasicRole">
+              <Form.Label>Role</Form.Label>
+              <Form.Select
+                aria-label="Role select"
+                value={user.access_level}
+                onChange={(e) => setUser({ ...user, access_level: parseInt(e.target.value) })}
+              >
+                <option value="0">Customer/Technician/Admin</option>{" "}
+                <option value="4">Customer</option>{" "}
+                <option value="3">Technician</option>
+                <option value="2">Admin</option>
+              </Form.Select>
+            </Form.Group>
+
+            {/* Phone Number Input */}
+            <Form.Group className="mt-3" controlId="formBasicPhone">
+              <Form.Label>Phone Number</Form.Label>
+              <Form.Control
+                type="number"
+                name="phone"
+                value={user.phone}
+                onChange={(e) => setUser({ ...user, phone: e.target.value })}
+              />
+            </Form.Group>
+
+            {/* Full Address Input */}
+            <Form.Group className="mt-3" controlId="formBasicAddress">
+              <Form.Label>Full Address</Form.Label>
+              <Form.Control
+                type="text"
+                name="address"
+                value={user.address}
+                onChange={(e) => setUser({ ...user, address: e.target.value })}
+              />
+            </Form.Group>
+
             {/* Password Input */}
             <Form.Group className="mt-3" controlId="formBasicPassword">
-              {user.id && <>
-              <Form.Label>New Password</Form.Label>
-              <em> (If you don't want to change your password, just leave it blank)</em></>}
+              {user.id && (
+                <>
+                  <Form.Label>New Password</Form.Label>
+                  <em>
+                    {" "}
+                    (If you don't want to change your password, just leave it
+                    blank)
+                  </em>
+                </>
+              )}
               {!user.id && <Form.Label>Password</Form.Label>}
               <Form.Control
                 type="password"
