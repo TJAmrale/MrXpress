@@ -1,13 +1,16 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Outlet, createBrowserRouter } from "react-router-dom";
 import AuthenticatedLayout from "./components/AuthenticatedLayout.jsx";
 import GuestLayout from "./components/GuestLayout.jsx";
+import RouteGuard from "./components/RouteGuard.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import IndexPage from "./pages/IndexPage.jsx";
-import TechnicianPage from "./pages/TechnicianPage.jsx";
+import TechnicianDashboard from "./pages/TechnicianDashboard.jsx";
 import ManageUsersPage from "./pages/ManageUsersPage.jsx";
 import ManageUserForm from "./pages/ManageUserForm.jsx";
+import AdminDashboard from "./pages/AdminDashboard.jsx";
+import SuperAdminDashboard from "./pages/SuperAdminDashboard.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -23,19 +26,45 @@ const router = createBrowserRouter([
       // Route to display a page specifically for technicians
       {
         path: "technician",
-        element: <TechnicianPage />,
+        element: (
+          <RouteGuard requiredLevels={[1, 2, 3]}>
+            <TechnicianDashboard />
+          </RouteGuard>
+        ),
       },
       {
-        path: "users",
-        element: <ManageUsersPage />,
+        path: "admin",
+        element: (
+          <RouteGuard requiredLevels={[1, 2]}>
+            <Outlet />
+          </RouteGuard>
+        ),
+        children: [
+          {
+            path: "",
+            element: <AdminDashboard />, 
+          },
+          {
+            path: "users",
+            element: <ManageUsersPage />,
+          },
+          {
+            path: "users/new",
+            element: <ManageUserForm key="userCreate" />,
+          },
+          {
+            path: "users/:id",
+            element: <ManageUserForm key="userUpdate" />,
+          },
+        ],
       },
       {
-        path: "users/new",
-        element: <ManageUserForm key="userCreate"/>,
-      },
-      {
-        path: "users/:id",
-        element: <ManageUserForm key="userUpdate"/>,
+        path: "superadmin",
+        element: (
+          <RouteGuard requiredLevels={[1]}>
+            <SuperAdminDashboard />
+          </RouteGuard>
+        ),
       },
     ],
   },

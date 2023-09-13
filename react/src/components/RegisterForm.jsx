@@ -14,8 +14,8 @@ const LoginForm = () => {
   const addressRef = useRef();
   // Initialize state for holding any form errors
   const [errors, setErrors] = useState();
-  // Retrieve setUser and setToken functions from UserContext
-  const { setUser, setToken } = useUserContext();
+  // Retrieve setUser, setToken and setAccessLevel functions from UserContext
+  const { setUser, setToken, setAccessLevel } = useUserContext();
 
   // Function to handle form submission
   const onSubmit = (e) => {
@@ -40,6 +40,7 @@ const LoginForm = () => {
         // On successful registration, set user and token in context
         setUser(response.data.user);
         setToken(response.data.token);
+        setAccessLevel(response.data.user.access_level);
       })
       .catch((err) => {
         // Handle any validation errors

@@ -46,7 +46,7 @@ function ManageUsers() {
       <section id="manage-users" className="custom-container">
         <div className="heading">
           <h2>Manage Users</h2>
-          <Link to="/app/users/new" className="btn-add">
+          <Link to="/app/admin/users/new" className="btn-add">
             Add new
           </Link>
         </div>
@@ -80,7 +80,7 @@ function ManageUsers() {
                     <td>{user.created_at}</td>
                     <td>{user.access_level}</td>
                     <td>
-                      <Link to={"/app/users/" + user.id}>Edit</Link>
+                      <Link to={"/app/admin/users/" + user.id}>Edit</Link>
                       <button onClick={() => onDelete(user)}>Delete</button>
                     </td>
                   </tr>

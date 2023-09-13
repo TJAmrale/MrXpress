@@ -41,7 +41,7 @@ function ManageUserForm() {
         .then(() => {
           // TODO Show notificaiton
           console.log(user);
-          navigate("/app/users");
+          navigate("/app/admin/users");
         })
         .catch((err) => {
           // Handle any validation errors
@@ -56,7 +56,7 @@ function ManageUserForm() {
         .post('/users', user)
         .then(() => {
           // TODO Show notificaiton
-          navigate("/app/users");
+          navigate("/app/admin/users");
         })
         .catch((err) => {
           // Handle any validation errors

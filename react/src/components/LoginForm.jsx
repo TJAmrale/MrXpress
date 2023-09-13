@@ -10,7 +10,7 @@ const LoginForm = () => {
   const [errors, setErrors] = useState();
 
   // Access user context to update user state upon successful login
-  const { setUser, setToken } = useUserContext();
+  const { setUser, setToken, setAccessLevel } = useUserContext();
 
   // Handle form submission
   const onSubmit = (e) => {
@@ -30,6 +30,7 @@ const LoginForm = () => {
         // On success, set user and token state
         setUser(response.data.user);
         setToken(response.data.token);
+        setAccessLevel(response.data.user.access_level);
       })
       .catch((err) => {
         // Handle error scenarios
