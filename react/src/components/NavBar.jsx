@@ -39,7 +39,7 @@ function NavBar() {
               How It Works
             </Nav.Link>
             <Nav.Link className="px-3" href="">
-              Books a Repair
+              Book a Repair
             </Nav.Link>
             <Nav.Link className="px-3" href="#faqs">
               FAQ
