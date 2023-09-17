@@ -5,7 +5,6 @@ import { useUserContext } from "../contexts/UserProvider.jsx";
 
 const LoginForm = () => {
   // Initialize refs for form fields
-  const accessLevelRef = useRef();
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
@@ -23,7 +22,7 @@ const LoginForm = () => {
 
     // Prepare payload for API request
     const payload = {
-      access_level: accessLevelRef.current.value,
+      access_level: "4",
       name: nameRef.current.value,
       email: emailRef.current.value,
       password: passwordRef.current.value,
@@ -55,15 +54,6 @@ const LoginForm = () => {
     <Container id="login-form" className="w-75">
       <h2 className="mt-5 text-center">Create new account</h2>
       <Form onSubmit={onSubmit}>
-        {/* Role Input */}
-        <Form.Group className="mt-3" controlId="formBasicRole">
-          <Form.Label>I want to become a</Form.Label>
-          <Form.Select aria-label="Role select" ref={accessLevelRef}>
-            <option value="4">Customer</option> {/* "value=4" is access_level */}
-            <option value="3">Technician</option>
-          </Form.Select>
-        </Form.Group>
-
         {/* Name Input */}
         <Form.Group className="mt-3" controlId="formBasicName">
           <Form.Label>Full Name</Form.Label>

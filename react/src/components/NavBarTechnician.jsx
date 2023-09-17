@@ -1,13 +1,14 @@
-/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-hooks/rules-of-hooks */
 
 import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { useUserContext } from "../contexts/UserProvider";
 import { useEffect } from "react";
 import axiosClient from "../axios-client";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function NavBarTechnician() {
   const { user, token, setUser, setToken } = useUserContext(); // Retrieve the user and token state from the user context
+  const navigate = useNavigate();
   
   const onLogout = (e) => {
     e.preventDefault();
@@ -18,6 +19,8 @@ function NavBarTechnician() {
         // On successful logout, reset the user and token state
         setUser({});
         setToken(null);
+
+        navigate("/");
       })
   }
 
