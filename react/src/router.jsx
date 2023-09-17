@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       {
         path: "technician",
         element: (
-          <RouteGuard requiredLevels={[1, 2, 3]}>
+          <RouteGuard requiredLevels={[3]}>
             <TechnicianDashboard />
           </RouteGuard>
         ),
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
       {
         path: "admin",
         element: (
-          <RouteGuard requiredLevels={[1, 2]}>
+          <RouteGuard requiredLevels={[2]}>
             <Outlet />
           </RouteGuard>
         ),

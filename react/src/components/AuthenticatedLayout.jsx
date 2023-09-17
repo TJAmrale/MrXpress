@@ -1,18 +1,20 @@
 // import React from 'react';
 import { Navigate, Outlet } from "react-router-dom";
 import { useUserContext } from "../contexts/UserProvider";
+import NotLoggedIn from "./NotLoggedIn";
 
 export default function AuthenticatedLayout() {
   const { token } = useUserContext();
   console.log(token);
 
-  //TODO Handle this case:
+  //TODO Handle this case (If I really need it?)
   if (token === undefined) {
-    return <div>Loading...</div>;
+    // return <div>Loading...</div>;
+    // return <Loading />;
   }
 
   if (!token) {
-    return <Navigate to="/login" />;
+    return <NotLoggedIn />;
   }
 
   return (

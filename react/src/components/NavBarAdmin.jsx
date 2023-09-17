@@ -4,12 +4,11 @@ import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { useUserContext } from "../contexts/UserProvider";
 import { useEffect } from "react";
 import axiosClient from "../axios-client";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-function NavBar() {
+function NavBarAdmin() {
   const { user, token, setUser, setToken } = useUserContext(); // Retrieve the user and token state from the user context
-  const navigate = useNavigate();
-
+  
   const onLogout = (e) => {
     e.preventDefault();
 
@@ -19,8 +18,6 @@ function NavBar() {
         // On successful logout, reset the user and token state
         setUser({});
         setToken(null);
-
-        navigate("/");
       })
   }
 
@@ -48,8 +45,8 @@ function NavBar() {
             <Nav.Link className="px-3" href="#faqs">
               FAQ
             </Nav.Link>
-            <Nav.Link as={Link} className="px-3 me-3" to="/register">
-              Become a Technician
+            <Nav.Link as={Link} className="px-3 me-3" to="/app/admin/users">
+              Users
             </Nav.Link>
             {!token ? (
               <Button variant="primary" className="px-4" href="/login">
@@ -72,4 +69,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default NavBarAdmin;

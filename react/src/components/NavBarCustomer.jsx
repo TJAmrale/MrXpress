@@ -4,9 +4,9 @@ import { Container, Nav, Navbar, Button } from "react-bootstrap";
 import { useUserContext } from "../contexts/UserProvider";
 import { useEffect } from "react";
 import axiosClient from "../axios-client";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
-function NavBar() {
+function NavBarCustomer() {
   const { user, token, setUser, setToken } = useUserContext(); // Retrieve the user and token state from the user context
   const navigate = useNavigate();
 
@@ -72,4 +72,4 @@ function NavBar() {
   );
 }
 
-export default NavBar;
+export default NavBarCustomer;

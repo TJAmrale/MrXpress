@@ -27,7 +27,7 @@ const LoginForm = () => {
     axiosClient
       .post("/login", payload)
       .then((response) => {
-        // On success, set user and token state
+        // On success, set user, token and accessLevel state
         setUser(response.data.user);
         setToken(response.data.token);
         setAccessLevel(response.data.user.access_level);

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axiosClient from "../axios-client";
-import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import NavBarAdmin from "../components/NavBarAdmin";
+import Loading from "../components/Loading";
 
 function ManageUsers() {
   const [users, setUsers] = useState([]);
@@ -42,7 +43,7 @@ function ManageUsers() {
 
   return (
     <>
-      <NavBar />
+      <NavBarAdmin />
       <section id="manage-users" className="custom-container">
         <div className="heading">
           <h2>Manage Users</h2>
@@ -67,8 +68,9 @@ function ManageUsers() {
               {loading ? (
                 <tr>
                   <td colSpan="5" className="text-center">
-                    Loading...
+                    <Loading />
                   </td>
+                  
                 </tr>
               ) : (
                 users.map((user) => (

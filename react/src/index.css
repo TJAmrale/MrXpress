@@ -14,7 +14,7 @@ section {
   padding: 4rem 0;
   max-width: 1000px;
   padding-left: 2em;
-  padding-right: 2rem;
+  padding-right: 2em;
   margin: auto;
 }
 
@@ -27,6 +27,15 @@ section {
 
 .section-heading {
   padding-bottom: 1rem;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;  
+  position: relative;
 }
 
 /* Testimonials */
@@ -59,6 +68,54 @@ section {
 }
 
 /* End Testimonials */
+
+/* Unauthorized Access Component Styles */
+.unauthorized-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #C62D42; /* Primary Color: Brick Red */
+  color: #FFFFFF; /* Text Color: White */
+  font-family: Arial, sans-serif;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+}
+
+.unauthorized-title {
+  font-size: 2em;
+  margin-bottom: 20px;
+  position: relative; /* Needed for the ::after pseudo-element positioning */
+  cursor: pointer; /* To hint that it's interactive */
+  transition: color 0.3s; /* Smooth color transition */
+}
+
+/* Adding a center underline animation on hover */
+.unauthorized-title::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: -5px; /* Adjust as needed */
+  left: 50%;
+  transform: translateX(-50%); /* Centering */
+  height: 2px;
+  width: 0;
+  background-color: #FFF; /* Secondary Color: Beige */
+  transition: width 0.3s;
+}
+
+.unauthorized-title:hover::after {
+  width: 100%; /* Fully visible underline on hover */
+}
+
+.unauthorized-countdown {
+  font-size: 1.5em;
+  margin: 10px 0;
+}
+
+.unauthorized-countdown span {
+  color: #F5F5DC; /* Secondary Color: Beige for emphasis */
+}
 
 
 

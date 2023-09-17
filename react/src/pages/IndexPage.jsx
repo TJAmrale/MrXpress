@@ -1,15 +1,27 @@
 import NavBar from '../components/NavBar';
+import NavBarAdmin from '../components/NavBarAdmin';
+import NavBarTechnician from '../components/NavBarTechnician';
+import NavBarCustomer from '../components/NavBarCustomer';
 import HeroSection from '../components/HeroSection';
 import HowItWorks from '../components/HowItWorks';
 import WhyWeStandOut from '../components/WhyWeStandOut';
 import FAQs from '../components/FAQs';
 import Testimonials from '../components/Testimonials';
 import Footer from '../components/Footer';
+import { useUserContext } from '../contexts/UserProvider';
 
 function IndexPage() {
+  const { accessLevel } = useUserContext();
+
   return (
     <div id="index-page">
-      <NavBar />
+      {accessLevel === undefined && <NavBar />}
+      {/* {accessLevel === '1' && <NavBarSuperAdmin />} */}
+      {/* {accessLevel === '1' && <NavBarAdmin />} */}
+      {accessLevel === '2' && <NavBarAdmin />}
+      {accessLevel === '3' && <NavBarTechnician />}
+      {accessLevel === '4' && <NavBarCustomer />}
+      
       <HeroSection />
       <HowItWorks />
       <WhyWeStandOut />
