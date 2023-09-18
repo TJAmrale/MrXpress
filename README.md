@@ -68,6 +68,32 @@ This project is part of the Western Sydney University's *Professional Experience
     npm run dev
     ```
 
+## Uploading to Github via Terminal
+   ```bash
+    # Move to your main directory
+    cd {root_directory}
+    
+    # Inatialise Git (if it hasn't been done before)
+    git init
+
+    #Link to the repository
+    git remote add origin https://github.com/andrewnguyen-nsw/mrxpress
+
+    # Create and switch to a new branch
+    git checkout -b {your-branch-name}
+    # If Branch is already created then
+    git branch -M {your-branch-name}
+
+    # Add all the files in your project to the staging area
+    git add .
+
+    # Commit the changes
+    git commit -m "type a message here about the changes you made"
+    
+    # Push to your branch
+    git push -u origin {your-branch-name}
+   ```
+
 ## Features
 
 - **User Authentication**: Secure login and registration.
@@ -89,6 +115,8 @@ This project is part of the Western Sydney University's *Professional Experience
 - **Users**: Can request phone repairs and track the status of their requests.
 - **Technicians**: Can accept repair requests and update status of repairs.
 - **Admins**: Can manage all users and technicians and oversee all repair jobs.
+- **1 SuperAdmin**: Can manage admins.
+
 
 ## Contributors
 - Andrew
