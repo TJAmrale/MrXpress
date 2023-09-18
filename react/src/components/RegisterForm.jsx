@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Container, Form, Button } from "react-bootstrap";
+import { Container, Form, Button, Row, Col } from "react-bootstrap";
 import axiosClient from "../axios-client.js";
 import { useUserContext } from "../contexts/UserProvider.jsx";
 
@@ -10,7 +10,10 @@ const LoginForm = () => {
   const passwordRef = useRef();
   const passwordConfirmationRef = useRef();
   const phoneRef = useRef();
-  const addressRef = useRef();
+  const streetAddressRef = useRef();
+  const suburbRef = useRef();
+  const postcodeRef = useRef();
+  const stateRef = useRef();
   // Initialize state for holding any form errors
   const [errors, setErrors] = useState();
   // Retrieve setUser, setToken and setAccessLevel functions from UserContext
@@ -21,6 +24,8 @@ const LoginForm = () => {
     e.preventDefault();
 
     // Prepare payload for API request
+    const address = `${streetAddressRef.current.value}, ${suburbRef.current.value} ${stateRef.current.value} ${postcodeRef.current.value}`;
+
     const payload = {
       access_level: "4",
       name: nameRef.current.value,
@@ -28,7 +33,7 @@ const LoginForm = () => {
       password: passwordRef.current.value,
       password_confirmation: passwordConfirmationRef.current.value,
       phone: phoneRef.current.value,
-      address: addressRef.current.value,
+      address: address,
     };
     console.log(payload);
 
@@ -109,16 +114,64 @@ const LoginForm = () => {
           />
         </Form.Group>
 
-        {/* Full Address Input */}
-        <Form.Group className="mt-3" controlId="formBasicAddress">
-          <Form.Label>Full Address</Form.Label>
-          <Form.Control
-            type="text"
-            name="address"
-            placeholder="37 George St, Haymarket NSW 2000"
-            ref={addressRef}
-          />
-        </Form.Group>
+        {/* Street Address and Suburb */}
+        <Row>
+          <Col sm={6}>
+            <Form.Group className="mt-3" controlId="formBasicStreetAddress">
+              <Form.Label>Street Address</Form.Label>
+              <Form.Control
+                type="text"
+                name="street_address"
+                placeholder="37 George St"
+                ref={streetAddressRef}
+              />
+            </Form.Group>
+          </Col>
+          <Col sm={6}>
+            <Form.Group className="mt-3" controlId="formBasicSuburb">
+              <Form.Label>Suburb</Form.Label>
+              <Form.Control
+                type="text"
+                name="suburb"
+                placeholder="Haymarket"
+                ref={suburbRef}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        {/* Postcode and State */}
+        <Row>
+          <Col sm={3}>
+            <Form.Group className="mt-3" controlId="formBasicPostcode">
+              <Form.Label>Postcode</Form.Label>
+              <Form.Control
+                type="number"
+                name="postcode"
+                placeholder="2000"
+                ref={postcodeRef}
+              />
+            </Form.Group>
+          </Col>
+          <Col sm={9}>
+            <Form.Group className="mt-3" controlId="formBasicState">
+              <Form.Label>State</Form.Label>
+              <Form.Select defaultValue="" ref={stateRef} required>
+                <option value="" disabled>
+                  Select your state
+                </option>
+                <option value="NSW">New South Wales</option>
+                <option value="VIC">Victoria</option>
+                <option value="QLD">Queensland</option>
+                <option value="SA">South Australia</option>
+                <option value="WA">Western Australia</option>
+                <option value="TAS">Tasmania</option>
+                <option value="ACT">Australian Capital Territory</option>
+                <option value="NT">Northern Territory</option>
+              </Form.Select>
+            </Form.Group>
+          </Col>
+        </Row>
 
         {/* Error text */}
         {errors && (
