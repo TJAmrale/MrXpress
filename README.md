@@ -13,6 +13,16 @@ This project is part of the Western Sydney University's *Professional Experience
 - **MySQL**: Ensure MySQL is installed and running. Check with `mysql --version`.
 - **AWS CLI**: If you're planning to integrate with AWS services. [Installation guide](https://aws.amazon.com/cli/).
 
+## Extra Packages (only install after Setup)
+```bash
+    #React Router DOM
+    npm install react-router-dom
+
+    #React-BootStrap
+    npm install react-bootstrap bootstrap
+
+```
+
 ## Installation & Setup
 
 1. **Clone the Repository**:
@@ -115,7 +125,7 @@ This project is part of the Western Sydney University's *Professional Experience
 - **Users**: Can request phone repairs and track the status of their requests.
 - **Technicians**: Can accept repair requests and update status of repairs.
 - **Admins**: Can manage all users and technicians and oversee all repair jobs.
-- **1 SuperAdmin**: Can manage admins.
+- ** SuperAdmin**: Cancelled.
 
 
 ## Contributors
