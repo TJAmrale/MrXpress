@@ -15,10 +15,12 @@ function IndexPage() {
 
   return (
     <div id="index-page">
+      {console.log("accessLevel: " + accessLevel)}
+      {console.log("type accessLevel: " + typeof(accessLevel))}
       {accessLevel == null && <NavBar />}
-      {accessLevel && accessLevel === 1 && <NavBarAdmin />}
-      {accessLevel && accessLevel === 2 && <NavBarTechnician />}
-      {accessLevel && accessLevel === 3 && <NavBarCustomer />}
+      {accessLevel && accessLevel.toString() === '1' && <NavBarAdmin />}
+      {accessLevel && accessLevel.toString() === '2' && <NavBarTechnician />}
+      {accessLevel && accessLevel.toString() === '3' && <NavBarCustomer />}
     
       <HeroSection />
       <HowItWorks />

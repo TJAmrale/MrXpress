@@ -34,7 +34,7 @@ function NavBarTechnician() {
   }, []);
 
   return (
-    <Navbar expand="lg" className="bg-light-subtle shadow-sm">
+    <Navbar expand="lg" className="bg-light-subtle shadow-sm navbar-sticky">
       <Container>
         <Navbar.Brand href="/">MrXpress</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
