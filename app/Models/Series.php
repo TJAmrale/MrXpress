@@ -10,6 +10,8 @@ class Series extends Model
     use HasFactory;
 
     protected $primaryKey = 'series_id';
+    protected $fillable = ['series_name'];
+
     
     public function brand()
     {
