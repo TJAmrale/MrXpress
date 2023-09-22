@@ -23,7 +23,7 @@ useEffect(() => {
     <div className="unauthorized-container">
       <h1 className="unauthorized-title"><b>Not Logged In</b></h1>
       <p className="unauthorized-countdown">
-        You need to be logged in to view this page. Redirecting to the login page in 
+        You need to be logged in to view this page. Redirecting to homepage 
         <span> {countdown}</span> seconds.
       </p>
     </div>

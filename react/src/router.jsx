@@ -27,7 +27,7 @@ const router = createBrowserRouter([
       {
         path: "technician",
         element: (
-          <RouteGuard requiredLevels={[3]}>
+          <RouteGuard requiredLevels={[2]}>
             <TechnicianDashboard />
           </RouteGuard>
         ),
@@ -35,7 +35,7 @@ const router = createBrowserRouter([
       {
         path: "admin",
         element: (
-          <RouteGuard requiredLevels={[2]}>
+          <RouteGuard requiredLevels={[1]}>
             <Outlet />
           </RouteGuard>
         ),
@@ -57,14 +57,6 @@ const router = createBrowserRouter([
             element: <ManageUserForm key="userUpdate" />,
           },
         ],
-      },
-      {
-        path: "superadmin",
-        element: (
-          <RouteGuard requiredLevels={[1]}>
-            <SuperAdminDashboard />
-          </RouteGuard>
-        ),
       },
     ],
   },

@@ -12,6 +12,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    protected $primaryKey = 'user_id';  // Override the default primary key (which is 'id') to 'user_id'
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,9 +23,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'access_level',
         'phone',
-        'address'
+        'address',
+        'access_level',
+        'dob',
     ];
 
     /**

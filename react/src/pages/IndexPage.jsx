@@ -16,11 +16,9 @@ function IndexPage() {
   return (
     <div id="index-page">
       {accessLevel === undefined && <NavBar />}
-      {/* {accessLevel === '1' && <NavBarSuperAdmin />} */}
-      {/* {accessLevel === '1' && <NavBarAdmin />} */}
-      {accessLevel === '2' && <NavBarAdmin />}
-      {accessLevel === '3' && <NavBarTechnician />}
-      {accessLevel === '4' && <NavBarCustomer />}
+      {accessLevel === '1' && <NavBarAdmin />}
+      {accessLevel === '2' && <NavBarTechnician />}
+      {accessLevel === '3' && <NavBarCustomer />}
       
       <HeroSection />
       <HowItWorks />

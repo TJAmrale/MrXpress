@@ -32,9 +32,10 @@ class RegisterRequest extends FormRequest
                 ->letters()
                 ->symbols()
             ],
-            'access_level' => 'required|in:3,4',
+            'access_level' => 'required|in:1,2,3',
             'phone' => 'required|digits:10|regex:/^04\d+/',
             'address' => 'required|string|max:150',
+            'dob' => 'required'
         ];
     }
 }
