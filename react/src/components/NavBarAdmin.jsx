@@ -7,7 +7,7 @@ import axiosClient from "../axios-client";
 import { Link, useNavigate } from "react-router-dom";
 
 function NavBarAdmin() {
-  const { user, token, setUser, setToken } = useUserContext(); // Retrieve the user and token state from the user context
+  const { user, token, setUser, setToken, setAccessLevel } = useUserContext(); // Retrieve the user and token state from the user context
   const navigate = useNavigate();
   
   const onLogout = (e) => {
@@ -19,6 +19,7 @@ function NavBarAdmin() {
         // On successful logout, reset the user and token state
         setUser({});
         setToken(null);
+        setAccessLevel(null);
 
         navigate("/");
       })
