@@ -15,11 +15,11 @@ function IndexPage() {
 
   return (
     <div id="index-page">
-      {accessLevel === undefined && <NavBar />}
-      {accessLevel === '1' && <NavBarAdmin />}
-      {accessLevel === '2' && <NavBarTechnician />}
-      {accessLevel === '3' && <NavBarCustomer />}
-      
+      {accessLevel == null && <NavBar />}
+      {accessLevel && accessLevel === 1 && <NavBarAdmin />}
+      {accessLevel && accessLevel === 2 && <NavBarTechnician />}
+      {accessLevel && accessLevel === 3 && <NavBarCustomer />}
+    
       <HeroSection />
       <HowItWorks />
       <WhyWeStandOut />
