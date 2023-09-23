@@ -9,7 +9,11 @@ class Stock extends Model
 {
     use HasFactory;
 
+    // Define Primary Key
     protected $primaryKey = 'stock_id';
+    
+    // Explicitly define the table name
+    protected $table = 'stock';
     
     public function device()
     {
