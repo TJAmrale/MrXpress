@@ -28,6 +28,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // RESTful resource routes for User, includes routes like GET /users, POST /users, etc.
     Route::apiResource('/users', UserController::class);
+
+    Route::apiResource('/stock', StockController::class);
+
+
+
 });
 
 // Route to register a new user or login a user, doesn't require authentication

@@ -11,6 +11,8 @@ import ManageUsersPage from "./pages/ManageUsersPage.jsx";
 import ManageUserForm from "./pages/ManageUserForm.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import SuperAdminDashboard from "./pages/SuperAdminDashboard.jsx";
+import ManageStockPage from "./pages/ManageStockPage.jsx";
+import ManageStockForm from "./pages/ManageStockForm.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -56,6 +58,19 @@ const router = createBrowserRouter([
             path: "users/:id",
             element: <ManageUserForm key="userUpdate" />,
           },
+          {
+            path: "stock",
+            element: <ManageStockPage/>,
+          },
+          {
+            path: "stock/new",
+            element: <ManageStockForm key="stockCreate" />,
+          },
+          {
+            path: "stock/:id",
+            element: <ManageStockForm key="stockUpdate" />,
+          },
+
         ],
       },
       {
