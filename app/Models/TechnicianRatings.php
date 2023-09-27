@@ -6,12 +6,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Job extends Model
+class TechnicianRatings extends Model
 {
     use HasFactory, SoftDeletes;
-    
-    protected $primaryKey = 'job_id';
-    protected $fillable = ['customer_id', 'technician_id', 'device_id', 'description', 'status', 'date', 'start_time', 'end_time', 'price', 'notes', 'location'];
+
+    protected $primaryKey = 'rating_id';
+    protected $fillable = ['job_id', 'customer_id', 'technician_id', 'rating', 'comments'];
     protected $dates = ['deleted_at'];
 
     public function customer()
@@ -24,13 +24,8 @@ class Job extends Model
         return $this->belongsTo(Technician::class, 'technician_id', 'technician_id');
     }
 
-    public function device()
+    public function job()
     {
-        return $this->belongsTo(Device::class, 'device_id', 'device_id');
-    }
-
-    public function stocksUsed()
-    {
-        return $this->hasMany(JobStock::class, 'job_id', 'job_id');
+        return $this->belongsTo(Job::class, 'job_id', 'job_id');
     }
 }

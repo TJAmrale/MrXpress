@@ -4,24 +4,24 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Stock extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    // Define Primary Key
-    protected $primaryKey = 'stock_id';
-    
-    // Explicitly define the table name
     protected $table = 'stock';
-    
+    protected $primaryKey = 'stock_id';
+    protected $fillable = ['device_id', 'item_id', 'buy_price', 'wholesale_price', 'retail_price', 'quantity'];
+    protected $dates = ['deleted_at'];
+
     public function device()
     {
-        return $this->belongsTo(Device::class, 'device_id');
+        return $this->belongsTo(Device::class, 'device_id', 'device_id');
     }
 
-    public function part()
+    public function item()
     {
-        return $this->belongsTo(Part::class, 'part_id');
+        return $this->belongsTo(Item::class, 'item_id', 'item_id');
     }
 }

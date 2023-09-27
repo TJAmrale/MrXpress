@@ -4,13 +4,14 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     protected $primaryKey = 'user_id';  // Override the default primary key (which is 'id') to 'user_id'
 
@@ -48,4 +49,21 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    protected $dates = ['deleted_at'];
+
+    public function administrator()
+    {
+        return $this->hasOne(Administrator::class, 'administrator_id');
+    }
+
+    public function customer()
+    {
+        return $this->hasOne(Customer::class, 'customer_id');
+    }
+
+    public function technician()
+    {
+        return $this->hasOne(Technician::class, 'technician_id');
+    }
 }

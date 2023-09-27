@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Brand extends Model
+class TechnicianForm extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $primaryKey = 'brand_id';
-    protected $fillable = ['brand_name'];
+    protected $primaryKey = 'request_id';
+    protected $fillable = ['resume_cv', 'profile_image', 'technician_status'];
     protected $dates = ['deleted_at'];
 
-    public function devices()
+    public function customer()
     {
-        return $this->hasMany(Device::class, 'brand_id', 'brand_id');
+        return $this->belongsTo(Customer::class, 'customer_id');
     }
 }

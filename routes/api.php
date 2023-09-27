@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
-use App\Http\Controllers\RepairController;
+use App\Http\Controllers\BookingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,7 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/users', UserController::class);
     
     // 
-    Route::post('/book-repair', [RepairController::class, 'store']);
+    Route::post('/book-repair', [BookingController::class, 'store']);
 });
 
 // Route to register a new user or login a user, doesn't require authentication

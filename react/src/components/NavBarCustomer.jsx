@@ -40,13 +40,13 @@ function NavBarCustomer() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="">
-            <Nav.Link className="px-3" href="#how-it-works">
+            <Nav.Link className="px-3" href="/app/#how-it-works">
               How It Works
             </Nav.Link>
-            <Nav.Link className="px-3" href="">
+            <Nav.Link as={Link} className="px-3" to="/app/book-repair">
               Books a Repair
             </Nav.Link>
-            <Nav.Link className="px-3" href="#faqs">
+            <Nav.Link className="px-3" href="/app/#faqs">
               FAQ
             </Nav.Link>
             <Nav.Link as={Link} className="px-3 me-3" to="/register">
