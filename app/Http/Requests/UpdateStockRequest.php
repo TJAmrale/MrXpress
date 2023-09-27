@@ -22,7 +22,7 @@ class UpdateStockRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'stock_id' => 'required|integer|unique:stocks,stock_id,'.$this->id,
+            'stock_id' => 'required|integer|unique:stocks,stock_id,'.$this->stock_id,
             'device_id' => 'required|integer',
             'part_id' => 'required|integer',
             'buy_price' => 'required|numeric|min:0.01',

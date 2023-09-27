@@ -16,7 +16,7 @@ class StockController extends Controller
     public function index()
     {
         // Fetch all stock, ordered by ID in descending order
-        $stock = Stock::query()->orderBy('id', 'desc')->get();
+        $stock = Stock::query()->orderBy('stock_id', 'desc')->get();
         return StockResource::collection($stock);
         // Convert the collection of stock to StockResource and return
     }

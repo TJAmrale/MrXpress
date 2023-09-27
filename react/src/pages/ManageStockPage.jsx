@@ -35,7 +35,7 @@ const ManageStock = () => {
     }
 
     // Make API call to delete the stock stock
-    axiosClient.delete(`/stock/${stock.id}`).then(() => {
+    axiosClient.delete(`/stock/${stock.stock_id}`).then(() => {
       // Refresh the stock list
       getStock();
     });
@@ -62,9 +62,9 @@ const ManageStock = () => {
                 <th>Wholesale Price</th>
                 <th>Retail Price</th>
                 <th>Quantity</th>
-                <th>created_at</th>
-                <th>updated_at</th>
-                <th>deleted_at</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Deleted</th>
                 
                 <th>Action</th>
               </tr>
@@ -78,7 +78,7 @@ const ManageStock = () => {
                 </tr>
               ) : (
                 stock.map((stock) => (
-                  <tr key={stock.id}>
+                  <tr key={stock.stock_id}>
                     {console.log(stock)}
                     <td>{stock.stock_id}</td>
                     <td>{stock.device_id}</td>
@@ -92,7 +92,7 @@ const ManageStock = () => {
                     <td>{stock.deleted_at}</td>
                     
                     <td>
-                    <Link to={"/app/admin/stock/" + stock.id}>Edit</Link> 
+                    <Link to={"/app/admin/stock/" + stock.stock_id}>Edit</Link> 
                       <button onClick={() => onDelete(stock)}>Delete</button>
                     </td>
                   </tr>

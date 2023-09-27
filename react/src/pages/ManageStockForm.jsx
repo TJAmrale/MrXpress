@@ -2,30 +2,30 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
-import { Button, Form } from "react-bootstrap";
+import { Button, Container, Form } from "react-bootstrap";
 import NavBarAdmin from "../components/NavBarAdmin";
 import Loading from "../components/Loading";
 
 function ManageStockForm() {
-  const { id } = useParams();
+  const { stock_id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState();
   const [stockItem, setStockItem] = useState({
-    id: null,
-    device_id: "", // Add input field for Device ID
-    part_id: "",   // Add input field for Part ID
-    buy_price: "", // Add input field for Buy Price
-    wholesale_price: "", // Add input field for Wholesale Price
-    retail_price: "",    // Add input field for Retail Price
+    stock_id: null,
+    device_id: "", 
+    part_id: "",   
+    buy_price: "", 
+    wholesale_price: "",
+    retail_price: "",   
     quantity: ""
   });
 
   useEffect(() => {
-    if (id) {
+    if (stock_id) {
       setLoading(true);
       axiosClient
-        .get(`/stock/${id}`)
+        .get(`/stock/${stock_id}`)
         .then((response) => {
           setLoading(false);
           setStockItem(response.data);
@@ -34,13 +34,13 @@ function ManageStockForm() {
           setLoading(false);
         });
     }
-  }, [id]);
+  }, [stock_id]);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (stockItem.id) {
+    if (stockItem.stock_id) {
       axiosClient
-        .put(`/stock/${stockItem.id}`, stockItem)
+        .put(`/stock/${stockItem.stock_id}`, stockItem)
         .then(() => {
           // TODO Show notificaiton
           navigate("/app/admin/stock");
@@ -70,8 +70,8 @@ function ManageStockForm() {
     <>
       <NavBarAdmin />
       <section className="w-50">
-        {stockItem.id && <h1>Update Stock Item: {stockItem.part_name}</h1>}
-        {!stockItem.id && <h1>New Stock Item</h1>}
+        {stockItem.stock_id && <h1>Update Stock Item: {stockItem.part_name}</h1>}
+        {!stockItem.stock_id && <h1>New Stock Item</h1>}
 
         <div>
           {loading && <Loading />}
