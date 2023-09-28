@@ -43,10 +43,10 @@ function NavBarAdmin() {
               How It Works
             </Nav.Link>
             <Nav.Link className="px-3" href="">
-              Books a Repair
+              Book a Repair
             </Nav.Link>
             <Nav.Link className="px-3" href="#faqs">
-              FAQ
+              FAQs
             </Nav.Link>
             <Nav.Link as={Link} className="px-3 me-3" to="/app/admin/users">
               Users

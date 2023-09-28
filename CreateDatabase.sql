@@ -87,9 +87,14 @@ CREATE TABLE devices (
 CREATE TABLE parts (
     part_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     part_name VARCHAR(100) NOT NULL,
-    buy_price DECIMAL NOT NULL,
-    wholesale_price DECIMAL NOT NULL,
-    retail_price DECIMAL NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+    deleted_at TIMESTAMP NULL
+);
+
+CREATE TABLE accessories (
+    accessory_id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    accessory_name VARCHAR(100) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
     deleted_at TIMESTAMP NULL
@@ -99,7 +104,9 @@ CREATE TABLE stock (
     stock_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     device_id BIGINT NOT NULL,
     part_id BIGINT NOT NULL,
-    repair_price DECIMAL NOT NULL,
+    buy_price DECIMAL NOT NULL,
+    wholesale_price DECIMAL NOT NULL,
+    retail_price DECIMAL NOT NULL,
     quantity NUMERIC NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
@@ -125,10 +132,12 @@ CREATE TABLE jobs (
     customer_id BIGINT NOT NULL,
     technician_id BIGINT NULL,
     stock_id BIGINT NOT NULL,
+    accessory_id BIGINT,
     job_status ENUM('NEW', 'IN PROGRESS', 'COMPLETED') NOT NULL,
     start_date_time DATETIME NOT NULL,
     update_date_time DATETIME NULL,
     end_date_time DATETIME NULL,
+    callout_fee DECIMAL NOT NULL DEFAULT 0,
     total_cost DECIMAL NOT NULL,
     technician_fee DECIMAL NOT NULL,
     admin_fee DECIMAL NOT NULL,
@@ -138,7 +147,8 @@ CREATE TABLE jobs (
     deleted_at TIMESTAMP NULL,
     FOREIGN KEY (customer_id) REFERENCES customers (customer_id),
     FOREIGN KEY (technician_id) REFERENCES technicians (technician_id),
-    FOREIGN KEY (stock_id) REFERENCES stock (stock_id)
+    FOREIGN KEY (stock_id) REFERENCES stock (stock_id),
+    FOREIGN KEY (accessory_id) REFERENCES accessories (accessory_id)
 );
 
 CREATE TABLE technician_ratings (

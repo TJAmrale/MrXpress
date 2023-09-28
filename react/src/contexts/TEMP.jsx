@@ -2,11 +2,18 @@
 /* eslint-disable react-refresh/only-export-components */
 /* eslint-disable react/prop-types */
 
+/*
 import { createContext, useContext, useEffect, useState } from "react";
 
 // Create a user context for shared state (with default value)
 const UserContext = createContext({
-  user: null,
+  user: {
+      name: "",
+      dob: "",
+      email: "",
+      phone: "",
+      address: "",
+  },
   token: null,
   accessLevel: null,
   setUser: () => {},
@@ -16,7 +23,13 @@ const UserContext = createContext({
 
 // UserProvider component that manages user and token state
 export const UserProvider = ({ children }) => {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState({
+    name: "",
+    dob: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
   const [token, setTokenState] = useState();
   const [accessLevel, setAccessLevelState] = useState();
 
@@ -26,6 +39,11 @@ export const UserProvider = ({ children }) => {
     if (storedToken) {
       setTokenState(storedToken); // If token exists, update state
       setAccessLevelState(localStorage.getItem("USER_ACCESS_LEVEL"));
+
+      const storedUserData = JSON.parse(localStorage.getItem("USER_DATA"));
+      if (storedUserData) {
+        setUser(storedUserData);
+      }
     }
   }, []);
 
@@ -49,10 +67,15 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const updateUser = (userData) => {
+    setUser(userData);
+    localStorage.setItem("USER_DATA", JSON.stringify(userData));
+  };
+
   // Return the context provider with current user and token values.
   // All child components will have access to these values.
   return (
-    <UserContext.Provider value={{ user, token, accessLevel, setUser, setToken, setAccessLevel }}>
+    <UserContext.Provider value={{ user, token, accessLevel, setUser, setToken, setAccessLevel, updateUser }}>
       {children}
     </UserContext.Provider>
   );
@@ -60,3 +83,4 @@ export const UserProvider = ({ children }) => {
 
 // Custom hook to use the user context
 export const useUserContext = () => useContext(UserContext);
+*/
