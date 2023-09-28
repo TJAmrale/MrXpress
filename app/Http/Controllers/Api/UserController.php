@@ -15,8 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        // $user = User::query()->orderBy('id', 'desc')->paginate(10); // Fetch users, using pagination (10 users per page)
-        $user = User::query()->orderBy('id', 'desc')->get(); // Fetch all users, ordered by ID in descending order
+        $user = User::query()->orderBy('user_id', 'desc')->get(); // Fetch all users, ordered by ID in descending order
+        // We can use: $user = User::query()->orderBy('id', 'desc')->paginate(10); // Fetch users, using pagination (10 users per page)
         return UserResource::collection($user); // Convert the collection of users to UserResource and return
     }
 

@@ -35,6 +35,13 @@ $card-spacer-y: $spacer * 2;
     flex-grow: 0;
 }
 
+.navbar-sticky {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0;
+    z-index: 1000; 
+}
+
 #index-page .btn-book {
     transition: transform ease 0.3s;
 
