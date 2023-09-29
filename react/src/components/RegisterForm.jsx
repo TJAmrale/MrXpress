@@ -29,7 +29,7 @@ const LoginForm = () => {
     const address = `${streetAddressRef.current.value}, ${suburbRef.current.value} ${stateRef.current.value} ${postcodeRef.current.value}`;
 
     const payload = {
-      access_level: "1",
+      access_level: "3",
       name: nameRef.current.value,
       email: emailRef.current.value,
       password: passwordRef.current.value,

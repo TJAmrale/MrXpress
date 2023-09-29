@@ -5,7 +5,7 @@ import NavBarCustomer from "./../components/NavBarCustomer";
 
 function BookARepairPage() {
   const mockCustomerSelection = {
-    customer_id: 4,
+    customer_id: 3,
     device: {
       brand: "Apple",
       series: "iPhone",
@@ -16,9 +16,13 @@ function BookARepairPage() {
     accessories: ["Charger", "Screen Protector"],
   };
 
-  console.log(mockCustomerSelection);
 
-  const [bookingStatus, setBookingStatus] = useState("");
+  const [priceStatus, setPriceStatus] = useState("");
+  const [confirmStatus, setConfirmStatus] = useState("");
+  const isConfirmed = false;
+  const [totalCost, setTotalCost] = useState();
+  const [techPayout, setTechPayout] = useState();
+  const [companyEarnings, setCompanyEarnings] = useState();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -30,15 +34,38 @@ function BookARepairPage() {
       .then((response) => {
         // Handle successful booking
         console.log("Successful! Total cost:", response.data.totalCost);
-        setBookingStatus(
+        setPriceStatus(
           "You will need to pay the cost of $" + response.data.totalCost + "."
         );
         // TODO Set some state here or redirect the user to a confirmation page.
+        setTotalCost(response.data.totalCost);
+        setTechPayout(response.data.techPayout);
+        setCompanyEarnings(response.data.companyEarnings);
       })
       .catch((err) => {
         // Handle any errors
         console.error("Query database failed:", err.response);
-        setBookingStatus("Booking failed. Please try again.");
+        setPriceStatus("Booking failed. Please try again.");
+      });
+  };
+
+  const onConfirm = (e) => {
+    axiosClient
+      .post("/confirm-repair", {
+        ...mockCustomerSelection,
+        totalCost: totalCost,
+        techPayout: techPayout,
+        companyEarnings: companyEarnings
+      })
+      .then((response) => {
+        // Handle successful confirmation
+        console.log("Booking confirmed!");
+        setConfirmStatus("Booking confirmed! Thank you.");
+        isConfirmed(true);
+      })
+      .catch((err) => {
+        console.error("Confirmation failed:", err.response);
+        setConfirmStatus("Confirmation failed. Please try again.");
       });
   };
 
@@ -56,7 +83,7 @@ function BookARepairPage() {
           <li>Buy Charger & Screen Protector</li>
         </ul>
         <p>for his/her iPhone 12 Midnight Green</p>
-        {bookingStatus === "" ? (
+        {priceStatus === "" ? (
           <Button
             className="mt-4 w-50"
             variant="primary"
@@ -64,13 +91,25 @@ function BookARepairPage() {
             onClick={onSubmit} // change later
           >
             {" "}
-            Submit Booking
+            Get the Price
           </Button>
         ) : (
           <p>
-            <b>{bookingStatus}</b>
+            <b>{priceStatus}</b>
           </p>
         )}
+        {priceStatus != "" && (
+          <Button
+            className="mt-4 w-50"
+            variant="primary"
+            type="submit"
+            onClick={onConfirm} // change later
+          >
+            {" "}
+            Confirm Booking
+          </Button>
+        )}
+        {isConfirmed && (<p>{confirmStatus}</p>)}
       </Container>
     </>
   );

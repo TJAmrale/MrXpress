@@ -1,7 +1,7 @@
 // import React from 'react';
-import { Navigate, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useUserContext } from "../contexts/UserProvider";
-import NotLoggedIn from "./NotLoggedIn";
+import NotFoundPage from './../pages/NotFoundPage';
 
 export default function AuthenticatedLayout() {
   const { token } = useUserContext();
@@ -14,7 +14,8 @@ export default function AuthenticatedLayout() {
   }
 
   if (!token) {
-    return <NotLoggedIn />;
+    // debugger;
+    return <NotFoundPage />;
   }
 
   return (
