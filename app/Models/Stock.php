@@ -14,7 +14,13 @@ class Stock extends Model
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
+     * 
+     * 
      */
+
+     protected $table = 'stock';
+
+    protected $primaryKey = 'stock_id';
     protected $fillable = [
         'stock_id',
         'device_id',

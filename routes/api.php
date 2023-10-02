@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\StockController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -29,8 +30,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // RESTful resource routes for User, includes routes like GET /users, POST /users, etc.
     Route::apiResource('/users', UserController::class);
 
-    Route::get('/stock', [App\Http\Controllers\Api\StockController::class, 'index']);
-
+    // Route::get('/stocks', [App\Http\Controllers\Api\StockController::class, 'index']);
+    Route::apiResource('/stock', StockController::class);
 
 
 
