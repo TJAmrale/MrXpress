@@ -16,7 +16,6 @@ function BookARepairPage() {
     accessories: ["Charger", "Screen Protector"],
   };
 
-
   const [priceStatus, setPriceStatus] = useState("");
   const [confirmStatus, setConfirmStatus] = useState("");
   const isConfirmed = false;
