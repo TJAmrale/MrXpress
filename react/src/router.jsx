@@ -12,6 +12,7 @@ import ManageUserForm from "./pages/ManageUserForm.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import SuperAdminDashboard from "./pages/SuperAdminDashboard.jsx";
 import BookARepairPage from "./pages/BookARepairPage.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -29,6 +30,14 @@ const router = createBrowserRouter([
         element: (
           <RouteGuard requiredLevels={[3]}>
             <BookARepairPage />
+          </RouteGuard>
+        )
+      },
+      {
+        path: "profile",
+        element: (
+          <RouteGuard requiredLevels={[1, 2, 3]}>
+            <ProfilePage />
           </RouteGuard>
         )
       },

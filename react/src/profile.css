@@ -1,0 +1,120 @@
+  /* Style the left column with a background color, border, and padding */
+  .col-md-2 {
+    padding: 20px;
+  }
+  
+  /* Style the right column with padding */
+  .col-md-9 {
+    padding: 40px;
+    margin:auto;
+  }
+  
+  /* Style the h2 headings */
+  h2 {
+    color: white; /* Dark text color */
+  }
+
+  #menu-line {
+    color: white;
+  }
+
+  #profile-line {
+    z-index: 2;
+  }
+  
+  /* Style the user's name with a larger font size and a different color */
+  .col-md-9 h2 {
+    font-size: 28px;
+    color: #C62D42; /* Blue color */
+  }
+  
+  /* Add some spacing between paragraphs */
+  p {
+    margin-bottom: 10px;
+  }
+
+  .center {
+    display:flex;
+    justify-content: center;
+  }
+
+  .toggle-button {
+    position: absolute;
+    top: 55px;
+    left: -2px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom:2px;
+    font-size: 25px;
+    color: white;
+    background-color: #C62D42; /* Reddish color */
+    border-radius: 0px 0px 7px 0px;
+    cursor: pointer;
+    transition: 0.3s;
+    z-index: 1;
+  }
+
+  .toggle-button:hover {
+    background-color: #a82638;
+  }
+
+  .toggle-button.button-open {
+    left: 250px;
+  }
+
+  .profile-link {
+    background-color: transparent;
+    color: white;
+    text-decoration: none;
+    padding: 5px 0; /* Add padding to make the hover area bigger */
+    transition: background-color 0.3s ease-in-out; /* Add a smooth transition effect */
+    transition: width 0.3s ease-in-out; /* Add a smooth transition effect for width */
+    display: inline-block; /* Add this to make width transition work */
+    width: auto; /* Initial width */
+  }
+
+  
+  .profile-link:hover {
+    background-color: #ccc; /* Change background color on hover */
+    border-radius: 5px;
+    color: black; /* Change text color on hover */
+    cursor: pointer; /* Change cursor to pointer on hover */
+    width:200px;
+    padding-left: 5px;
+  }
+
+  .menu {
+    position: fixed;
+    top: 50px; 
+    left: -250px; /* Move the menu off-screen initially */
+    background-color: #C62D42;
+    transition: 0.3s;
+    box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.1);
+    overflow-x: hidden;
+    width: 250px;
+    z-index: 1;
+    border-radius: 7px 0px;
+  }
+
+  .menu-open {
+    left: 0;
+  }
+  
+  .menu-content {
+    padding: 20px;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  li {
+    margin-bottom: 10px;
+  }
+
+  @media(max-width: 992px) {
+    button.full-width {
+        width: 100%!important;  
+    }
+  }

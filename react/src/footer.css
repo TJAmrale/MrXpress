@@ -3,4 +3,16 @@
   justify-content:center;
   background-color: #FCFCFD;
   box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.1);
+  position:static;
+  left:0;
+  bottom:0;
+  right:0;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  /* Modify footer for smaller screens */
+  .footer-container {
+    position: static;
+  }
 }
