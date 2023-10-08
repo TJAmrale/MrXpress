@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Routes for Stripe
     Route::post('/create-payment-intent', [StripeController::class, 'createPaymentIntent']);
+    Route::post('/verify-payment', [StripeController::class, 'verifyPayment']);
 });
 
 // Routes to register a new user or login a user, doesn't require authentication

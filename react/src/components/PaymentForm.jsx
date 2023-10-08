@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js";
 import axiosClient from "../axios-client";
 
 function PaymentForm() {
   const stripe = useStripe();
   const elements = useElements();
+  const [errorMessage, setErrorMessage] = useState();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,18 +31,23 @@ function PaymentForm() {
       console.error("No PaymentElement found");
       return;
     }
+
+    function getReturnUrl(path) {
+      const baseUrl = `${window.location.protocol}//${window.location.host}`;
+      return `${baseUrl}${path}`;
+  }
     
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "https://www.google.com/",
+        return_url: getReturnUrl("/app/book-repair/payment/status"),
       }
     });
 
     if (result.error) {
       console.log(result.error.message);
+      setErrorMessage(result.error.message);
     } else {
-      // Handle success: e.g., redirecting to a thank you page, updating order status in DB, etc.
       console.log("SUCCESS! Payment has been made");
     }
   };
@@ -51,6 +58,7 @@ function PaymentForm() {
       <button type="submit" disabled={!stripe}>
         Submit Payment
       </button>
+      {errorMessage && <p>{errorMessage} Please try again.</p>}
     </form>
   );
 }

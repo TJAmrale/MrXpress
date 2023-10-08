@@ -12,6 +12,7 @@ import ManageUserForm from "./pages/ManageUserForm.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import BookARepairPage from "./pages/BookARepairPage.jsx";
 import PaymentPage from "./pages/PaymentPage.jsx";
+import PaymentStatusPage from "./pages/PaymentStatusPage.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -37,11 +38,24 @@ const router = createBrowserRouter([
           },
           {
             path: "payment",
-            element: (
-              <RouteGuard requiredLevels={[3]}>
-                <PaymentPage />
-              </RouteGuard>
-            ),
+            children: [
+              {
+                path: "",
+                element: (
+                  <RouteGuard requiredLevels={[3]}>
+                    <PaymentPage />
+                  </RouteGuard>
+                ),
+              },
+              {
+                path: "status",
+                element: (
+                  <RouteGuard requiredLevels={[3]}>
+                    <PaymentStatusPage />
+                  </RouteGuard>
+                )
+              }
+            ],
           },
         ],
       },
