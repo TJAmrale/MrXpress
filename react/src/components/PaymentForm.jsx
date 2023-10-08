@@ -14,7 +14,7 @@ function PaymentForm() {
     // Fetch the clientSecret from your backend
     let clientSecret;
     try {
-      const response = await axiosClient.post('/stripe/create-payment-intent', {
+      const response = await axiosClient.post('/create-payment-intent', {
         amount: 1000  // For example $10. Will get this dynamically based on customer's booking.
       });
       clientSecret = response.data.clientSecret;
@@ -25,11 +25,16 @@ function PaymentForm() {
 
     const paymentElement = elements.getElement(PaymentElement);
 
+    if (!paymentElement) {
+      console.error("No PaymentElement found");
+      return;
+    }
+    
     const result = await stripe.confirmPayment({
-      clientSecret: clientSecret, // Use the clientSecret from the backend
-      payment_method: {
-        card: paymentElement,
-      },
+      elements,
+      confirmParams: {
+        return_url: "https://www.google.com/",
+      }
     });
 
     if (result.error) {

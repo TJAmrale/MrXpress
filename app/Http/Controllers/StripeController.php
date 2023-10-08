@@ -17,6 +17,7 @@ class StripeController extends Controller
         $paymentIntent = PaymentIntent::create([
             'amount' => $amount,
             'currency' => 'aud',
+            'payment_method_types' => ['card']
         ]);
     
         return response()->json([
