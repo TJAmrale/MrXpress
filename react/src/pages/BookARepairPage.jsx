@@ -1,9 +1,12 @@
 import { useState } from "react";
-import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import { Container, Button} from "react-bootstrap";
 import axiosClient from "../axios-client";
 import NavBarCustomer from "./../components/NavBarCustomer";
+import { useNavigate } from "react-router-dom";
 
 function BookARepairPage() {
+
+
   const mockCustomerSelection = {
     customer_id: 3,
     device: {
@@ -18,10 +21,11 @@ function BookARepairPage() {
 
   const [priceStatus, setPriceStatus] = useState("");
   const [confirmStatus, setConfirmStatus] = useState("");
-  const isConfirmed = false;
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const [totalCost, setTotalCost] = useState();
   const [techPayout, setTechPayout] = useState();
   const [companyEarnings, setCompanyEarnings] = useState();
+  const navigate = useNavigate();
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -48,7 +52,7 @@ function BookARepairPage() {
       });
   };
 
-  const onConfirm = (e) => {
+  const onConfirm = () => {
     axiosClient
       .post("/confirm-repair", {
         ...mockCustomerSelection,
@@ -59,8 +63,9 @@ function BookARepairPage() {
       .then((response) => {
         // Handle successful confirmation
         console.log("Booking confirmed!");
-        setConfirmStatus("Booking confirmed! Thank you.");
-        isConfirmed(true);
+        setConfirmStatus(response.data.message);
+        setIsConfirmed(true)
+        navigate(`/app/book-repair/payment?job_id=${response.data.job_id}&customer_id=${response.data.customer_id}`);
       })
       .catch((err) => {
         console.error("Confirmation failed:", err.response);
@@ -105,7 +110,7 @@ function BookARepairPage() {
             onClick={onConfirm} // change later
           >
             {" "}
-            Confirm Booking
+            Checkout
           </Button>
         )}
         {isConfirmed && (<p>{confirmStatus}</p>)}

@@ -1,28 +1,39 @@
 import { useState } from "react";
-import { useStripe, useElements, PaymentElement } from "@stripe/react-stripe-js";
+import {
+  useStripe,
+  useElements,
+  PaymentElement,
+} from "@stripe/react-stripe-js";
 import axiosClient from "../axios-client";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function PaymentForm() {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState();
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  // Retain the job_id and customer_id from the current URL
+  const job_id = new URLSearchParams(location.search).get("job_id");
+  const customer_id = new URLSearchParams(location.search).get("customer_id");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Ensure Stripe.js has loaded
-    if (!stripe || !elements) return; 
+    if (!stripe || !elements) return;
 
     // Fetch the clientSecret from your backend
     let clientSecret;
     try {
-      const response = await axiosClient.post('/create-payment-intent', {
-        amount: 1000  // For example $10. Will get this dynamically based on customer's booking.
+      const response = await axiosClient.post("/create-payment-intent", {
+        amount: 1000, // For example $10. Will get this dynamically based on customer's booking.
       });
       clientSecret = response.data.clientSecret;
     } catch (error) {
       console.error("Error fetching clientSecret:", error);
-      return;  // Exit if there was an issue getting the clientSecret
+      return; // Exit if there was an issue getting the clientSecret
     }
 
     const paymentElement = elements.getElement(PaymentElement);
@@ -35,13 +46,13 @@ function PaymentForm() {
     function getReturnUrl(path) {
       const baseUrl = `${window.location.protocol}//${window.location.host}`;
       return `${baseUrl}${path}`;
-  }
-    
+    }
+
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: getReturnUrl("/app/book-repair/payment/status"),
-      }
+        return_url: getReturnUrl(`/app/book-repair/payment/status?job_id=${job_id}&customer_id=${customer_id}`),
+      },
     });
 
     if (result.error) {
@@ -55,7 +66,7 @@ function PaymentForm() {
   return (
     <form onSubmit={handleSubmit}>
       <PaymentElement />
-      <button type="submit" disabled={!stripe}>
+      <button disabled={!stripe}>
         Submit Payment
       </button>
       {errorMessage && <p>{errorMessage} Please try again.</p>}
