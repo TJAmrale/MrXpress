@@ -4,15 +4,14 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-import axiosClient from "../axios-client";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 function PaymentForm() {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState();
   const location = useLocation();
-  const navigate = useNavigate();
 
   // Retain the job_id from the current URL
   const job_id = new URLSearchParams(location.search).get("job_id");
@@ -77,7 +76,7 @@ function PaymentForm() {
   return (
     <form onSubmit={handleSubmit}>
       <PaymentElement />
-      <button disabled={!stripe}>Submit Payment</button>
+      <Button type="submit" variant="primary" className="btn-book mt-3 px-4 py-2" disabled={!stripe}>Submit Payment</Button>
       {errorMessage && <p>{errorMessage} Please try again.</p>}
     </form>
   );

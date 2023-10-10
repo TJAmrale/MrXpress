@@ -1,11 +1,12 @@
-import { useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
 import { Container, Button} from "react-bootstrap";
 import axiosClient from "../axios-client";
 import NavBarCustomer from "./../components/NavBarCustomer";
 import { useNavigate } from "react-router-dom";
+import { useRepair } from "../contexts/RepairProvider";
 
 function BookARepairPage() {
-
 
   const mockCustomerSelection = {
     customer_id: 3,
@@ -15,9 +16,15 @@ function BookARepairPage() {
       model: "iPhone 12",
       colour: "Midnight Green",
     },
+    repair_type: "Broken Screen",
     parts: "Screen",
     accessories: ["Charger", "Screen Protector"],
   };
+  const { setCustomerSelection } = useRepair();
+
+  useEffect(() => {
+    setCustomerSelection(mockCustomerSelection);
+  }, []);
 
   const [priceStatus, setPriceStatus] = useState("");
   const [confirmStatus, setConfirmStatus] = useState("");
