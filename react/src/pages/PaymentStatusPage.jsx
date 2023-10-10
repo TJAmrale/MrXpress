@@ -27,19 +27,11 @@ function PaymentStatusPage() {
     let paymentIntentClientSecret = params.get("payment_intent_client_secret");
     let redirectStatus = params.get("redirect_status");
     let jobId = params.get("job_id");
-    let customerId = params.get("customer_id");
-
-    // // If redirectStatus indicates success, no need to verify on the server-side
-    // if (redirectStatus === "succeeded") {
-    //   setPaymentStatus("success");
-    //   return;
-    // }
 
     const payload = {
       payment_intent: paymentIntent,
       payment_intent_client_secret: paymentIntentClientSecret,
-      job_id: jobId,
-      customer_id: customerId
+      job_id: jobId
     };
 
     // Make an API call

@@ -65,7 +65,7 @@ function BookARepairPage() {
         console.log("Booking confirmed!");
         setConfirmStatus(response.data.message);
         setIsConfirmed(true)
-        navigate(`/app/book-repair/payment?job_id=${response.data.job_id}&customer_id=${response.data.customer_id}`);
+        navigate(`/app/book-repair/payment?job_id=${response.data.job_id}`);
       })
       .catch((err) => {
         console.error("Confirmation failed:", err.response);

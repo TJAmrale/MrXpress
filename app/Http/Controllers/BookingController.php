@@ -156,4 +156,15 @@ class BookingController extends Controller
             return response()->json(['message' => 'Confirmation failed. Please try again.'], 500);
         }
     }
+
+    public function getJobCost($job_id)
+    {
+        $job = Job::find($job_id);
+
+        if (!$job) {
+            return response()->json(['error' => 'Job not found'], 404);
+        }
+
+        return response()->json(['totalCost' => $job->total_cost], 200);
+    }
 }

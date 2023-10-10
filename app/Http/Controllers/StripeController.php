@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Payment;
+use App\Models\Job;
 use Stripe\Stripe;
 use Stripe\PaymentIntent;
 
@@ -46,9 +46,7 @@ class StripeController extends Controller
             // Validate incoming request
             $request->validate([
                 'payment_intent' => 'required|string',
-                'payment_intent_client_secret' => 'required|string',
-                'job_id' => 'required|integer|min:1',
-                'customer_id' => 'required|integer|min:1'
+                'payment_intent_client_secret' => 'required|string'
             ]);
 
             Stripe::setApiKey(config('services.stripe.secret'));
@@ -58,8 +56,7 @@ class StripeController extends Controller
                 $request->input('payment_intent')
             );
 
-            // Optionally, you might want to check the payment status. If it's 'succeeded', you might want to 
-            // record this in your database, send an email notification, etc.
+            // Check the payment status
             if ($paymentIntent->status === 'succeeded') {
                 $data = $request->all();
 
@@ -67,24 +64,26 @@ class StripeController extends Controller
                 DB::beginTransaction();
 
                 try {
-                    // Add payment to Payment table
-                    $payment = new Payment();
-                    $payment->customer_id = $data['customer_id']; 
-                    $payment->job_id = $data['job_id']; 
-                    $payment->payment_intent_id = $data['payment_intent'];
-                    $payment->amount = $paymentIntent->amount;
-                    $payment->currency = $paymentIntent->currency;
-                    $payment->status = "succeeded"; // In the scope of this project, status will be 'succeeded' by default
-                    $payment->save();
+                    // Update the job record with payment details
+                    $job = Job::find($data['job_id']);
+                    if (!$job) {
+                        throw new \Exception('Job not found.');
+                    }
+
+                    $job->payment_intent_id = $data['payment_intent'];
+                    $job->amount = $paymentIntent->amount;
+                    $job->currency = $paymentIntent->currency;
+                    $job->payment_status = "succeeded";
+                    $job->save();
 
                     // If everything is successful, commit the transaction
                     DB::commit();
-                    return response()->json(['message' => 'Payment added into table!'], 200);
+                    return response()->json(['message' => 'Payment recorded successfully!'], 200);
                 } catch (\Exception $e) {
                     // If there's any error, rollback the entire transaction
                     DB::rollBack();
+                    return response()->json(['message' => 'Recording payment failed. Please try again.', 'error' => $e->getMessage()], 500);
                 }
-
                 return response()->json(['message' => 'Payment verified successfully.']);
             } else {
                 return response()->json(['error' => 'Payment verification failed.'], 400);

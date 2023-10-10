@@ -34,6 +34,8 @@ Route::middleware('auth:sanctum')->group(function () {
     // Routes for Booking
     Route::post('/book-repair', [BookingController::class, 'store']);
     Route::post('/confirm-repair', [BookingController::class, 'confirm']);
+    Route::get('/get-job-cost/{job_id}', [BookingController::class, 'getJobCost']);
+
 
     // Routes for Stripe
     Route::post('/create-payment-intent', [StripeController::class, 'createPaymentIntent']);
