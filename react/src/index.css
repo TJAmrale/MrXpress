@@ -38,6 +38,15 @@ section {
   position: relative;
 }
 
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;  
+  position: relative;
+}
+
 /* Testimonials */
 
 .carousel .img-box {
@@ -91,27 +100,23 @@ section {
   font-size: 1.2em;
 }
 
-/* Payment Page */
-.payment-box {
-  border: 1px solid #ddd;  /* Light border */
-  border-radius: 6px;
-  padding: 20px;
-  margin-bottom: 20px;
+/* Payment Status Page */
+.payment-status-card {
+  width: 400px;
+  height: 900px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
-/* Handles the layout for larger screens */
-@media(min-width: 768px) {
-  .left-column {
-    padding-right: 10px;
-  }
-  .right-column {
-    padding-left: 10px;
+@media (max-width: 768px) {
+  .my-card {
+      width: 90%;
+      margin: 0 auto;
   }
 }
 
-
-
-/* Breakpoints */
+/* Breakpoints for general components */
 
 @media(max-width: 992px) {
   button.full-width {

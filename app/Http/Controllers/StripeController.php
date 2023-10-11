@@ -26,7 +26,8 @@ class StripeController extends Controller
         $paymentIntent = PaymentIntent::create([
             'amount' => $amount,
             'currency' => 'aud',
-            'payment_method_types' => ['card']
+            'payment_method_types' => ['card'],
+            // 'receipt_email' => 'someone@example.com' // Email receipt is not available in test mode
         ]);
 
         return response()->json([
@@ -82,7 +83,7 @@ class StripeController extends Controller
                 } catch (\Exception $e) {
                     // If there's any error, rollback the entire transaction
                     DB::rollBack();
-                    return response()->json(['message' => 'Recording payment failed. Please try again.', 'error' => $e->getMessage()], 500);
+                    return response()->json(['message' => 'Recording payment failed. Please try again.'], 500);
                 }
                 return response()->json(['message' => 'Payment verified successfully.']);
             } else {

@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import axiosClient from "../axios-client";
 import PaymentSuccess from "../components/PaymentSuccess";
 import PaymentFailure from "../components/PaymentFailure";
+import LoadingScreen from "../components/LoadingScreen";
 
 function PaymentStatusPage() {
   // `useLocation` is a hook from 'react-router-dom' which provides access to the
@@ -14,6 +15,7 @@ function PaymentStatusPage() {
   let navigate = useNavigate();
 
   const [paymentStatus, setPaymentStatus] = useState("verifying"); // initial, success, failure
+  const [jobId, setJobId] = useState();
 
   useEffect(() => {
     // `URLSearchParams` is a web API that provides utilities to work with the query string
@@ -25,8 +27,8 @@ function PaymentStatusPage() {
     // search parameter ('param_name' in this case). If the parameter isn't found, it returns `null`.
     let paymentIntent = params.get("payment_intent");
     let paymentIntentClientSecret = params.get("payment_intent_client_secret");
-    let redirectStatus = params.get("redirect_status");
     let jobId = params.get("job_id");
+    setJobId(jobId);
 
     const payload = {
       payment_intent: paymentIntent,
@@ -45,17 +47,13 @@ function PaymentStatusPage() {
         console.log(error);
         setPaymentStatus('failure');
       });
-
-    // Optionally, use `history.push('/path')` to navigate the user to another page
-    // based on the payment status or another business logic. `history.push` adds a new
-    // entry into the history stack and navigates to it, updating the browser URL accordingly.
-  }, [location, navigate]); // `useEffect` dependencies ensure it only runs again if `location` or `history` changes
-
+  }, [location, navigate]);
+  
     // Conditional rendering based on payment status
     if (paymentStatus === 'verifying') {
-      return <div>Checking payment status...</div>;
+      return <LoadingScreen />;
     } else if (paymentStatus === 'success') {
-      return <PaymentSuccess />;
+      return <PaymentSuccess jobId={jobId} />;
     } else {
       return <PaymentFailure />;
     }

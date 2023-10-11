@@ -3,12 +3,13 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import axiosClient from "../axios-client";
-import PaymentForm from "../components/PaymentForm";
 import { useRepair } from "../contexts/RepairProvider";
 import { Container, Row, Col, Card } from "react-bootstrap";
 import { useUserContext } from "../contexts/UserProvider";
+import axiosClient from "../axios-client";
+import PaymentForm from "../components/PaymentForm";
 import NavBarCustomer from "../components/NavBarCustomer";
+import LoadingScreen from "../components/LoadingScreen";
 
 const stripePromise = loadStripe(
   "pk_test_51NvnnuB5LtC1NaASmv7doGyeEz7sSQV0VeBMz4HALdobXMpzyHFh9fT2lK9Z82A7GZRD8hf8i8K1FCEB6CzZeUBI00VGei0HVJ"
@@ -62,57 +63,6 @@ export default function PaymentPage() {
   }, []);
 
   // Return UI -----------------------------------------------
-  // return clientSecret ? (
-  //   <>
-  //     <NavBarCustomer />
-  //     <Row className="gy-4">
-  //       <Col xs={12} md={6} className="left-column">
-  //         <div className="summary-box">
-  //           <h2>Order Summary</h2>
-  //           <div>
-  //             <p>
-  //               <strong>Device:</strong>{" "}
-  //               {`${customerSelection.device.brand} ${customerSelection.device.model} ${customerSelection.device.colour}`}
-  //             </p>
-  //             <p>
-  //               <strong>Repair Type:</strong> {customerSelection.repair_type}
-  //             </p>
-  //             <p>
-  //               <strong>Accessories:</strong>{" "}
-  //               {customerSelection.accessories.join(", ")}
-  //             </p>
-  //             <p>
-  //               <strong>Total Cost:</strong> {amount} AUD
-  //             </p>
-  //           </div>
-  //         </div>
-  //         <div className="info-box">
-  //           <h2>Customer Info</h2>
-  //           <div>
-  //             <p>
-  //               <strong>Name:</strong> {user.name}
-  //             </p>
-  //             <p>
-  //               <strong>Address:</strong> {user.address}
-  //             </p>
-  //           </div>
-  //         </div>
-  //       </Col>
-
-  //       <Col xs={12} md={6} className="right-column">
-  //         <div className="payment-box">
-  //           <h2>Payment</h2>
-  //           <Elements stripe={stripePromise} options={options}>
-  //             <PaymentForm />
-  //           </Elements>
-  //         </div>
-  //       </Col>
-  //     </Row>
-  //   </>
-  // ) : (
-  //   <p>Loading...</p>
-  // );
-
   return clientSecret ? (
     <div id="payment-page">
       <NavBarCustomer />
@@ -121,7 +71,7 @@ export default function PaymentPage() {
           <Col xs={12} md={6} className="">
             <Card className="my-4">
               <Card.Body>
-                <Card.Title>Order Summary</Card.Title>
+                <Card.Title>Your Order Summary</Card.Title>
                 <Card.Text>
                   <ul>
                     <li>
@@ -145,7 +95,7 @@ export default function PaymentPage() {
             </Card>
             <Card className="">
               <Card.Body>
-                <Card.Title>Customer Info</Card.Title>
+                <Card.Title>Your Information</Card.Title>
                 <Card.Text>
                   <ul>
                     <li>
@@ -177,6 +127,6 @@ export default function PaymentPage() {
       </Container>
     </div>
   ) : (
-    <p>Loading...</p>
+    <p><LoadingScreen /></p>
   );
 }
