@@ -17,7 +17,7 @@ function ProfilePage() {
     email: "",
     phone: "",
     address: "",
-  }); // Retrieve the user and token state from the user context
+  });
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -35,7 +35,6 @@ function ProfilePage() {
       {accessLevel && accessLevel.toString() === '2' && <NavBarTechnician />}
       {accessLevel && accessLevel.toString() === '3' && <NavBarCustomer />}
 
-      {/* Loading Text */}
       {loading && <Loading />}
 
       <div className="profile">

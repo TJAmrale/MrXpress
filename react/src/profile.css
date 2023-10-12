@@ -1,17 +1,14 @@
-  /* Style the left column with a background color, border, and padding */
   .col-md-2 {
     padding: 20px;
   }
   
-  /* Style the right column with padding */
   .col-md-9 {
     padding: 40px;
     margin:auto;
   }
   
-  /* Style the h2 headings */
   h2 {
-    color: white; /* Dark text color */
+    color: white;
   }
 
   #menu-line {
@@ -22,13 +19,11 @@
     z-index: 2;
   }
   
-  /* Style the user's name with a larger font size and a different color */
   .col-md-9 h2 {
     font-size: 28px;
-    color: #C62D42; /* Blue color */
+    color: #C62D42;
   }
   
-  /* Add some spacing between paragraphs */
   p {
     margin-bottom: 10px;
   }
@@ -47,7 +42,7 @@
     padding-bottom:2px;
     font-size: 25px;
     color: white;
-    background-color: #C62D42; /* Reddish color */
+    background-color: #C62D42;
     border-radius: 0px 0px 7px 0px;
     cursor: pointer;
     transition: 0.3s;
@@ -66,19 +61,19 @@
     background-color: transparent;
     color: white;
     text-decoration: none;
-    padding: 5px 0; /* Add padding to make the hover area bigger */
-    transition: background-color 0.3s ease-in-out; /* Add a smooth transition effect */
-    transition: width 0.3s ease-in-out; /* Add a smooth transition effect for width */
-    display: inline-block; /* Add this to make width transition work */
-    width: auto; /* Initial width */
+    padding: 5px 0;
+    transition: background-color 0.3s ease-in-out;
+    transition: width 0.3s ease-in-out;
+    display: inline-block;
+    width: auto;
   }
 
   
   .profile-link:hover {
-    background-color: #ccc; /* Change background color on hover */
+    background-color: #ccc;
     border-radius: 5px;
-    color: black; /* Change text color on hover */
-    cursor: pointer; /* Change cursor to pointer on hover */
+    color: black;
+    cursor: pointer;
     width:200px;
     padding-left: 5px;
   }
@@ -86,7 +81,7 @@
   .menu {
     position: fixed;
     top: 50px; 
-    left: -250px; /* Move the menu off-screen initially */
+    left: -250px;
     background-color: #C62D42;
     transition: 0.3s;
     box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.1);
@@ -147,7 +142,7 @@
 
   .container2 {
     display: flex;
-    justify-content: flex-end; /* Align children to the right */
+    justify-content: flex-end;
   }
 
   #p2 {
@@ -168,7 +163,7 @@
   margin-top: -2px;
   }
 
-  .form-control {
+  #formcontrol {
     border-color: #c62d414b;
   }
 

@@ -1,5 +1,5 @@
  import { Button, Form } from "react-bootstrap";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import { useUserContext } from "../contexts/UserProvider";
 import axiosClient from "../axios-client";
@@ -22,7 +22,7 @@ function EditProfileForm() {
     phone: "",
     address: "",
     dob: "",
-  }); // Retrieve the user and token state from the user context
+  });
 
   const { user_id } = useParams();
   const [loading, setLoading] = useState(false);
@@ -50,7 +50,6 @@ function EditProfileForm() {
   const onSubmit = (e) => {
     e.preventDefault();
   
-    // Determine which fields were edited
     const updatedData = {
       name: user.name,
       email: user.email,
@@ -59,15 +58,12 @@ function EditProfileForm() {
       dob: user.dob,
     };
   
-    // Send only the updated data to the server for the update
     axiosClient
       .put(`/profile/edit`, updatedData)
       .then(() => {
-        // Handle success
         console.log(updatedData);
       })
       .catch((err) => {
-        // Handle validation errors
         const response = err.response;
         if (response && response.status === 422) {
           setErrors(response.data.errors);
@@ -91,7 +87,6 @@ function EditProfileForm() {
       {accessLevel && accessLevel.toString() === '2' && <NavBarTechnician />}
       {accessLevel && accessLevel.toString() === '3' && <NavBarCustomer />}
 
-      {/* Loading Text */}
       {loading && <Loading />}
 
       <div className="profile">
@@ -158,6 +153,7 @@ function EditProfileForm() {
               <Form.Group className="mt-3" controlId="formBasicName">
                 <Form.Label><strong>Name:</strong></Form.Label>
                 <Form.Control
+                  id="formcontrol"
                   type="name"
                   name="name"
                   value={user.name}
@@ -169,6 +165,7 @@ function EditProfileForm() {
               <Form.Group className="mt-3" controlId="formBasicEmail">
                 <Form.Label><strong>Email:</strong></Form.Label>
                 <Form.Control
+                  id="formcontrol"
                   type="email"
                   name="email"
                   value={user.email}
@@ -180,6 +177,7 @@ function EditProfileForm() {
               <Form.Group className="mt-3" controlId="formBasicPhone">
                 <Form.Label><strong>Phone:</strong></Form.Label>
                 <Form.Control
+                  id="formcontrol"
                   type="number"
                   name="phone"
                   value={user.phone}
@@ -191,6 +189,7 @@ function EditProfileForm() {
               <Form.Group className="mt-3" controlId="formBasicAddress">
                 <Form.Label><strong>Address:</strong></Form.Label>
                 <Form.Control
+                  id="formcontrol"
                   type="text"
                   name="address"
                   value={user.address}
@@ -204,6 +203,7 @@ function EditProfileForm() {
               <Form.Group className="mt-3" controlId="formBasicAddress">
                 <Form.Label><strong>Date of Birth:</strong></Form.Label>
                 <Form.Control
+                  id="formcontrol"
                   type="text"
                   name="dateofbirth"
                   value={user.dob}
