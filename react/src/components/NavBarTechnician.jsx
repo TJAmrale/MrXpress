@@ -58,7 +58,7 @@ function NavBarTechnician() {
               </Button>
             ) : (
               <>
-                <Nav.Link className="px-3" href="">
+                <Nav.Link className="px-3" href="/app/profile">
                   {user.name}
                 </Nav.Link>
                 <Button onClick={onLogout} variant="outline-primary" className="px-4" href="/">

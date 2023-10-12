@@ -35,12 +35,8 @@ function ProfilePage() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-
-
   return (
     <>
-    <div className="profile">
-
       {accessLevel == null && <NavBar />}
       {accessLevel && accessLevel.toString() === '1' && <NavBarAdmin />}
       {accessLevel && accessLevel.toString() === '2' && <NavBarTechnician />}
@@ -83,33 +79,8 @@ function ProfilePage() {
     </div>
 
           <div className="col-md-9" style={{ paddingTop: "40px"}}>
-          <div className="center"> 
-          <img src={PFP} alt="Profile Image" width="150" style={{ paddingBottom: "20px"}}/>
-          </div>
-          <div className="center">
-          <h2>{user.name}</h2> 
-          </div>
-          <hr id="profile-line"></hr>
           
-          <div className="user-details-box">
-          <p><strong>Name: </strong></p>
-          <p id="p2">{user.name}</p>
-          <p><strong>Email: </strong></p>
-          <p id="p2">{user.email}</p>
-          <p><strong>Phone: </strong></p>
-          <p id="p2">{user.phone}</p>
-          <p><strong>Address: </strong></p>
-          <p id="p2">{user.address}</p>
-          <p><strong>Date of Birth: </strong></p>
-          <p id="p2">{user.dob}</p>
-          </div>
-          <div className="container2">
-          <Link to="/app/profile/edit" className="btn-add2">
-            Edit Profile
-          </Link>
-          </div>
         </div>
-      </div>
     
       <Footer />
     </>

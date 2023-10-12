@@ -52,28 +52,20 @@ function NavBarCustomer() {
             <Nav.Link as={Link} className="px-3 me-3" to="/register">
               Become a Technician
             </Nav.Link>
-            {token ? (
-            <div className="d-flex align-items-center">
-              <OverlayTrigger
-                placement="bottom"
-                overlay={<Tooltip id="tooltip-name">{user.name}</Tooltip>}
-              >
-                <span className="px-2">{user.name}</span>
-              </OverlayTrigger>
-              <div className="d-flex">
-                <Button variant="link" className="px-2" as={Link} to="/profile">
-                  Edit Profile
-                </Button>
-                <Button variant="link" className="px-2" onClick={onLogout}>
+            {!token ? (
+              <Button variant="primary" className="px-4" href="/login">
+                Login
+              </Button>
+            ) : (
+              <>
+                <Nav.Link className="px-3" href="/app/profile">
+                  {user.name}
+                </Nav.Link>
+                <Button onClick={onLogout} variant="outline-primary" className="px-4" href="/">
                   Logout
                 </Button>
-              </div>
-            </div>
-          ) : (
-            <Button variant="primary" className="px-4" href="/login">
-              Login
-            </Button>
-          )}
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

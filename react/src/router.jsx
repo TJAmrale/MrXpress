@@ -13,6 +13,8 @@ import AdminDashboard from "./pages/AdminDashboard.jsx";
 import SuperAdminDashboard from "./pages/SuperAdminDashboard.jsx";
 import BookARepairPage from "./pages/BookARepairPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
+import EditProfileForm from "./pages/EditProfileForm.jsx";
+import JobsAndRatings from "./pages/JobsAndRatings.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -39,7 +41,23 @@ const router = createBrowserRouter([
           <RouteGuard requiredLevels={[1, 2, 3]}>
             <ProfilePage />
           </RouteGuard>
-        )
+        ),
+      },
+      {
+        path: "profile/edit",
+        element: (
+          <RouteGuard requiredLevels={[1, 2, 3]}>
+            <EditProfileForm />
+          </RouteGuard>
+        ),
+      },
+      {
+          path: "profile/jobs",
+          element: (
+            <RouteGuard requiredLevels={[3]}>
+              <JobsAndRatings />
+            </RouteGuard>
+          ),
       },
       // Route to display a page specifically for technicians
       {

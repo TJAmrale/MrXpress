@@ -1,4 +1,4 @@
-import { Nav, Navbar, Button} from "react-bootstrap";
+import { Nav, Navbar, Button } from "react-bootstrap";
 import { Outlet, Link, useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import { useUserContext } from "../contexts/UserProvider";
@@ -14,7 +14,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function ProfilePage() {
+function EditProfileForm() {
   const { user, setUser, token, accessLevel } = useUserContext({
     id: null,
     name: "",
@@ -35,8 +35,6 @@ function ProfilePage() {
     setIsMenuOpen(!isMenuOpen);
   };
 
-
-
   return (
     <>
     <div className="profile">
@@ -50,7 +48,7 @@ function ProfilePage() {
       <div className={`menu ${isMenuOpen ? 'menu-open' : ''}`}>
         <div className="menu-content">
           <ul>
-            <li>
+          <li>
               <h2>My Profile</h2>
             </li>
             <hr id="menu-line"></hr>
@@ -89,25 +87,6 @@ function ProfilePage() {
           <div className="center">
           <h2>{user.name}</h2> 
           </div>
-          <hr id="profile-line"></hr>
-          
-          <div className="user-details-box">
-          <p><strong>Name: </strong></p>
-          <p id="p2">{user.name}</p>
-          <p><strong>Email: </strong></p>
-          <p id="p2">{user.email}</p>
-          <p><strong>Phone: </strong></p>
-          <p id="p2">{user.phone}</p>
-          <p><strong>Address: </strong></p>
-          <p id="p2">{user.address}</p>
-          <p><strong>Date of Birth: </strong></p>
-          <p id="p2">{user.dob}</p>
-          </div>
-          <div className="container2">
-          <Link to="/app/profile/edit" className="btn-add2">
-            Edit Profile
-          </Link>
-          </div>
         </div>
       </div>
     
@@ -116,60 +95,74 @@ function ProfilePage() {
   );
 }
 
-export default ProfilePage;
+export default EditProfileForm;
 
 
 /*
 Notes
 
-    // If we are in "Editing" mode
-useEffect(() => {
-  if (id) {
-    setLoading(true);
-    axiosClient
-      .get(`/users/${id}`)
-      .then((response) => {
-        setLoading(false);
-        setUser(response.data);
-      })
-      .catch(() => {
-        setLoading(false);
-      });
-  }
-}, [id]);
+                {console.log("accessLevel: " + accessLevel)}
+      {console.log("type accessLevel: " + typeof(accessLevel))}
 
-const onSubmit = (e) => {
-  e.preventDefault();
-  if (user.id) {
-    axiosClient
-      .put(`/users/${user.id}`, user)
+              <Button variant="primary" className="mx-auto" style={{ marginTop: "60px", float: "right"}} href="#">
+              Edit Details
+            </Button><br></br><br></br><br></br><br></br>
+
+              const [isEditing, setIsEditing] = useState(false);
+  const [editedName, setEditedName] = useState(user.name); // Add state for edited name
+
+  const updateUserDetails = async (newName) => {
+    try {
+      const response = await axios.put('/user', { name: newName }); // Assuming you have an API endpoint for updating user details
+      console.log('User details updated successfully:', response.data);
+    } catch (error) {
+      console.error('Error updating user details:', error);
+    }
+  };
+
+    const handleEditClick = () => {
+    setIsEditing(true);
+  };
+
+  const handleSaveClick = () => {
+    // Update the user's name using the updateUserDetails function
+    updateUserDetails(editedName)
       .then(() => {
-        // TODO Show notificaiton
-        console.log(user);
-        navigate("/app/admin/users");
+        // If the update is successful, set isEditing to false and update the user's name in the component state
+        setIsEditing(false);
+        setUser({ ...user, name: editedName }); // Update user name in the component state
+        toast.success('User details updated successfully');
       })
-      .catch((err) => {
-        // Handle any validation errors
-        const response = err.response;
-        if (response && response.status === 422) {
-          setErrors(response.data.errors);
-        }
+      .catch((error) => {
+        console.error('Error updating user details:', error);
+        toast.error('Failed to update user details');
       });
-  } else {
-    axiosClient
-      .post("/users", user)
-      .then(() => {
-        // TODO Show notificaiton
-        console.log(user);
-        navigate("/app/admin/users");
+  };
+
+  // Fetch the current user information when the component mounts
+  useEffect(() => {
+    axiosClient.get('/user')
+      .then(({ data }) => {
+        setUser(data); // Update user state with fetched data
+        setEditedName(data.name); // Set editedName state with fetched name
       })
-      .catch((err) => {
-        // Handle any validation errors
-        const response = err.response;
-        if (response && response.status === 422) {
-          setErrors(response.data.errors);
-        }
-      });
-  }
-};
+  }, [setUser]);
+
+  {isEditing ? (
+              <button variant="primary" className="mx-auto" style={{ marginTop: "60px", float: "right"}}onClick={handleSaveClick}>Save</button>
+            ) : (
+              <button variant="primary" onClick={handleEditClick}>Edit Details</button>
+            )} <br></br><br></br><br></br><br></br>
+
+            <p><strong>Name: </strong>
+              {isEditing ? (
+                <input
+                  type="text"
+                  value={editedName}
+                  onChange={(e) => setEditedName(e.target.value)}
+                />
+              ) : (
+                user.name
+              )}
+            </p>
 */
