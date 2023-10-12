@@ -15,13 +15,13 @@ function IndexPage() {
 
   return (
     <div id="index-page">
-      {accessLevel === undefined && <NavBar />}
-      {/* {accessLevel === '1' && <NavBarSuperAdmin />} */}
-      {/* {accessLevel === '1' && <NavBarAdmin />} */}
-      {accessLevel === '2' && <NavBarAdmin />}
-      {accessLevel === '3' && <NavBarTechnician />}
-      {accessLevel === '4' && <NavBarCustomer />}
-      
+      {console.log("accessLevel: " + accessLevel)}
+      {console.log("type accessLevel: " + typeof(accessLevel))}
+      {accessLevel == null && <NavBar />}
+      {accessLevel && accessLevel.toString() === '1' && <NavBarAdmin />}
+      {accessLevel && accessLevel.toString() === '2' && <NavBarTechnician />}
+      {accessLevel && accessLevel.toString() === '3' && <NavBarCustomer />}
+    
       <HeroSection />
       <HowItWorks />
       <WhyWeStandOut />

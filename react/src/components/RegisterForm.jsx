@@ -14,6 +14,8 @@ const LoginForm = () => {
   const suburbRef = useRef();
   const postcodeRef = useRef();
   const stateRef = useRef();
+  const [dob, setDob] = useState(null);
+
   // Initialize state for holding any form errors
   const [errors, setErrors] = useState();
   // Retrieve setUser, setToken and setAccessLevel functions from UserContext
@@ -27,13 +29,14 @@ const LoginForm = () => {
     const address = `${streetAddressRef.current.value}, ${suburbRef.current.value} ${stateRef.current.value} ${postcodeRef.current.value}`;
 
     const payload = {
-      access_level: "4",
+      access_level: "3",
       name: nameRef.current.value,
       email: emailRef.current.value,
       password: passwordRef.current.value,
       password_confirmation: passwordConfirmationRef.current.value,
       phone: phoneRef.current.value,
       address: address,
+      dob: dob,
     };
     console.log(payload);
 
@@ -111,6 +114,18 @@ const LoginForm = () => {
             name="phone"
             placeholder="04xx xxx xxx"
             ref={phoneRef}
+          />
+        </Form.Group>
+
+        {/* Date of Birth Input */}
+        <Form.Group className="mt-3" controlId="formBasicDOB">
+          <Form.Label>Date of Birth</Form.Label>
+          <Form.Control
+            type="date"
+            name="dob"
+            placeholder="YYYY-MM-DD"
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
           />
         </Form.Group>
 

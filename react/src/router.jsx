@@ -10,7 +10,9 @@ import TechnicianDashboard from "./pages/TechnicianDashboard.jsx";
 import ManageUsersPage from "./pages/ManageUsersPage.jsx";
 import ManageUserForm from "./pages/ManageUserForm.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
-import SuperAdminDashboard from "./pages/SuperAdminDashboard.jsx";
+import BookARepairPage from "./pages/BookARepairPage.jsx";
+import PaymentPage from "./pages/PaymentPage.jsx";
+import PaymentStatusPage from "./pages/PaymentStatusPage.jsx";
 import ManageStockPage from "./pages/ManageStockPage.jsx";
 import ManageStockForm from "./pages/ManageStockForm.jsx";
 
@@ -25,11 +27,45 @@ const router = createBrowserRouter([
         path: "",
         element: <IndexPage />,
       },
+      {
+        path: "book-repair",
+        children: [
+          {
+            path: "",
+            element: (
+              <RouteGuard requiredLevels={[3]}>
+                <BookARepairPage />
+              </RouteGuard>
+            ),
+          },
+          {
+            path: "payment",
+            children: [
+              {
+                path: "",
+                element: (
+                  <RouteGuard requiredLevels={[3]}>
+                    <PaymentPage />
+                  </RouteGuard>
+                ),
+              },
+              {
+                path: "status",
+                element: (
+                  <RouteGuard requiredLevels={[3]}>
+                    <PaymentStatusPage />
+                  </RouteGuard>
+                )
+              }
+            ],
+          },
+        ],
+      },
       // Route to display a page specifically for technicians
       {
         path: "technician",
         element: (
-          <RouteGuard requiredLevels={[3]}>
+          <RouteGuard requiredLevels={[2]}>
             <TechnicianDashboard />
           </RouteGuard>
         ),
@@ -37,14 +73,14 @@ const router = createBrowserRouter([
       {
         path: "admin",
         element: (
-          <RouteGuard requiredLevels={[2]}>
+          <RouteGuard requiredLevels={[1]}>
             <Outlet />
           </RouteGuard>
         ),
         children: [
           {
             path: "",
-            element: <AdminDashboard />, 
+            element: <AdminDashboard />,
           },
           {
             path: "users",
@@ -58,28 +94,7 @@ const router = createBrowserRouter([
             path: "users/:id",
             element: <ManageUserForm key="userUpdate" />,
           },
-          {
-            path: "stock",
-            element: <ManageStockPage/>,
-          },
-          {
-            path: "stock/new",
-            element: <ManageStockForm key="stockCreate" />,
-          },
-          {
-            path: "stock/:id",
-            element: <ManageStockForm key="stockUpdate" />,
-          },
-
         ],
-      },
-      {
-        path: "superadmin",
-        element: (
-          <RouteGuard requiredLevels={[1]}>
-            <SuperAdminDashboard />
-          </RouteGuard>
-        ),
       },
     ],
   },

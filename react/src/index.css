@@ -38,6 +38,15 @@ section {
   position: relative;
 }
 
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;  
+  position: relative;
+}
+
 /* Testimonials */
 
 .carousel .img-box {
@@ -67,63 +76,47 @@ section {
   display: none!important;
 }
 
-/* End Testimonials */
-
-/* Unauthorized Access Component Styles */
-.unauthorized-container {
+/* 404 Not Found Page */
+.error-container {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100vh;
-  background-color: #C62D42; /* Primary Color: Brick Red */
-  color: #FFFFFF; /* Text Color: White */
-  font-family: Arial, sans-serif;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+  background-color: #f6f6f6;
 }
 
-.unauthorized-title {
+.error-container .error-image {
+  max-width: 50%;
+  height: auto;
+}
+
+.error-container h2 {
   font-size: 2em;
-  margin-bottom: 20px;
-  position: relative; /* Needed for the ::after pseudo-element positioning */
-  cursor: pointer; /* To hint that it's interactive */
-  transition: color 0.3s; /* Smooth color transition */
+  margin-bottom: 1em;
 }
 
-/* Adding a center underline animation on hover */
-.unauthorized-title::after {
-  content: '';
-  display: block;
-  position: absolute;
-  bottom: -5px; /* Adjust as needed */
-  left: 50%;
-  transform: translateX(-50%); /* Centering */
-  height: 2px;
-  width: 0;
-  background-color: #FFF; /* Secondary Color: Beige */
-  transition: width 0.3s;
+.error-container p {
+  margin-bottom: 2em;
+  font-size: 1.2em;
 }
 
-.unauthorized-title:hover::after {
-  width: 100%; /* Fully visible underline on hover */
+/* Payment Status Page */
+.payment-status-card {
+  width: 400px;
+  height: 900px;
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  
 }
 
-.unauthorized-countdown {
-  font-size: 1.5em;
-  margin: 10px 0;
+@media (max-width: 768px) {
+  .my-card {
+      width: 90%;
+      margin: 0 auto;
+  }
 }
 
-.unauthorized-countdown span {
-  color: #F5F5DC; /* Secondary Color: Beige for emphasis */
-}
-
-
-
-
-
-
-
-/* Breakpoints */
+/* Breakpoints for general components */
 
 @media(max-width: 992px) {
   button.full-width {
