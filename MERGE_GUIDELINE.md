@@ -60,8 +60,7 @@ Go to GitHub and create a new Pull Request from your branch to the master branch
 1. Click on 'New pull request'.
 2. Compare changes between master and your branch.
 3. Add a descriptive title and comment detailing the changes you've made, any dependencies, or any other relevant information.
-4. Request code reviews if required by your team's workflow.
-
+   
 ### 6. Code Review:
 
 Let team members review your PR. Address any comments or suggestions they might have.
