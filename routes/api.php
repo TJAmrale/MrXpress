@@ -3,8 +3,9 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\StockController;
-use App\Http\Controllers\Api\DeviceController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\Api\DeviceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // RESTful resource routes for User, includes routes like GET /users, POST /users, etc.
     Route::apiResource('/users', UserController::class);
+    
+    // Routes for Booking
+    Route::post('/book-repair', [BookingController::class, 'store']);
+    Route::post('/confirm-repair', [BookingController::class, 'confirm']);
+    Route::get('/get-job-cost/{job_id}', [BookingController::class, 'getJobCost']);
 
     // Route::get('/stocks', [App\Http\Controllers\Api\StockController::class, 'index']);
     Route::apiResource('/stock', StockController::class);
@@ -55,9 +61,15 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route for Booking
     Route::post('/book-repair', [BookingController::class, 'store']);
     Route::post('/confirm-repair', [BookingController::class, 'confirm']);
+
+
+
+    // Routes for Stripe
+    Route::post('/create-payment-intent', [StripeController::class, 'createPaymentIntent']);
+    Route::post('/verify-payment', [StripeController::class, 'verifyPayment']);
 });
 
-// Route to register a new user or login a user, doesn't require authentication
+// Routes to register a new user or login a user, doesn't require authentication
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 

@@ -55,12 +55,11 @@ git push origin your-branch-name
 
 ### 5. Create a Pull Request (PR):
 
-Go to GitHub and create a new Pull Request from your branch to the master branch. 
+Go to GitHub and create a new Pull Request from your branch to the master branch.
 
 1. Click on 'New pull request'.
 2. Compare changes between master and your branch.
 3. Add a descriptive title and comment detailing the changes you've made, any dependencies, or any other relevant information.
-4. Request code reviews if required by your team's workflow.
 
 ### 6. Code Review:
 
@@ -87,8 +86,8 @@ This ensures everyone is working with the latest code.
 
 ## Important Notes:
 
-- Always ensure you've tested your code thoroughly before submitting a PR. The master branch should always be kept production-ready.
-- If you are working on a larger feature, consider breaking it down into smaller PRs. This makes the review process easier and quicker.
-- Communicate with your team. If you're unsure about something, ask!
+-   Always ensure you've tested your code thoroughly before submitting a PR. The master branch should always be kept production-ready.
+-   If you are working on a larger feature, consider breaking it down into smaller PRs. This makes the review process easier and quicker.
+-   Communicate with your team. If you're unsure about something, ask!
 
 Happy coding! 🚀

@@ -147,13 +147,24 @@ class BookingController extends Controller
             // If everything is successful, commit the transaction
             DB::commit();
 
-            return response()->json(['message' => 'Booking confirmed!'], 200);
+            return response()->json(['message' => 'Booking confirmed!', 'job_id' => $job->job_id, 'customer_id' => $data['customer_id']], 200);
         } catch (\Exception $e) {
             // If there's any error, rollback the entire transaction
             DB::rollBack();
 
             // TODO Not good to have that getMessage
-            return response()->json(['message' => 'Confirmation failed. Please try again.', 'error' => $e->getMessage()], 500);
+            return response()->json(['message' => 'Confirmation failed. Please try again.'], 500);
         }
+    }
+
+    public function getJobCost($job_id)
+    {
+        $job = Job::find($job_id);
+
+        if (!$job) {
+            return response()->json(['error' => 'Job not found'], 404);
+        }
+
+        return response()->json(['totalCost' => $job->total_cost], 200);
     }
 }

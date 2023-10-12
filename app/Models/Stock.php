@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Sanctum\HasApiTokens;
 
 class Stock extends Model
 {
     use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes;
 
+    protected $table = 'stock';
     protected $table = 'stock';
     protected $primaryKey = 'stock_id';
     
