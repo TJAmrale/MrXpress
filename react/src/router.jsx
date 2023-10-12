@@ -1,4 +1,4 @@
-import { Outlet, createBrowserRouter } from "react-router-dom";
+import { Outlet, Route, createBrowserRouter } from "react-router-dom";
 import AuthenticatedLayout from "./components/AuthenticatedLayout.jsx";
 import GuestLayout from "./components/GuestLayout.jsx";
 import RouteGuard from "./components/RouteGuard.jsx";
@@ -10,9 +10,11 @@ import TechnicianDashboard from "./pages/TechnicianDashboard.jsx";
 import ManageUsersPage from "./pages/ManageUsersPage.jsx";
 import ManageUserForm from "./pages/ManageUserForm.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
-import SuperAdminDashboard from "./pages/SuperAdminDashboard.jsx";
+import BookARepairPage from "./pages/BookARepairPage.jsx";
 import ManageStockPage from "./pages/ManageStockPage.jsx";
 import ManageStockForm from "./pages/ManageStockForm.jsx";
+import ManageDevicePage from "./pages/ManageDevicePage.jsx";
+import ManageDeviceForm from "./pages/ManageDeviceForm.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -25,11 +27,19 @@ const router = createBrowserRouter([
         path: "",
         element: <IndexPage />,
       },
+      {
+        path: "book-repair",
+        element: (
+          <RouteGuard requiredLevels={[3]}>
+            <BookARepairPage />
+          </RouteGuard>
+        )
+      },
       // Route to display a page specifically for technicians
       {
         path: "technician",
         element: (
-          <RouteGuard requiredLevels={[3]}>
+          <RouteGuard requiredLevels={[2]}>
             <TechnicianDashboard />
           </RouteGuard>
         ),
@@ -37,7 +47,7 @@ const router = createBrowserRouter([
       {
         path: "admin",
         element: (
-          <RouteGuard requiredLevels={[2]}>
+          <RouteGuard requiredLevels={[1]}>
             <Outlet />
           </RouteGuard>
         ),
@@ -67,19 +77,23 @@ const router = createBrowserRouter([
             element: <ManageStockForm key="stockCreate" />,
           },
           {
-            path: "stock/:id",
+            path: "stock/:stock_id",
             element: <ManageStockForm key="stockUpdate" />,
+          },
+          {
+            path: "device",
+            element: <ManageDevicePage/>,
+          },
+          {
+            path: "Device/new",
+            element: <ManageDeviceForm key="DeviceCreate" />,
+          },
+          {
+            path: "Device/:device_id",
+            element: <ManageDeviceForm key="DeviceUpdate" />,
           },
 
         ],
-      },
-      {
-        path: "superadmin",
-        element: (
-          <RouteGuard requiredLevels={[1]}>
-            <SuperAdminDashboard />
-          </RouteGuard>
-        ),
       },
     ],
   },

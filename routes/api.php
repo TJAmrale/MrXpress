@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\StockController;
+use App\Http\Controllers\Api\DeviceController;
+use App\Http\Controllers\BookingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -33,10 +35,30 @@ Route::middleware('auth:sanctum')->group(function () {
     // Route::get('/stocks', [App\Http\Controllers\Api\StockController::class, 'index']);
     Route::apiResource('/stock', StockController::class);
 
+    Route::apiResource('/device', DeviceController::class);
+
+    // routes/api.php
+
+    Route::get('/stock/{stock_id}', 'StockController@show');
+
+    Route::get('/brands', 'Api\BrandController@index');
+    Route::get('/devices/models', 'Api\ModelController@index');  // or some method to get distinct models
+    Route::get('/devices/colours', 'Api\ColourController@index');  // or a method to get distinct colours
+    Route::get('/items/types', 'Api\ItemTypeController@index');  // or a method to get distinct item types
+    Route::get('/series', 'Api\SeriesController@index');
+    
+    
 
 
+
+    
+    // Route for Booking
+    Route::post('/book-repair', [BookingController::class, 'store']);
+    Route::post('/confirm-repair', [BookingController::class, 'confirm']);
 });
 
 // Route to register a new user or login a user, doesn't require authentication
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+
+

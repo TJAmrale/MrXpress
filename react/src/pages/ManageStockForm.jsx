@@ -21,12 +21,14 @@ function ManageStockForm() {
     quantity: ""
   });
 
+
   useEffect(() => {
     if (stock_id) {
       setLoading(true);
       axiosClient
         .get(`/stock/${stock_id}`)
         .then((response) => {
+          console.log(response.data);
           setLoading(false);
           setStockItem(response.data);
         })
@@ -43,6 +45,7 @@ function ManageStockForm() {
         .put(`/stock/${stockItem.stock_id}`, stockItem)
         .then(() => {
           // TODO Show notificaiton
+          console.log(stockItem);
           navigate("/app/admin/stock");
         })
         .catch((err) => {
@@ -55,6 +58,7 @@ function ManageStockForm() {
       axiosClient
         .post("/stock", stockItem)
         .then(() => {
+          console.log(stockItem);
           navigate("/app/admin/stock");
         })
         .catch((err) => {
@@ -65,12 +69,14 @@ function ManageStockForm() {
         });
     }
   };
+  
+  
 
   return (
     <>
       <NavBarAdmin />
       <section className="w-50">
-        {stockItem.stock_id && <h1>Update Stock Item: {stockItem.part_name}</h1>}
+        {stockItem.stock_id && <h1>Update Stock Item: {stockItem.stock_id }</h1>}
         {!stockItem.stock_id && <h1>New Stock Item</h1>}
 
         <div>
@@ -85,7 +91,7 @@ function ManageStockForm() {
 
           {!loading && (
             <Form onSubmit={onSubmit}>
-              {/* Add input fields for Device ID, Part ID, Buy Price, Wholesale Price, and Retail Price */}
+              {}
               <Form.Group className="mt-3" controlId="formBasicDeviceID">
                 <Form.Label>Device ID</Form.Label>
                 <Form.Control
@@ -96,16 +102,16 @@ function ManageStockForm() {
                 />
               </Form.Group>
 
-              <Form.Group className="mt-3" controlId="formBasicPartID">
-                <Form.Label>Part ID</Form.Label>
+              <Form.Group className="mt-3" controlId="formBasicItemID">
+                <Form.Label>Item ID</Form.Label>
                 <Form.Control
                   type="number"
-                  name="part_id"
-                  value={stockItem.part_id}
-                  onChange={(e) => setStockItem({ ...stockItem, part_id: e.target.value })}
+                  name="item_id"
+                  value={stockItem.item_id}
+                  onChange={(e) => setStockItem({ ...stockItem, item_id: e.target.value })}
                 />
               </Form.Group>
-              <Form.Group className="mt-3" controlId="formBasicPartID">
+              <Form.Group className="mt-3" controlId="formBasicBuyPrice">
                 <Form.Label>Buy Price</Form.Label>
                 <Form.Control
                   type="number"
@@ -114,8 +120,8 @@ function ManageStockForm() {
                   onChange={(e) => setStockItem({ ...stockItem, buy_price: e.target.value })}
                 />
               </Form.Group>
-              <Form.Group className="mt-3" controlId="formBasicPartID">
-                <Form.Label>wholesale Price</Form.Label>
+              <Form.Group className="mt-3" controlId="formBasicWholesalePrice">
+                <Form.Label>Wholesale Price</Form.Label>
                 <Form.Control
                   type="number"
                   name="wholesale_price"
@@ -123,8 +129,8 @@ function ManageStockForm() {
                   onChange={(e) => setStockItem({ ...stockItem, wholesale_price: e.target.value })}
                 />
               </Form.Group>
-              <Form.Group className="mt-3" controlId="formBasicPartID">
-                <Form.Label>retail Price</Form.Label>
+              <Form.Group className="mt-3" controlId="formBasicRetailPrice">
+                <Form.Label>Retail Price</Form.Label>
                 <Form.Control
                   type="number"
                   name="retail_price"
@@ -143,6 +149,9 @@ function ManageStockForm() {
                 />
               </Form.Group>
 
+
+              
+
               <Button className="mt-4 w-25 full-width" variant="primary" type="submit">
                 Save
               </Button>
@@ -152,6 +161,11 @@ function ManageStockForm() {
       </section>
     </>
   );
+
+
+
+
+
 }
 
 export default ManageStockForm;

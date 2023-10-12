@@ -11,7 +11,7 @@ function AdminDashboard() {
     const { accessLevel } = useUserContext();
 
     useEffect(() =>{
-      if (accessLevel === '2'){
+      if (accessLevel === '1'){
         // fetch admin specific information
         
 
@@ -26,10 +26,10 @@ function AdminDashboard() {
     return (
       <div id="index-page">
         {accessLevel === undefined && <NavBar />}
-        {accessLevel === '2' && <NavBarAdmin />}
+        {accessLevel === '1' && <NavBarAdmin />}
         
         {/* Admin Specific Tabs */}
-      {accessLevel === '2' && (
+      {accessLevel === '1' && (
         <div className="admin-tabs">
           <ul>
             <li>
@@ -40,6 +40,9 @@ function AdminDashboard() {
             </li>
             <li>
               <Link to="/app/admin/stock">Manage Stock</Link>
+            </li>
+            <li>
+              <Link to="/app/admin/device">Manage Device</Link>
             </li>
           </ul>
         </div>

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateStockRequest extends FormRequest
+class StoreDeviceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -19,18 +19,16 @@ class UpdateStockRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
+    protected $primaryKey = 'device_id';
 
     public function rules(): array
     {
-        return [
-
-            'device_id' => 'required|integer',
-            'item_id' => 'required|integer',
-            'buy_price' => 'required|numeric|min:0.01',
-            'wholesale_price' => 'required|numeric|min:0.01',
-            'retail_price' => 'required|numeric|min:0.01',
-            'quantity' => 'required|integer|min:1',
         
+        return [   
+            'brand_id' => 'required|integer',  
+            'series_id' => 'required|integer', 
+            'model' => 'required|string|max:255', 
+            'colour' => 'required|string|max:255',
         ];
     }
 }

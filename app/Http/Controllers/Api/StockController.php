@@ -16,8 +16,18 @@ class StockController extends Controller
     public function index()
     {
         // Fetch all stock, ordered by ID in descending order
-        $stock = Stock::query()->orderBy('stock_id', 'desc')->get();
-        return StockResource::collection($stock);
+        //$stock = Stock::query()->orderBy('stock_id', 'desc')->get();
+
+     
+        
+            $stocks = Stock::with(['device', 'item', 'device.brand', 'device.series'])->orderBy('stock_id', 'desc')->get();
+
+
+            return StockResource::collection($stocks);
+        
+
+
+        //return StockResource::collection($stock);
         // Convert the collection of stock to StockResource and return
     }
 
@@ -38,9 +48,12 @@ class StockController extends Controller
      * Display the specified resource.
      */
     public function show(Stock $stock)
-    {
-        return new StockResource($stock);
-    }
+{
+    $stock->load('device', 'item', 'device.brand', 'device.series');
+
+
+    return new StockResource($stock);
+}
 
     /**
      * Update the specified resource in storage.
@@ -62,6 +75,14 @@ class StockController extends Controller
     {
         // Delete the stock
         $stock->delete();
+        // Return a 204 No Content status code
+        return response("", 204);
+    }
+
+    public function restore(Stock $stock)
+    {
+        // restore the stock
+        $stock->restore();
         // Return a 204 No Content status code
         return response("", 204);
     }

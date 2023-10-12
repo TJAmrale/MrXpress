@@ -67,7 +67,6 @@ section {
   display: none!important;
 }
 
-/* End Testimonials */
 
 /* Unauthorized Access Component Styles */
 .unauthorized-container {
@@ -117,6 +116,30 @@ section {
   color: #F5F5DC; /* Secondary Color: Beige for emphasis */
 }
 
+
+/* 404 Not Found Page */
+.error-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: #f6f6f6;
+}
+
+.error-container .error-image {
+  max-width: 50%;
+  height: auto;
+}
+
+.error-container h2 {
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.error-container p {
+  margin-bottom: 2em;
+  font-size: 1.2em;
+}
 
 
 

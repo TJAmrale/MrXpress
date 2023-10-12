@@ -4,32 +4,26 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Stock extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     * 
-     * 
-     */
-
-     protected $table = 'stock';
-
+    protected $table = 'stock';
     protected $primaryKey = 'stock_id';
-    protected $fillable = [
-        'stock_id',
-        'device_id',
-        'part_id',
-        'buy_price',
-        'wholesale_price',
-        'quantity'
-    ];
+    
+    protected $fillable = ['device_id', 'item_id', 'buy_price', 'wholesale_price', 'retail_price', 'quantity'];
+    protected $dates = ['deleted_at'];
 
-  
+        
+public function item()
+{
+    return $this->belongsTo(Item::class, 'item_id', 'item_id');
+}
 
+public function device()
+{
+    return $this->belongsTo(Device::class, 'device_id', 'device_id');
+}
 }

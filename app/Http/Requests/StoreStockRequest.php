@@ -19,14 +19,13 @@ class StoreStockRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
      */
-    protected $table = 'stock';
+    protected $primaryKey = 'stock_id';
+
     public function rules(): array
     {
-        
-        return [
-            
+        return [   
             'device_id' => 'required|integer',
-            'part_id' => 'required|integer',
+            'item_id' => 'required|integer',
             'buy_price' => 'required|numeric|min:0.01',
             'wholesale_price' => 'required|numeric|min:0.01',
             'retail_price' => 'required|numeric|min:0.01',
