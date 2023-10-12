@@ -99,9 +99,6 @@ export default function PaymentPage() {
                 <Card.Text>
                   <ul>
                     <li>
-                      <strong>Name:</strong> {user.name}
-                    </li>
-                    <li>
                       <strong>Phone number:</strong> {user.phone}
                     </li>
                     <li>

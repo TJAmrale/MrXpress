@@ -55,6 +55,7 @@ function PaymentForm() {
       setErrorMessage(result.error.message);
     } else {
       console.log("SUCCESS! Payment has been made");
+      setErrorMessage(null);
     }
   };
 
