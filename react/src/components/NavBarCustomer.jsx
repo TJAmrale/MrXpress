@@ -14,12 +14,11 @@ function NavBarCustomer() {
     e.preventDefault();
 
     // Make an API call to log the user out
-    axiosClient.post('/logout')
-      .then(() => {
-        // On successful logout, reset the user and token state
-        setUser({});
-        setToken(null);
-        setAccessLevel(null);
+    axiosClient.post("/logout").then(() => {
+      // On successful logout, reset the user and token state
+      setUser({});
+      setToken(null);
+      setAccessLevel(null);
 
       navigate("/");
     });
