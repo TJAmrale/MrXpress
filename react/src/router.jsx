@@ -94,6 +94,19 @@ const router = createBrowserRouter([
             path: "users/:id",
             element: <ManageUserForm key="userUpdate" />,
           },
+          {
+            path: "stock",
+            element: <ManageStockPage/>,
+          },
+          {
+            path: "stock/new",
+            element: <ManageStockForm key="stockCreate" />,
+          },
+          {
+            path: "stock/:id",
+            element: <ManageStockForm key="stockUpdate" />,
+          },
+
         ],
       },
     ],
