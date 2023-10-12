@@ -11,6 +11,8 @@ import ManageUsersPage from "./pages/ManageUsersPage.jsx";
 import ManageUserForm from "./pages/ManageUserForm.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
 import BookARepairPage from "./pages/BookARepairPage.jsx";
+import PaymentPage from "./pages/PaymentPage.jsx";
+import PaymentStatusPage from "./pages/PaymentStatusPage.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -25,11 +27,37 @@ const router = createBrowserRouter([
       },
       {
         path: "book-repair",
-        element: (
-          <RouteGuard requiredLevels={[3]}>
-            <BookARepairPage />
-          </RouteGuard>
-        )
+        children: [
+          {
+            path: "",
+            element: (
+              <RouteGuard requiredLevels={[3]}>
+                <BookARepairPage />
+              </RouteGuard>
+            ),
+          },
+          {
+            path: "payment",
+            children: [
+              {
+                path: "",
+                element: (
+                  <RouteGuard requiredLevels={[3]}>
+                    <PaymentPage />
+                  </RouteGuard>
+                ),
+              },
+              {
+                path: "status",
+                element: (
+                  <RouteGuard requiredLevels={[3]}>
+                    <PaymentStatusPage />
+                  </RouteGuard>
+                )
+              }
+            ],
+          },
+        ],
       },
       // Route to display a page specifically for technicians
       {
@@ -50,7 +78,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "",
-            element: <AdminDashboard />, 
+            element: <AdminDashboard />,
           },
           {
             path: "users",

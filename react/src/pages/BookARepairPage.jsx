@@ -1,34 +1,50 @@
-import { useState } from "react";
-import { Container, Form, Button, Row, Col } from "react-bootstrap";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useEffect, useState } from "react";
+import { Container, Button} from "react-bootstrap";
 import axiosClient from "../axios-client";
 import NavBarCustomer from "./../components/NavBarCustomer";
+import { useNavigate } from "react-router-dom";
+import { useRepair } from "../contexts/RepairProvider";
 
 function BookARepairPage() {
+
+  // Mock customer selection for the purpose of booking a repair
   const mockCustomerSelection = {
     customer_id: 3,
     device: {
       brand: "Apple",
       series: "iPhone",
       model: "iPhone 12",
-      colour: "Midnight Green",
+      colour: "Midnight Green", 
     },
+    repair_type: "Broken Screen",
     parts: "Screen",
     accessories: ["Charger", "Screen Protector"],
   };
 
+  // Using context to set customer selection
+  const { setCustomerSelection } = useRepair();
+  // useEffect hook to set the mock customer selection when component mounts
+  useEffect(() => {
+    setCustomerSelection(mockCustomerSelection);
+  }, []);
 
+  // State variables to manage various statuses and details in the component
   const [priceStatus, setPriceStatus] = useState("");
   const [confirmStatus, setConfirmStatus] = useState("");
-  const isConfirmed = false;
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const [totalCost, setTotalCost] = useState();
   const [techPayout, setTechPayout] = useState();
   const [companyEarnings, setCompanyEarnings] = useState();
 
+  const navigate = useNavigate(); // Hook to programmatically navigate through the application
+
   const onSubmit = (e) => {
     e.preventDefault();
 
-    const payload = mockCustomerSelection;
+    const payload = mockCustomerSelection; // Payload for API request is the mock customer selection
 
+    // API call to book a repair
     axiosClient
       .post("/book-repair", payload)
       .then((response) => {
@@ -37,7 +53,7 @@ function BookARepairPage() {
         setPriceStatus(
           "You will need to pay the cost of $" + response.data.totalCost + "."
         );
-        // TODO Set some state here or redirect the user to a confirmation page.
+        // Set further details obtained from the response
         setTotalCost(response.data.totalCost);
         setTechPayout(response.data.techPayout);
         setCompanyEarnings(response.data.companyEarnings);
@@ -49,7 +65,7 @@ function BookARepairPage() {
       });
   };
 
-  const onConfirm = (e) => {
+  const onConfirm = () => {
     axiosClient
       .post("/confirm-repair", {
         ...mockCustomerSelection,
@@ -60,8 +76,10 @@ function BookARepairPage() {
       .then((response) => {
         // Handle successful confirmation
         console.log("Booking confirmed!");
-        setConfirmStatus("Booking confirmed! Thank you.");
-        isConfirmed(true);
+        setConfirmStatus(response.data.message);
+        setIsConfirmed(true)
+        // Navigate to the payment page, including the job_id in the URL
+        navigate(`/app/book-repair/payment?job_id=${response.data.job_id}`);
       })
       .catch((err) => {
         console.error("Confirmation failed:", err.response);
@@ -106,7 +124,7 @@ function BookARepairPage() {
             onClick={onConfirm} // change later
           >
             {" "}
-            Confirm Booking
+            Checkout
           </Button>
         )}
         {isConfirmed && (<p>{confirmStatus}</p>)}
