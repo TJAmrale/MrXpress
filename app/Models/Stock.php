@@ -13,7 +13,6 @@ class Stock extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'stock';
-    protected $table = 'stock';
     protected $primaryKey = 'stock_id';
     
     protected $fillable = ['device_id', 'item_id', 'buy_price', 'wholesale_price', 'retail_price', 'quantity'];
