@@ -1,5 +1,5 @@
-import { Nav, Navbar, Button } from "react-bootstrap";
-import { Outlet, Link, useNavigate, useParams } from "react-router-dom";
+ import { Button, Form } from "react-bootstrap";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import { useUserContext } from "../contexts/UserProvider";
 import axiosClient from "../axios-client";
@@ -10,29 +10,76 @@ import NavBarTechnician from '../components/NavBarTechnician';
 import NavBarCustomer from '../components/NavBarCustomer';
 import PFP from "../assets/images/Default_pfp.png";
 import "../profile.css";
-import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { RiImageEditFill } from "react-icons/ri";
 
 function EditProfileForm() {
   const { user, setUser, token, accessLevel } = useUserContext({
-    id: null,
+    user_id: "",
     name: "",
     email: "",
-    access_level: "",
     phone: "",
     address: "",
-    password: "",
-    password_confirmation: "",
+    dob: "",
   }); // Retrieve the user and token state from the user context
-  const { id } = useParams();
-  const navigate = useNavigate();
+
+  const { user_id } = useParams();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  useEffect(() => {
+    if (user_id) {
+      setLoading(true);
+      axiosClient.get(`/users/${user_id}`)
+        .then((response) => {
+          setLoading(false);
+          setUser(response.data);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    }
+  }, [user_id]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+  
+    // Determine which fields were edited
+    const updatedData = {
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      address: user.address,
+      dob: user.dob,
+    };
+  
+    // Send only the updated data to the server for the update
+    axiosClient
+      .put(`/profile/edit`, updatedData)
+      .then(() => {
+        // Handle success
+        console.log(updatedData);
+      })
+      .catch((err) => {
+        // Handle validation errors
+        const response = err.response;
+        if (response && response.status === 422) {
+          setErrors(response.data.errors);
+          toast.error("Error 422");
+        } else if (response && response.status === 404) {
+          setErrors(response.data.errors);
+          toast.error("Error 404");
+        } else {
+          setErrors(response.data.errors);
+          toast.error("Error unspecified.");
+        }
+      });
   };
 
   return (
@@ -43,6 +90,9 @@ function EditProfileForm() {
       {accessLevel && accessLevel.toString() === '1' && <NavBarAdmin />}
       {accessLevel && accessLevel.toString() === '2' && <NavBarTechnician />}
       {accessLevel && accessLevel.toString() === '3' && <NavBarCustomer />}
+
+      {/* Loading Text */}
+      {loading && <Loading />}
 
       <div className="profile">
       <div className={`menu ${isMenuOpen ? 'menu-open' : ''}`}>
@@ -83,13 +133,106 @@ function EditProfileForm() {
           <div className="col-md-9" style={{ paddingTop: "40px"}}>
           <div className="center"> 
           <img src={PFP} alt="Profile Image" width="150" style={{ paddingBottom: "20px"}}/>
-          </div>
+          <br></br>
+          <RiImageEditFill 
+          style={{
+            color: '#C62D42',
+          }}
+          />
+          </div> 
           <div className="center">
-          <h2>{user.name}</h2> 
+          <h2>'{user.name}'</h2> 
+          <br></br>
+          <RiImageEditFill 
+          style={{
+            color: 'white',
+          }}
+          />
           </div>
+          <hr id="profile-line"></hr>
+
+          {/* Form */}
+          {!loading && (
+            <Form onSubmit={onSubmit}>
+              {/* Name Input */}
+              <Form.Group className="mt-3" controlId="formBasicName">
+                <Form.Label><strong>Name:</strong></Form.Label>
+                <Form.Control
+                  type="name"
+                  name="name"
+                  value={user.name}
+                  onChange={(e) => setUser({ ...user, name: e.target.value })}
+                />
+              </Form.Group>
+
+              {/* Email Input */}
+              <Form.Group className="mt-3" controlId="formBasicEmail">
+                <Form.Label><strong>Email:</strong></Form.Label>
+                <Form.Control
+                  type="email"
+                  name="email"
+                  value={user.email}
+                  onChange={(e) => setUser({ ...user, email: e.target.value })}
+                />
+              </Form.Group>
+
+              {/* Phone Number Input */}
+              <Form.Group className="mt-3" controlId="formBasicPhone">
+                <Form.Label><strong>Phone:</strong></Form.Label>
+                <Form.Control
+                  type="number"
+                  name="phone"
+                  value={user.phone}
+                  onChange={(e) => setUser({ ...user, phone: e.target.value })}
+                />
+              </Form.Group>
+
+              {/* Full Address Input */}
+              <Form.Group className="mt-3" controlId="formBasicAddress">
+                <Form.Label><strong>Address:</strong></Form.Label>
+                <Form.Control
+                  type="text"
+                  name="address"
+                  value={user.address}
+                  onChange={(e) =>
+                    setUser({ ...user, address: e.target.value })
+                  }
+                />
+              </Form.Group>
+
+              {/* Date of Birth Input */}
+              <Form.Group className="mt-3" controlId="formBasicAddress">
+                <Form.Label><strong>Date of Birth:</strong></Form.Label>
+                <Form.Control
+                  type="text"
+                  name="dateofbirth"
+                  value={user.dob}
+                  onChange={(e) =>
+                    setUser({ ...user, dob: e.target.value })
+                  }
+                />
+              </Form.Group>
+
+              <div className="container2">
+          <Button variant="primary" type="submit" className="mt-4 btn-add3">
+            Save
+          </Button>
+          
+          <Link to="/app/profile" className="mt-4 btn-add4">
+            Back
+          </Link>
+          </div>
+            </Form>
+          )}
+
         </div>
+        
       </div>
-    
+      <ToastContainer 
+      pauseOnFocusLoss={false}
+      pauseOnHover={false}
+      theme="colored"
+      />
       <Footer />
     </>
   );
@@ -100,69 +243,4 @@ export default EditProfileForm;
 
 /*
 Notes
-
-                {console.log("accessLevel: " + accessLevel)}
-      {console.log("type accessLevel: " + typeof(accessLevel))}
-
-              <Button variant="primary" className="mx-auto" style={{ marginTop: "60px", float: "right"}} href="#">
-              Edit Details
-            </Button><br></br><br></br><br></br><br></br>
-
-              const [isEditing, setIsEditing] = useState(false);
-  const [editedName, setEditedName] = useState(user.name); // Add state for edited name
-
-  const updateUserDetails = async (newName) => {
-    try {
-      const response = await axios.put('/user', { name: newName }); // Assuming you have an API endpoint for updating user details
-      console.log('User details updated successfully:', response.data);
-    } catch (error) {
-      console.error('Error updating user details:', error);
-    }
-  };
-
-    const handleEditClick = () => {
-    setIsEditing(true);
-  };
-
-  const handleSaveClick = () => {
-    // Update the user's name using the updateUserDetails function
-    updateUserDetails(editedName)
-      .then(() => {
-        // If the update is successful, set isEditing to false and update the user's name in the component state
-        setIsEditing(false);
-        setUser({ ...user, name: editedName }); // Update user name in the component state
-        toast.success('User details updated successfully');
-      })
-      .catch((error) => {
-        console.error('Error updating user details:', error);
-        toast.error('Failed to update user details');
-      });
-  };
-
-  // Fetch the current user information when the component mounts
-  useEffect(() => {
-    axiosClient.get('/user')
-      .then(({ data }) => {
-        setUser(data); // Update user state with fetched data
-        setEditedName(data.name); // Set editedName state with fetched name
-      })
-  }, [setUser]);
-
-  {isEditing ? (
-              <button variant="primary" className="mx-auto" style={{ marginTop: "60px", float: "right"}}onClick={handleSaveClick}>Save</button>
-            ) : (
-              <button variant="primary" onClick={handleEditClick}>Edit Details</button>
-            )} <br></br><br></br><br></br><br></br>
-
-            <p><strong>Name: </strong>
-              {isEditing ? (
-                <input
-                  type="text"
-                  value={editedName}
-                  onChange={(e) => setEditedName(e.target.value)}
-                />
-              ) : (
-                user.name
-              )}
-            </p>
 */
