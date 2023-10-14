@@ -1,4 +1,4 @@
- import { Button, Form } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import { Link, useParams } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import { useUserContext } from "../contexts/UserProvider";
@@ -59,7 +59,7 @@ function EditProfileForm() {
     };
   
     axiosClient
-      .put(`/profile/edit`, updatedData)
+      .put(`/profile/edit/${user_id}`, updatedData)
       .then(() => {
         console.log(updatedData);
       })
@@ -153,7 +153,6 @@ function EditProfileForm() {
               <Form.Group className="mt-3" controlId="formBasicName">
                 <Form.Label><strong>Name:</strong></Form.Label>
                 <Form.Control
-                  id="formcontrol"
                   type="name"
                   name="name"
                   value={user.name}
@@ -165,7 +164,6 @@ function EditProfileForm() {
               <Form.Group className="mt-3" controlId="formBasicEmail">
                 <Form.Label><strong>Email:</strong></Form.Label>
                 <Form.Control
-                  id="formcontrol"
                   type="email"
                   name="email"
                   value={user.email}
@@ -177,7 +175,6 @@ function EditProfileForm() {
               <Form.Group className="mt-3" controlId="formBasicPhone">
                 <Form.Label><strong>Phone:</strong></Form.Label>
                 <Form.Control
-                  id="formcontrol"
                   type="number"
                   name="phone"
                   value={user.phone}
@@ -189,7 +186,6 @@ function EditProfileForm() {
               <Form.Group className="mt-3" controlId="formBasicAddress">
                 <Form.Label><strong>Address:</strong></Form.Label>
                 <Form.Control
-                  id="formcontrol"
                   type="text"
                   name="address"
                   value={user.address}
@@ -203,7 +199,6 @@ function EditProfileForm() {
               <Form.Group className="mt-3" controlId="formBasicAddress">
                 <Form.Label><strong>Date of Birth:</strong></Form.Label>
                 <Form.Control
-                  id="formcontrol"
                   type="text"
                   name="dateofbirth"
                   value={user.dob}
@@ -243,4 +238,6 @@ export default EditProfileForm;
 
 /*
 Notes
+
+id="formcontrol"
 */
