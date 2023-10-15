@@ -64,14 +64,12 @@ const ManageStock = () => {
                 <th>Item ID</th>
                 <th>item Type</th>
                 <th>Item Name</th>
-
                 <th>Buy Price</th>
                 <th>Wholesale Price</th>
                 <th>Retail Price</th>
                 <th>Quantity</th>
                 <th>Created</th>
                 <th>Updated</th>
-                
                 <th>Action</th>
               </tr>
             </thead>

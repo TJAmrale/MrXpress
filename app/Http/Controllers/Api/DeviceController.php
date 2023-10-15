@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers\Api;
+use App\Http\Controllers\Api\DeviceController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Device; 
+use App\Models\Brand;
+use App\Models\Series;
 use App\Http\Requests\StoreDeviceRequest; 
 use App\Http\Requests\UpdateDeviceRequest; 
 use App\Http\Resources\DeviceResource; 
@@ -19,6 +22,19 @@ class DeviceController extends Controller
     $devices = Device::with(['brand','series'])->orderBy('device_id', 'desc')->paginate(15); // for example, 15 devices per page
     return DeviceResource::collection($devices);
 }
+    /**
+     * Fetch all brands.
+     */
+    public function getBrands() {
+        return Brand::select('brand_id', 'brand_name')->get();
+    }
+
+    /**
+     * Fetch all series.
+     */
+    public function getSeries() {
+        return Series::select('series_id', 'series_name')->get();
+    }
 
     /**
      * Store a newly created resource in storage.

@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateDeviceRequest extends FormRequest
+class StoreSeriesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,11 +23,20 @@ class UpdateDeviceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'model' => 'required|string|max:255',       
-            'colours' => 'required|string|max:255',       
-            'brand_id' => 'required|integer',     
-            'series_id' => 'required|integer',   
-         
+            'series_name' => 'required|string|max:255|unique:series',
+        ];
+    }
+
+    /**
+     * Get the error messages for the defined validation rules.
+     * 
+     * @return array<string, string>
+     */
+    public function messages(): array
+    {
+        return [
+            'series_name.required' => 'series name is required',
+            'series_name.unique' => 'series name already exists',
         ];
     }
 }

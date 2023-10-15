@@ -44,6 +44,15 @@ function AdminDashboard() {
             <li>
               <Link to="/app/admin/device">Manage Device</Link>
             </li>
+            <li>
+              <Link to="/app/admin/item">Manage Item</Link>
+            </li>
+            <li>
+              <Link to="/app/admin/brand">Manage Brand</Link>
+            </li>
+            <li>
+              <Link to="/app/admin/series">Manage Series</Link>
+            </li>
           </ul>
         </div>
       )}

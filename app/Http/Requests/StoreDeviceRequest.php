@@ -28,7 +28,7 @@ class StoreDeviceRequest extends FormRequest
             'brand_id' => 'required|integer',  
             'series_id' => 'required|integer', 
             'model' => 'required|string|max:255', 
-            'colour' => 'required|string|max:255',
+            'colours' => 'required|string|max:255',
         ];
     }
 }

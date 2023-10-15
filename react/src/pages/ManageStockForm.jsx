@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from "react";
+import Select from 'react-select';
 import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
 import { Button, Container, Form } from "react-bootstrap";
@@ -7,6 +8,8 @@ import NavBarAdmin from "../components/NavBarAdmin";
 import Loading from "../components/Loading";
 
 function ManageStockForm() {
+  const [devices, setDevices] = useState([]);
+  const [items, setItems] = useState([]);
   const { stock_id } = useParams();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -20,6 +23,28 @@ function ManageStockForm() {
     retail_price: "",   
     quantity: ""
   });
+
+  useEffect(() => {
+    // Fetch devices
+    axiosClient.get('/device-info').then(response => {
+      const deviceOptions = response.data.map(device => ({
+        value: device.device_id,
+        label: `${device.brand.brand_name} - ${device.series.series_name} - ${device.model} - ${device.colours}`,
+      }));
+      setDevices(deviceOptions);
+    });
+     
+  
+    // Fetch items
+    axiosClient.get('/items-stock').then(response => {
+      const itemOptions = response.data.map(items => ({
+        value: items.item_id,
+        label: `${items.item_name} - ${items.description}`, 
+      }));
+      setItems(itemOptions);
+    });
+    
+  }, []);
 
 
   useEffect(() => {
@@ -93,24 +118,24 @@ function ManageStockForm() {
             <Form onSubmit={onSubmit}>
               {}
               <Form.Group className="mt-3" controlId="formBasicDeviceID">
-                <Form.Label>Device ID</Form.Label>
-                <Form.Control
-                  type="number"
-                  name="device_id"
-                  value={stockItem.device_id}
-                  onChange={(e) => setStockItem({ ...stockItem, device_id: e.target.value })}
-                />
-              </Form.Group>
+              <Form.Label>Device</Form.Label>
+              <Select
+                value={devices.find(option => option.value === stockItem.device_id)}
+                onChange={(selectedOption) => setStockItem({ ...stockItem, device_id: selectedOption.value })}
+                options={devices}
+                placeholder="Select Device"
+              />
+            </Form.Group>
 
-              <Form.Group className="mt-3" controlId="formBasicItemID">
-                <Form.Label>Item ID</Form.Label>
-                <Form.Control
-                  type="number"
-                  name="item_id"
-                  value={stockItem.item_id}
-                  onChange={(e) => setStockItem({ ...stockItem, item_id: e.target.value })}
-                />
-              </Form.Group>
+            <Form.Group className="mt-3" controlId="formBasicItemID">
+              <Form.Label>Item</Form.Label>
+              <Select
+                value={items.find(option => option.value === stockItem.item_id)}
+                onChange={(selectedOption) => setStockItem({ ...stockItem, item_id: selectedOption.value })}
+                options={items}
+                placeholder="Select Item"
+              />
+            </Form.Group>
               <Form.Group className="mt-3" controlId="formBasicBuyPrice">
                 <Form.Label>Buy Price</Form.Label>
                 <Form.Control
