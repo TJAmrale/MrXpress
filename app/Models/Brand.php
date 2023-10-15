@@ -10,6 +10,7 @@ class Brand extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'brands';
     protected $primaryKey = 'brand_id';
     protected $fillable = ['brand_name'];
     protected $dates = ['deleted_at'];
@@ -17,10 +18,6 @@ class Brand extends Model
     public function devices()
     {
         return $this->hasMany(Device::class, 'brand_id');
-    }
-    public function items()
-    {
-        return $this->hasMany(Item::class, 'brand_id');
     }
 
 }

@@ -17,6 +17,12 @@ import ManageStockPage from "./pages/ManageStockPage.jsx";
 import ManageStockForm from "./pages/ManageStockForm.jsx";
 import ManageDevicePage from "./pages/ManageDevicePage.jsx";
 import ManageDeviceForm from "./pages/ManageDeviceForm.jsx";
+import ManageItemPage from "./pages/ManageItemPage.jsx";
+import ManageItemForm from "./pages/ManageItemForm.jsx";
+import ManageBrandPage from "./pages/ManageBrandPage.jsx";
+import ManageBrandForm from "./pages/ManageBrandForm.jsx";
+import ManageSeriesPage from "./pages/ManageSeriesPage.jsx";
+import ManageSeriesForm from "./pages/ManageSeriesForm.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -113,13 +119,50 @@ const router = createBrowserRouter([
             element: <ManageDevicePage/>,
           },
           {
-            path: "Device/new",
+            path: "device/new",
             element: <ManageDeviceForm key="DeviceCreate" />,
           },
           {
-            path: "Device/:device_id",
+            path: "device/:device_id",
             element: <ManageDeviceForm key="DeviceUpdate" />,
           },
+          {
+            path: "item",
+            element: <ManageItemPage/>,
+          },
+          {
+            path: "item/new",
+            element: <ManageItemForm key="ItemCreate" />,
+          },
+          {
+            path: "item/:item_id",
+            element: <ManageItemForm key="ItemUpdate" />,
+          },
+          {
+            path: "brand",
+            element: <ManageBrandPage/>,
+          },
+          {
+            path: "brand/new",
+            element: <ManageBrandForm key="BrandCreate" />,
+          },
+          {
+            path: "brand/:brand_id",
+            element: <ManageBrandForm key="BrandUpdate" />,
+          },
+          {
+            path: "series",
+            element: <ManageSeriesPage/>,
+          },
+          {
+            path: "series/new",
+            element: <ManageSeriesForm key="SeriesCreate" />,
+          },
+          {
+            path: "series/:series_id",
+            element: <ManageSeriesForm key="SeriesUpdate" />,
+          },
+          
 
         ],
       },

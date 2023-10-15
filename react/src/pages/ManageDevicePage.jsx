@@ -59,7 +59,7 @@ const ManageDevice = () => {
                 <th>Series ID</th>
                 <th>Series Name</th>
                 <th>Model</th>
-                <th>Colour</th>
+                <th>Colours</th>
                 <th>Created</th>
                 <th>Updated</th>
                 <th>Action</th>
@@ -81,7 +81,7 @@ const ManageDevice = () => {
                     <td>{device.series_id}</td>
                     <td>{device?.series?.series_name}</td>
                     <td>{device.model}</td>
-                    <td>{device.colour}</td>
+                    <td>{device.colours}</td>
                     <td>{device.created_at}</td>
                     <td>{device.updated_at}</td>
                     <td>
