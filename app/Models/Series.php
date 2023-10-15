@@ -10,6 +10,7 @@ class Series extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'series';
     protected $primaryKey = 'series_id';
     protected $fillable = ['series_name'];
     protected $dates = ['deleted_at'];

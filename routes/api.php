@@ -3,6 +3,10 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\StockController;
+use App\Http\Controllers\Api\ItemController;
+use App\Http\Controllers\Api\ModelController;
+use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\SeriesController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\Api\DeviceController;
@@ -43,17 +47,30 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('/device', DeviceController::class);
 
+    Route::apiResource('/item', ItemController::class);
+
+    Route::apiResource('/brand', BrandController::class);
+    Route::apiResource('/series', SeriesController::class);
+
     // routes/api.php
 
-    Route::get('/stock/{stock_id}', 'StockController@show');
+    Route::get('/stock/{stock_id}', StockController::class . '@show');
+
 
     Route::get('/brands', 'Api\BrandController@index');
-    Route::get('/devices/models', 'Api\ModelController@index');  // or some method to get distinct models
-    Route::get('/devices/colours', 'Api\ColourController@index');  // or a method to get distinct colours
-    Route::get('/items/types', 'Api\ItemTypeController@index');  // or a method to get distinct item types
-    Route::get('/series', 'Api\SeriesController@index');
+    Route::get('/device-info', [ModelController::class, 'index']);
+    Route::get('/devices/models', [ModelController::class, 'index']); 
+    Route::get('/devices/colours', 'Api\ColourController@index');  
+    Route::get('/items-stock', [ItemController::class, 'getItems']);
+
+    Route::get('/series', 'App\Http\Controllers\Api\SeriesController@index');
+
     
-    
+    // Fetch Brands
+    Route::get('/brands', [DeviceController::class, 'getBrands']);
+
+    // Fetch Series
+    Route::get('/series-stock', [DeviceController::class, 'getSeries']);
 
 
 

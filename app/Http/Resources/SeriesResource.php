@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DeviceResource extends JsonResource
+class SeriesResource extends JsonResource
 {
     public static $wrap = false;
     
@@ -17,19 +17,8 @@ class DeviceResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'device_id' => $this->device_id,
-            'brand_id' =>$this->brand_id,
-            'series_id' =>$this->series_id,
-            'model' => $this->model,
-            'colours' => $this->colours,
-            'brand' => [
-                
-                'brand_name' => optional($this->brand)->brand_name,
-            ],
-            'series' => [
-                'series_name' => optional($this->series)->series_name,
-            ],
-          
+            'series_id' => $this->series_id,
+            'series_name' => $this->series_name,
             'created_at' => $this->created_at->format('Y-m-d H:i:s'),
             'updated_at' => optional($this->updated_at)->format('Y-m-d H:i:s'),
             'deleted_at' => optional($this->deleted_at)->format('Y-m-d H:i:s'),
