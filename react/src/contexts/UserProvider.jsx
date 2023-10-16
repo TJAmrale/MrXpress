@@ -18,15 +18,18 @@ const UserContext = createContext({
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState({});
   const [token, setTokenState] = useState();
+  const [isLoading, setIsLoading] = useState(true);
   const [accessLevel, setAccessLevelState] = useState();
 
   // On initial load, check if a token exists in local storage
   useEffect(() => {
+    setIsLoading(true);
     const storedToken = localStorage.getItem("ACCESS_TOKEN");
     if (storedToken) {
       setTokenState(storedToken); // If token exists, update state
       setAccessLevelState(localStorage.getItem("USER_ACCESS_LEVEL"));
     }
+    setIsLoading(false);
   }, []);
 
   // Whenever token state changes, update local storage
@@ -52,7 +55,7 @@ export const UserProvider = ({ children }) => {
   // Return the context provider with current user and token values.
   // All child components will have access to these values.
   return (
-    <UserContext.Provider value={{ user, token, accessLevel, setUser, setToken, setAccessLevel }}>
+    <UserContext.Provider value={{ user, token, accessLevel, setUser, setToken, setAccessLevel, isLoading }}>
       {children}
     </UserContext.Provider>
   );

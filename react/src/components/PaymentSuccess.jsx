@@ -20,7 +20,7 @@ function PaymentSuccess({ jobId }) {
             <FontAwesomeIcon icon={faCircleCheck} size="2xl" className="" />
           </Card.Title>
           <Card.Title className="text-center text-success">
-            Payment Successful!
+            Booking Successful!
           </Card.Title>
           <Card.Text className="text-center">Booking ID: #{jobId}</Card.Text>
           <Card.Text className="text-center">

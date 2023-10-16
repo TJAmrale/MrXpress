@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import {
   useStripe,
@@ -7,7 +8,7 @@ import {
 import { useLocation } from "react-router-dom";
 import { Button } from "react-bootstrap";
 
-function PaymentForm() {
+function PaymentForm({customAddress}) {
   // Using Stripe and Elements hooks to get respective instances
   const stripe = useStripe();  
   const elements = useElements();
@@ -36,7 +37,13 @@ function PaymentForm() {
     // `getReturnUrl` constructs a return URL using the provided `path`
     function getReturnUrl(path) {
       const baseUrl = `${window.location.protocol}//${window.location.host}`; // Constructing base URL from the window's current location
-      return `${baseUrl}${path}`; // Appending provided path to the base URL and returning
+      
+      // Check if customAddress is not null or undefined and append it to the path
+      const pathWithCustomAddress = customAddress 
+        ? `${path}&custom_address=${encodeURIComponent(customAddress)}` 
+        : path;
+      
+      return `${baseUrl}${pathWithCustomAddress}`;
     }
 
     // Invoking Stripe's `confirmPayment` to handle the payment confirmation
