@@ -1,6 +1,4 @@
-
 import { useEffect, useState } from "react";
-import Select from 'react-select';
 import { useNavigate, useParams } from "react-router-dom";
 import axiosClient from "../axios-client";
 import { Button, Container, Form } from "react-bootstrap";
@@ -16,36 +14,33 @@ function ManageStockForm() {
   const [errors, setErrors] = useState();
   const [stockItem, setStockItem] = useState({
     stock_id: null,
-    device_id: "", 
-    part_id: "",   
-    buy_price: "", 
+    device_id: "",
+    part_id: "",
+    buy_price: "",
     wholesale_price: "",
-    retail_price: "",   
-    quantity: ""
+    retail_price: "",
+    quantity: "",
   });
 
   useEffect(() => {
     // Fetch devices
-    axiosClient.get('/device-info').then(response => {
-      const deviceOptions = response.data.map(device => ({
+    axiosClient.get("/device-info").then((response) => {
+      const deviceOptions = response.data.map((device) => ({
         value: device.device_id,
         label: `${device.brand.brand_name} - ${device.series.series_name} - ${device.model} - ${device.colours}`,
       }));
       setDevices(deviceOptions);
     });
-     
-  
+
     // Fetch items
-    axiosClient.get('/items-stock').then(response => {
-      const itemOptions = response.data.map(items => ({
+    axiosClient.get("/items-stock").then((response) => {
+      const itemOptions = response.data.map((items) => ({
         value: items.item_id,
-        label: `${items.item_name} - ${items.description}`, 
+        label: `${items.item_name} - ${items.description}`,
       }));
       setItems(itemOptions);
     });
-    
   }, []);
-
 
   useEffect(() => {
     if (stock_id) {
@@ -94,14 +89,12 @@ function ManageStockForm() {
         });
     }
   };
-  
-  
 
   return (
     <>
       <NavBarAdmin />
       <section className="w-50">
-        {stockItem.stock_id && <h1>Update Stock Item: {stockItem.stock_id }</h1>}
+        {stockItem.stock_id && <h1>Update Stock Item: {stockItem.stock_id}</h1>}
         {!stockItem.stock_id && <h1>New Stock Item</h1>}
 
         <div>
@@ -118,31 +111,51 @@ function ManageStockForm() {
             <Form onSubmit={onSubmit}>
               {}
               <Form.Group className="mt-3" controlId="formBasicDeviceID">
-              <Form.Label>Device</Form.Label>
-              <Select
-                value={devices.find(option => option.value === stockItem.device_id)}
-                onChange={(selectedOption) => setStockItem({ ...stockItem, device_id: selectedOption.value })}
-                options={devices}
-                placeholder="Select Device"
-              />
-            </Form.Group>
+                <Form.Label>Device</Form.Label>
+                <Form.Select
+                  value={stockItem.device_id}
+                  onChange={(e) =>
+                    setStockItem({ ...stockItem, device_id: e.target.value })
+                  }
+                >
+                  <option value="" disabled>
+                    Select Device
+                  </option>
+                  {devices.map((device) => (
+                    <option key={device.value} value={device.value}>
+                      {device.label}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
 
-            <Form.Group className="mt-3" controlId="formBasicItemID">
-              <Form.Label>Item</Form.Label>
-              <Select
-                value={items.find(option => option.value === stockItem.item_id)}
-                onChange={(selectedOption) => setStockItem({ ...stockItem, item_id: selectedOption.value })}
-                options={items}
-                placeholder="Select Item"
-              />
-            </Form.Group>
+              <Form.Group className="mt-3" controlId="formBasicItemID">
+                <Form.Label>Item</Form.Label>
+                <Form.Select
+                  value={stockItem.item_id || ""}
+                  onChange={(e) =>
+                    setStockItem({ ...stockItem, item_id: e.target.value })
+                  }
+                >
+                  <option value="" disabled>
+                    Select Item
+                  </option>
+                  {items.map((item) => (
+                    <option key={item.value} value={item.value}>
+                      {item.label}
+                    </option>
+                  ))}
+                </Form.Select>
+              </Form.Group>
               <Form.Group className="mt-3" controlId="formBasicBuyPrice">
                 <Form.Label>Buy Price</Form.Label>
                 <Form.Control
                   type="number"
                   name="buy_price"
                   value={stockItem.buy_price}
-                  onChange={(e) => setStockItem({ ...stockItem, buy_price: e.target.value })}
+                  onChange={(e) =>
+                    setStockItem({ ...stockItem, buy_price: e.target.value })
+                  }
                 />
               </Form.Group>
               <Form.Group className="mt-3" controlId="formBasicWholesalePrice">
@@ -151,7 +164,12 @@ function ManageStockForm() {
                   type="number"
                   name="wholesale_price"
                   value={stockItem.wholesale_price}
-                  onChange={(e) => setStockItem({ ...stockItem, wholesale_price: e.target.value })}
+                  onChange={(e) =>
+                    setStockItem({
+                      ...stockItem,
+                      wholesale_price: e.target.value,
+                    })
+                  }
                 />
               </Form.Group>
               <Form.Group className="mt-3" controlId="formBasicRetailPrice">
@@ -160,24 +178,29 @@ function ManageStockForm() {
                   type="number"
                   name="retail_price"
                   value={stockItem.retail_price}
-                  onChange={(e) => setStockItem({ ...stockItem, retail_price: e.target.value })}
+                  onChange={(e) =>
+                    setStockItem({ ...stockItem, retail_price: e.target.value })
+                  }
                 />
               </Form.Group>
-              
+
               <Form.Group className="mt-3" controlId="formBasicQuantity">
                 <Form.Label>Quantity</Form.Label>
                 <Form.Control
                   type="number"
                   name="quantity"
                   value={stockItem.quantity}
-                  onChange={(e) => setStockItem({ ...stockItem, quantity: e.target.value })}
+                  onChange={(e) =>
+                    setStockItem({ ...stockItem, quantity: e.target.value })
+                  }
                 />
               </Form.Group>
 
-
-              
-
-              <Button className="mt-4 w-25 full-width" variant="primary" type="submit">
+              <Button
+                className="mt-4 w-25 full-width"
+                variant="primary"
+                type="submit"
+              >
                 Save
               </Button>
             </Form>
@@ -186,11 +209,6 @@ function ManageStockForm() {
       </section>
     </>
   );
-
-
-
-
-
 }
 
 export default ManageStockForm;

@@ -23,6 +23,12 @@ function PaymentStatusPage() {
     // the leading "?" character.
     let params = new URLSearchParams(location.search);
 
+    let customAddress;
+    const customAddressParam = params.get("custom_address");
+    if (customAddressParam) {
+      customAddress = decodeURIComponent(customAddressParam);
+    }
+
     // `params.get('param_name')` method returns the first value associated with the given
     // search parameter ('param_name' in this case). If the parameter isn't found, it returns `null`.
     let paymentIntent = params.get("payment_intent");
@@ -33,30 +39,37 @@ function PaymentStatusPage() {
     const payload = {
       payment_intent: paymentIntent,
       payment_intent_client_secret: paymentIntentClientSecret,
-      job_id: jobId
+      job_id: jobId,
     };
+
+    // Conditionally adding custom_address to payload if it is defined
+    if (customAddress) {
+      payload.custom_address = customAddress;
+    }
+
+    console.log(payload);
 
     // Make an API call
     axiosClient
       .post("verify-payment", payload)
       .then((response) => {
-        setPaymentStatus('success');
+        setPaymentStatus("success");
         console.log(response.data);
       })
       .catch((error) => {
         console.log(error);
-        setPaymentStatus('failure');
+        setPaymentStatus("failure");
       });
   }, [location, navigate]);
-  
-    // Conditional rendering based on payment status
-    if (paymentStatus === 'verifying') {
-      return <LoadingScreen />;
-    } else if (paymentStatus === 'success') {
-      return <PaymentSuccess jobId={jobId} />;
-    } else {
-      return <PaymentFailure />;
-    }
+
+  // Conditional rendering based on payment status
+  if (paymentStatus === "verifying") {
+    return <LoadingScreen />;
+  } else if (paymentStatus === "success") {
+    return <PaymentSuccess jobId={jobId} />;
+  } else {
+    return <PaymentFailure />;
+  }
 }
 
 export default PaymentStatusPage;

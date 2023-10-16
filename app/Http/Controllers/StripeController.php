@@ -21,12 +21,13 @@ class StripeController extends Controller
     {
         Stripe::setApiKey(config('services.stripe.secret'));
 
-        $amount = $request->input('amount');  // * Request from Front-end | Amount should be in cents
+        $amount = $request->input('amount');  // Request from Front-end (Amount in cents)
 
         $paymentIntent = PaymentIntent::create([
             'amount' => $amount,
             'currency' => 'aud',
             'payment_method_types' => ['card'],
+            'capture_method' => 'manual'
             // 'receipt_email' => 'someone@example.com' // Email receipt is not available in test mode
         ]);
 
@@ -58,7 +59,7 @@ class StripeController extends Controller
             );
 
             // Check the payment status
-            if ($paymentIntent->status === 'succeeded') {
+            if ($paymentIntent->status === 'requires_capture') {
                 $data = $request->all();
 
                 // Begin a transaction to ensure all database operations are atomic
@@ -75,6 +76,9 @@ class StripeController extends Controller
                     $job->amount = $paymentIntent->amount;
                     $job->currency = $paymentIntent->currency;
                     $job->payment_status = "succeeded";
+                    if (isset($data['custom_address']) && !empty($data['custom_address'])) {
+                        $job->custom_address = $data['custom_address'];
+                    }
                     $job->save();
 
                     // If everything is successful, commit the transaction

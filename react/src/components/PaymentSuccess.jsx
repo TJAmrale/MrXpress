@@ -2,6 +2,7 @@
 import { Card, Container } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 function PaymentSuccess({ jobId }) {
   return (
@@ -19,7 +20,7 @@ function PaymentSuccess({ jobId }) {
             <FontAwesomeIcon icon={faCircleCheck} size="2xl" className="" />
           </Card.Title>
           <Card.Title className="text-center text-success">
-            Payment Successful!
+            Booking Successful!
           </Card.Title>
           <Card.Text className="text-center">Booking ID: #{jobId}</Card.Text>
           <Card.Text className="text-center">
@@ -29,6 +30,9 @@ function PaymentSuccess({ jobId }) {
           <Card.Text className="text-center">
             A skilled technician will be in touch with you shortly to assist
             with your phone repair needs.
+          </Card.Text>
+          <Card.Text className="text-center">
+            <Link to="/app">Back to home</Link>
           </Card.Text>
         </Card.Body>
       </Card>

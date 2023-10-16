@@ -4,12 +4,13 @@ import { loadStripe } from "@stripe/stripe-js";
 import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useRepair } from "../contexts/RepairProvider";
-import { Container, Row, Col, Card } from "react-bootstrap";
+import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import { useUserContext } from "../contexts/UserProvider";
 import axiosClient from "../axios-client";
 import PaymentForm from "../components/PaymentForm";
 import NavBarCustomer from "../components/NavBarCustomer";
 import LoadingScreen from "../components/LoadingScreen";
+import NotFoundPage from "./NotFoundPage";
 
 const stripePromise = loadStripe(
   "pk_test_51NvnnuB5LtC1NaASmv7doGyeEz7sSQV0VeBMz4HALdobXMpzyHFh9fT2lK9Z82A7GZRD8hf8i8K1FCEB6CzZeUBI00VGei0HVJ"
@@ -54,6 +55,16 @@ export default function PaymentPage() {
   // 2. Summary information -----------------------------------------------
   const { user, setUser } = useUserContext(); // Retrieve the user and token state from the user context
   const { customerSelection } = useRepair();
+  const [customAddress, setCustomAddress] = useState("");
+  const [isCustomAddressChecked, setIsCustomAddressChecked] = useState(false);
+
+  const handleAddressChange = (e) => {
+    setCustomAddress(e.target.value); // Set custom address on input change
+  };
+
+  const handleSwitchChange = (e) => {
+    setIsCustomAddressChecked(e.target.checked);
+  };
 
   // Fetch the current user information when the component mounts
   useEffect(() => {
@@ -63,7 +74,9 @@ export default function PaymentPage() {
   }, []);
 
   // Return UI -----------------------------------------------
-  return clientSecret ? (
+  return !customerSelection ? (
+    <NotFoundPage />
+  ) : clientSecret ? (
     <div id="payment-page">
       <NavBarCustomer />
       <Container>
@@ -99,15 +112,32 @@ export default function PaymentPage() {
                 <Card.Text>
                   <ul>
                     <li>
-                      <strong>Name:</strong> {user.name}
-                    </li>
-                    <li>
                       <strong>Phone number:</strong> {user.phone}
                     </li>
                     <li>
                       <strong>Address:</strong> {user.address}
                     </li>
                   </ul>
+                  <Form.Check // prettier-ignore
+                    type="switch"
+                    id="custom-switch"
+                    label="I want to use another address"
+                    checked={isCustomAddressChecked}
+                    onChange={handleSwitchChange}
+                  />
+                  {isCustomAddressChecked && (
+                    <Form.Group
+                      className="mt-3"
+                      controlId="formBasicStreetAddress"
+                    >
+                      <Form.Control
+                        type="text"
+                        name="street_address"
+                        placeholder="37 George St, Haymarket NSW 2000"
+                        onChange={handleAddressChange}
+                      />
+                    </Form.Group>
+                  )}
                 </Card.Text>
               </Card.Body>
             </Card>
@@ -117,8 +147,13 @@ export default function PaymentPage() {
             <Card className="my-4">
               <Card.Body>
                 <Card.Title>Payment</Card.Title>
+                <Card.Text>
+                  You will only be charged upon job completion. Please be aware
+                  that a $50 callout fee applies if you cancel after the job has
+                  been accepted by a technician.
+                </Card.Text>
                 <Elements stripe={stripePromise} options={options}>
-                  <PaymentForm />
+                  <PaymentForm customAddress={customAddress} />
                 </Elements>
               </Card.Body>
             </Card>
@@ -127,6 +162,8 @@ export default function PaymentPage() {
       </Container>
     </div>
   ) : (
-    <p><LoadingScreen /></p>
+    <p>
+      <LoadingScreen />
+    </p>
   );
 }
