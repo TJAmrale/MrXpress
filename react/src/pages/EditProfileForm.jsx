@@ -13,6 +13,8 @@ import "../profile.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { RiImageEditFill } from "react-icons/ri";
+import Loading from "../components/Loading";
+
 
 function EditProfileForm() {
   const { user, setUser, token, accessLevel } = useUserContext({
@@ -23,29 +25,30 @@ function EditProfileForm() {
     address: "",
     dob: "",
   });
-
-  const { user_id } = useParams();
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  console.log(user);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   useEffect(() => {
-    if (user_id) {
+    if (user.id) {
       setLoading(true);
-      axiosClient.get(`/users/${user_id}`)
+      axiosClient.get(`/profile/edit/${user.user_id}`)
         .then((response) => {
+          console.log(user); // Log data received from the API
           setLoading(false);
           setUser(response.data);
         })
         .catch(() => {
+          console.log(user); // Log data received from the API
           setLoading(false);
         });
     }
-  }, [user_id]);
+  }, [user.id]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -59,7 +62,7 @@ function EditProfileForm() {
     };
   
     axiosClient
-      .put(`/profile/edit/${user_id}`, updatedData)
+      .put(`/profile/edit/${user.user_id}`, updatedData)
       .then(() => {
         console.log(updatedData);
       })
@@ -136,7 +139,8 @@ function EditProfileForm() {
           />
           </div> 
           <div className="center">
-          <h2>'{user.name}'</h2> 
+          {user.user_id && <h2>'{user.name}'</h2>}
+          {!user.user_id && <h2>Loading...</h2>}
           <br></br>
           <RiImageEditFill 
           style={{
@@ -148,7 +152,7 @@ function EditProfileForm() {
 
           {/* Form */}
           {!loading && (
-            <Form onSubmit={onSubmit}>
+            <Form onSubmit={onSubmit} method="PUT">
               {/* Name Input */}
               <Form.Group className="mt-3" controlId="formBasicName">
                 <Form.Label><strong>Name:</strong></Form.Label>
@@ -196,7 +200,7 @@ function EditProfileForm() {
               </Form.Group>
 
               {/* Date of Birth Input */}
-              <Form.Group className="mt-3" controlId="formBasicAddress">
+              <Form.Group className="mt-3" controlId="formBasicDOB">
                 <Form.Label><strong>Date of Birth:</strong></Form.Label>
                 <Form.Control
                   type="text"

@@ -12,37 +12,22 @@ import 'react-toastify/dist/ReactToastify.css';
 import Loading from "../components/Loading";
 import axiosClient from "../axios-client";
 
-function JobsAndRatings() {
-  const [jobs, setJobs] = useState([]);
-  const [loading, setLoading] = useState(false);
+function InboxPage() {
+  const { user, setUser, token, accessLevel } = useUserContext({
+    user_id: "",
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+  });
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, setUser, token, accessLevel } = useUserContext({user_id: "",});
+  const [loading, setLoading] = useState(false);
   
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  useEffect(() => {
-    if (user.user_id) {
-      // Only call getJobs if user.id is available
-      getJobs();
-    }
-  }, [user]); // Add user as a dependency to useEffect
-
-   // Fetch all users from the API
-   const getJobs = () => {
-    setLoading(true); // Start loading animation
-    axiosClient
-    .get(`/jobs?customer_id=${user.user_id}`)
-      .then(({ data }) => {
-        console.log(data.jobs); // Log data received from the API
-        setLoading(false); // Stop loading animation
-        setJobs(data.jobs); // Update the jobs state
-      })
-      .catch(() => {
-        setLoading(false); // Stop loading animation on error
-      });
-  };
 
   return (
     <>
@@ -92,7 +77,7 @@ function JobsAndRatings() {
           <table>
             <thead>
               <tr>
-                <th>Active Jobs</th>
+                <th>Inbox</th>
               </tr>
             </thead>
 
@@ -104,18 +89,11 @@ function JobsAndRatings() {
                 </td>
               </tr>
             ) : (
-              jobs.map((jobs) => (
-                <tr key={jobs.job_id}>
-                  <td>{jobs.job_id}</td>
-                  <td>{jobs.customer_id}</td>
-                  <td>{jobs.technician_id}</td>
-                  <td>{jobs.job_status}</td>
-                  <td>{jobs.total_cost}</td>
-                  <td>{jobs.created_at}</td>
-                  <td>{jobs.updated_at}</td>
+                <tr>
+                  <td>Inbox page in progress</td>
                 </tr>
-              ))
-            )}
+              )
+              }
 
             </tbody>
           </table>
@@ -126,7 +104,7 @@ function JobsAndRatings() {
   );
 }
 
-export default JobsAndRatings;
+export default InboxPage;
 
 
 /*

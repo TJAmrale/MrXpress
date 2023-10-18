@@ -11,6 +11,7 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
+        "@trycourier/react-provider": "^4.3.2",
         "bootstrap": "^5.3.2",
         "react-bootstrap": "^2.9.0",
         "react-icons": "^4.11.0",

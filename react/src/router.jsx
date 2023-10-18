@@ -15,6 +15,7 @@ import BookARepairPage from "./pages/BookARepairPage.jsx";
 import ProfilePage from "./pages/ProfilePage.jsx";
 import EditProfileForm from "./pages/EditProfileForm.jsx";
 import JobsAndRatings from "./pages/JobsAndRatings.jsx";
+import InboxPage from "./pages/InboxPage.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -59,6 +60,14 @@ const router = createBrowserRouter([
             </RouteGuard>
           ),
       },
+      {
+        path: "profile/inbox",
+        element: (
+          <RouteGuard requiredLevels={[3]}>
+            <InboxPage />
+          </RouteGuard>
+        ),
+    },
       // Route to display a page specifically for technicians
       {
         path: "technician",

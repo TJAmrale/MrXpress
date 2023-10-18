@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\JobController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\testcontroller;
@@ -34,11 +35,17 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // 
     Route::post('/book-repair', [BookingController::class, 'store']);
+
+    Route::put('/profile/edit/{user_id}', [ProfileController::class, 'update']);
+    Route::get('/jobs', [JobController::class, 'index']);
+    Route::get('/jobs/{job_id}', [JobController::class, 'show']);
+    Route::get('/jobs?customer_id={customer_id}', [JobController::class, 'show']);
 });
 
 // Route to register a new user or login a user, doesn't require authentication
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::put('/profile/edit/{user_id}', [ProfileController::class, 'update']);
-//Route::get('/profile/show/{user_id}', [ProfileController::class, 'show']);
+Route::get('/profile/edit/{user_id}', [ProfileController::class, 'show']);
+Route::get('/jobs', [JobController::class, 'index']);
 
