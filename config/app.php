@@ -168,6 +168,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        // Laravel-auditing
+        OwenIt\Auditing\AuditingServiceProvider::class,
     ])->toArray(),
 
     /*

@@ -19,10 +19,10 @@ function PaymentFailure() {
             <FontAwesomeIcon icon={faCircleCheck} size="2xl" className="" />
           </Card.Title>
           <Card.Title className="text-center text-danger">
-            {`Payment Failure :'(`}
+            {`Booking Failure :'(`}
           </Card.Title>
           <Card.Text className="text-center">
-            Oops! Payment failed. Please try again, and if the issue persists,
+            Oops! Booking failed. Please try again, and if the issue persists,
             contact our support team. We're here to help!
           </Card.Text>
         </Card.Body>

@@ -91,7 +91,7 @@ function BookARepairPage() {
     <>
       <NavBarCustomer />
       <Container>
-        <h1>Book A Repair Page</h1>
+        <h1 className="mt-4">Book A Repair Page</h1>
         <p>
           <em>The development of the Form is in progress..</em>
         </p>
@@ -103,7 +103,7 @@ function BookARepairPage() {
         <p>for his/her iPhone 12 Midnight Green</p>
         {priceStatus === "" ? (
           <Button
-            className="mt-4 w-50"
+            className="mt-4 px-5"
             variant="primary"
             type="submit"
             onClick={onSubmit} // change later
@@ -118,7 +118,7 @@ function BookARepairPage() {
         )}
         {priceStatus != "" && (
           <Button
-            className="mt-4 w-50"
+            className="mt-4 px-5"
             variant="primary"
             type="submit"
             onClick={onConfirm} // change later
