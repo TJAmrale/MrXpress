@@ -18,7 +18,8 @@ class SeriesController extends Controller
      */
     public function index()
     {
-        $series = Series::select('series_id','series_name', 'created_at', 'updated_at')->get();
+        $series = Series::select('series_id','series_name', 'created_at', 'updated_at')
+        ->paginate(20);
 
         return SeriesResource::collection($series);
     }

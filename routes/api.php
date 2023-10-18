@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\ItemController;
 use App\Http\Controllers\Api\ModelController;
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\SeriesController;
+use App\Http\Controllers\Api\StockAuditController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\Api\DeviceController;
@@ -52,18 +53,21 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/brand', BrandController::class);
     Route::apiResource('/series', SeriesController::class);
 
+    Route::apiResource('stock-audits', StockAuditController::class);
+
     // routes/api.php
 
     Route::get('/stock/{stock_id}', StockController::class . '@show');
 
 
-    Route::get('/brands', 'Api\BrandController@index');
+    Route::get('/brands', [BrandController::class, 'index']);
     Route::get('/device-info', [ModelController::class, 'index']);
     Route::get('/devices/models', [ModelController::class, 'index']); 
     Route::get('/devices/colours', 'Api\ColourController@index');  
     Route::get('/items-stock', [ItemController::class, 'getItems']);
 
-    Route::get('/series', 'App\Http\Controllers\Api\SeriesController@index');
+    Route::get('/series', [SeriesController::class, 'index']);
+
 
     
     // Fetch Brands
@@ -71,6 +75,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Fetch Series
     Route::get('/series-stock', [DeviceController::class, 'getSeries']);
+    // Fetch stock for audit
+    Route::get('/stock-changes', [StockController::class, 'changes']);
+
+    
+
+
 
 
 

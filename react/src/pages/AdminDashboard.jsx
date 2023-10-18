@@ -4,6 +4,9 @@ import Footer from '../components/Footer';
 import { useUserContext } from '../contexts/UserProvider';
 import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import '../assets/styles/Admin.css';
+
+
 
 
 
@@ -30,30 +33,34 @@ function AdminDashboard() {
         
         {/* Admin Specific Tabs */}
       {accessLevel === '1' && (
-        <div className="admin-tabs">
-          <ul>
-            <li>
-              <Link to="/app/admin/users">Manage Users</Link>
-            </li>
-            <li>
-              <Link to="/app/admin/jobs">Manage Jobs</Link>
-            </li>
-            <li>
-              <Link to="/app/admin/stock">Manage Stock</Link>
-            </li>
-            <li>
-              <Link to="/app/admin/device">Manage Device</Link>
-            </li>
-            <li>
-              <Link to="/app/admin/item">Manage Item</Link>
-            </li>
-            <li>
-              <Link to="/app/admin/brand">Manage Brand</Link>
-            </li>
-            <li>
-              <Link to="/app/admin/series">Manage Series</Link>
-            </li>
-          </ul>
+        <div className="admin-tabs container mt-5">
+          <div className='row'>
+          <div className="col-md-4 mb-3">
+              <Link to="/app/admin/users" className="btn btn-danger btn-block admin-button">Manage Users</Link>
+          </div>
+          <div className="col-md-4 mb-3">
+              <Link to="/app/admin/jobs" className="btn btn-danger btn-block admin-button">Manage Jobs</Link>
+          </div>
+          <div className="col-md-4 mb-3">
+              <Link to="/app/admin/stock" className="btn btn-danger btn-block admin-button">Manage Stock</Link>
+          </div>
+          <div className="col-md-4 mb-3">
+              <Link to="/app/admin/device" className="btn btn-danger btn-block admin-button">Manage Device</Link>
+          </div>
+          <div className="col-md-4 mb-3">
+              <Link to="/app/admin/item" className="btn btn-danger btn-block admin-button">Manage Item</Link>
+          </div>
+          <div className="col-md-4 mb-3">
+              <Link to="/app/admin/brand" className="btn btn-danger btn-block admin-button">Manage Brand</Link>
+          </div>
+          <div className="col-md-4 mb-3">
+              <Link to="/app/admin/series" className="btn btn-danger btn-block admin-button">Manage Series</Link>
+          </div>
+          <div className="col-md-4 mb-3">
+              <Link to="/app/admin/stock_changes" className="btn btn-danger btn-block admin-button">Stock Changes</Link>
+          </div>
+          
+        </div>
         </div>
       )}
       

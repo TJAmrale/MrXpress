@@ -45,7 +45,7 @@ const ManageItemPage = () => {
       <section id="manage-items">
         <div className="heading">
           <h2>Manage Items</h2>
-          <Link to="/app/admin/item/new" className="btn-add">
+          <Link to="/app/admin/item/new" className="add btn-add">
             Add new
           </Link>
         </div>

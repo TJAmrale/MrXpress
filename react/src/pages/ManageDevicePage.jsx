@@ -45,7 +45,7 @@ const ManageDevice = () => {
       <section id="manage-device">
         <div className="heading">
           <h2>Manage Devices</h2>
-          <Link to="/app/admin/device/new" className="btn-add">
+          <Link to="/app/admin/device/new" className="add btn-add">
             Add new
           </Link>
         </div>
