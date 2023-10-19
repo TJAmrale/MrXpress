@@ -11,6 +11,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\Api\DeviceController;
 use App\Http\Controllers\Api\ColourController;
+use App\Http\Controllers\Api\test123controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
