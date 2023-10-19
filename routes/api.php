@@ -39,7 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/profile/edit/{user_id}', [ProfileController::class, 'update']);
     Route::get('/jobs', [JobController::class, 'index']);
     Route::get('/jobs/{job_id}', [JobController::class, 'show']);
-    Route::get('/jobs?customer_id={customer_id}', [JobController::class, 'show']);
+    Route::get('/jobs?customer_id={user_id}', [JobController::class, 'show']);
 });
 
 // Route to register a new user or login a user, doesn't require authentication

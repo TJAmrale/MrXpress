@@ -11,19 +11,20 @@ class UpdateProfileRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        $user = auth()->user();
+        if ($user) {
+            logger('Authenticated User:', ['user_id' => $user->user_id]);
+            return true;
+        } else {
+            logger('Unauthenticated User');
+            return false;
+        }
     }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
-     */
-    public function rules(): array
-    {
-        return [
-            'name' => 'required|string|max:55',
-            'email' => 'required|email|unique:users,email,'.$this->user->user_id.',user_id', // Validate the email is required, is in email format, and is unique among users, excluding the current user's email.
+        public function rules(): array
+        {
+            return [
+                'name' => 'string',
+                'email' => 'required|email|unique:users',
             'phone' => 'required|digits:10|regex:/^04\d+/',
             'address' => 'required|string|max:150',
             'dob' => 'required',

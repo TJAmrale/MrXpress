@@ -13,31 +13,58 @@ import Loading from "../components/Loading";
 import axiosClient from "../axios-client";
 
 function JobsAndRatings() {
-  const [jobs, setJobs] = useState([]);
+  const [activeJobs, setActiveJobs] = useState([]);
+  const [pastJobs, setPastJobs] = useState([]);  
   const [loading, setLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { user, setUser, token, accessLevel } = useUserContext({user_id: "",});
+  const { user, setUser, token, accessLevel } = useUserContext({
+    user_id: "",
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    dob: "",
+  });
+  console.log(user);
   
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
   useEffect(() => {
-    if (user.user_id) {
-      // Only call getJobs if user.id is available
-      getJobs();
+    if (user.customer_id) {
+      setLoading(true);
+      axiosClient.get(`/jobs?customer_id=${user.customer_id}`)
+        .then((response) => {
+          setLoading(false);
+          setUser(response.data);
+        })
+        .catch(() => {
+          setLoading(false);
+        });
     }
-  }, [user]); // Add user as a dependency to useEffect
+  }, [user.customer_id]);
 
    // Fetch all users from the API
    const getJobs = () => {
     setLoading(true); // Start loading animation
     axiosClient
-    .get(`/jobs?customer_id=${user.user_id}`)
+      .get(`/jobs?customer_id=${user.customer_id}`)
       .then(({ data }) => {
-        console.log(data.jobs); // Log data received from the API
+        const allJobs = data.jobs;
+        const activeJobs = allJobs.filter(
+          (job) =>
+            job.job_status === 'NEW' ||
+            job.job_status === 'IN PROGRESS' ||
+            job.job_status === 'ON HOLD'
+        );
+        const pastJobs = allJobs.filter(
+          (job) =>
+            job.job_status === 'CANCELLED' || job.job_status === 'COMPLETED'
+        );
         setLoading(false); // Stop loading animation
-        setJobs(data.jobs); // Update the jobs state
+        setActiveJobs(activeJobs); // Update the active jobs state
+        setPastJobs(pastJobs); // Update the past jobs state
       })
       .catch(() => {
         setLoading(false); // Stop loading animation on error
@@ -88,39 +115,70 @@ function JobsAndRatings() {
     </div>
 
     <section id="manage-users" className="custom-container">
-    <div className="card">
-          <table>
-            <thead>
-              <tr>
-                <th>Active Jobs</th>
-              </tr>
-            </thead>
+  <div className="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Active Jobs</th>
+        </tr>
+      </thead>
+      <tbody>
+        {loading ? (
+          <tr>
+            <td colSpan="5" className="text-center">
+              <Loading />
+            </td>
+          </tr>
+        ) : (
+          activeJobs.map((job) => (
+            <tr key={job.job_id}>
+              <td>{job.job_id}</td>
+              <td>{job.customer_id}</td>
+              <td>{job.technician_id}</td>
+              <td>{job.job_status}</td>
+              <td>{job.total_cost}</td>
+              <td>{job.created_at}</td>
+              <td>{job.updated_at}</td>
+            </tr>
+          ))
+        )}
+      </tbody>
+    </table>
+  </div>
+</section>
 
-            <tbody>
-            {loading ? (
-              <tr>
-                <td colSpan="5" className="text-center">
-                  <Loading />
-                </td>
-              </tr>
-            ) : (
-              jobs.map((jobs) => (
-                <tr key={jobs.job_id}>
-                  <td>{jobs.job_id}</td>
-                  <td>{jobs.customer_id}</td>
-                  <td>{jobs.technician_id}</td>
-                  <td>{jobs.job_status}</td>
-                  <td>{jobs.total_cost}</td>
-                  <td>{jobs.created_at}</td>
-                  <td>{jobs.updated_at}</td>
-                </tr>
-              ))
-            )}
-
-            </tbody>
-          </table>
-        </div>
-        </section>
+<section id="manage-users" className="custom-container">
+  <div className="card">
+    <table>
+      <thead>
+        <tr>
+          <th>Past Jobs</th>
+        </tr>
+      </thead>
+      <tbody>
+        {loading ? (
+          <tr>
+            <td colSpan="5" className="text-center">
+              <Loading />
+            </td>
+          </tr>
+        ) : (
+          pastJobs.map((job) => (
+            <tr key={job.job_id}>
+              <td>{job.job_id}</td>
+              <td>{job.customer_id}</td>
+              <td>{job.technician_id}</td>
+              <td>{job.job_status}</td>
+              <td>{job.total_cost}</td>
+              <td>{job.created_at}</td>
+              <td>{job.updated_at}</td>
+            </tr>
+          ))
+        )}
+      </tbody>
+    </table>
+  </div>
+</section>
       <Footer />
     </>
   );
