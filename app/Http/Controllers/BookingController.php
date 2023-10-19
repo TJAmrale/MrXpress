@@ -9,11 +9,47 @@ use App\Models\Item;
 use App\Models\Job;
 use App\Models\JobStock;
 use App\Models\Series;
+use App\Models\Technician;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
+
+    public function sortJobStatus($status)
+    {
+        $validStatuses = ["NEW", "IN PROGRESS", "COMPLETED"];
+
+        if (!in_array($status, $validStatuses)) {
+            return response()->json(['error' => 'Invalid status specified'], 400);
+        }
+
+        //Retrieve and filter jobs by the specified job_status
+        $filteredJobs = Job::where('job_status', $status)->orderBy('job_status')->get();
+
+        return response()->json(['filteredJobs' => $filteredJobs], 200);
+    }
+
+    public function assignTechnician(Request $request, Job $job)
+    {
+        $technician_id = $request->input('technician_id');
+        $technician_id = 3;
+        dump($technician_id);
+        $technician = Technician::find($technician_id);
+        dump($technician);
+        if (!$technician) {
+            return response()->json(['error' => 'Technician not found'], 404);
+        }
+
+
+        $job->update([
+            'technician_id' => $technician_id,
+            'job_status' => 'IN PROGRESS',
+        ]);
+    }
+
+
+
     public function store(Request $request)
     {
         $data = $request->all();
@@ -167,4 +203,5 @@ class BookingController extends Controller
 
         return response()->json(['totalCost' => $job->total_cost], 200);
     }
+
 }

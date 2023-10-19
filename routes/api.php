@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\SeriesController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\Api\DeviceController;
+use App\Http\Controllers\Api\ColourController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -41,6 +42,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/book-repair', [BookingController::class, 'store']);
     Route::post('/confirm-repair', [BookingController::class, 'confirm']);
     Route::get('/get-job-cost/{job_id}', [BookingController::class, 'getJobCost']);
+    Route::get('/sort-jobs/{status}', [BookingController::class, 'sortJobStatus']);
+
 
     // Route::get('/stocks', [App\Http\Controllers\Api\StockController::class, 'index']);
     Route::apiResource('/stock', StockController::class);
@@ -60,7 +63,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/brands', 'Api\BrandController@index');
     Route::get('/device-info', [ModelController::class, 'index']);
     Route::get('/devices/models', [ModelController::class, 'index']); 
-    Route::get('/devices/colours', 'Api\ColourController@index');  
+    Route::get('/devices/colours', [ColourController::class, 'index']);  
     Route::get('/items-stock', [ItemController::class, 'getItems']);
 
     Route::get('/series', 'App\Http\Controllers\Api\SeriesController@index');

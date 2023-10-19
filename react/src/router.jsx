@@ -23,6 +23,7 @@ import ManageBrandPage from "./pages/ManageBrandPage.jsx";
 import ManageBrandForm from "./pages/ManageBrandForm.jsx";
 import ManageSeriesPage from "./pages/ManageSeriesPage.jsx";
 import ManageSeriesForm from "./pages/ManageSeriesForm.jsx";
+import TechnicianPage from "./pages/TechnicianPage.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -74,9 +75,20 @@ const router = createBrowserRouter([
         path: "technician",
         element: (
           <RouteGuard requiredLevels={[2]}>
-            <TechnicianDashboard />
+            <Outlet />
           </RouteGuard>
         ),
+        children:[
+          {
+            path: "",
+            element: <TechnicianPage/>
+          },
+          {
+            path: "test",
+            element: <TechnicianPage/>
+          }
+
+        ]
       },
       {
         path: "admin",
@@ -89,6 +101,10 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <AdminDashboard />,
+          },
+          {
+            path: "test",
+            element: <TechnicianPage/>
           },
           {
             path: "users",
