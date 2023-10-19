@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Stock; 
+use App\Models\StockAudit;
 use App\Http\Requests\StoreStockRequest; 
 use App\Http\Requests\UpdateStockRequest; 
 use App\Http\Resources\StockResource; 
@@ -20,12 +21,11 @@ class StockController extends Controller
 
      
         
-            $stocks = Stock::with(['device', 'item', 'device.brand', 'device.series'])->orderBy('stock_id', 'desc')->get();
+        $stocks = Stock::with(['device', 'item', 'device.brand', 'device.series'])
+        ->orderBy('stock_id', 'desc')
+        ->paginate(20);
 
-
-            return StockResource::collection($stocks);
-        
-
+return StockResource::collection($stocks);
 
         //return StockResource::collection($stock);
         // Convert the collection of stock to StockResource and return
@@ -86,4 +86,26 @@ class StockController extends Controller
         // Return a 204 No Content status code
         return response("", 204);
     }
+    // public function changes() {
+    //     $changes = StockAudit::all();
+        
+    //     $textResponse = "";
+    //     foreach($changes as $change) {
+    //         $textResponse .= "Stock ID: " . $change->stock_id . " ";
+    //         $textResponse .= "Buy Price: " . $change->buy_price . " ";
+    //         $textResponse .= "Wholesale Price: " . $change->wholesale_price . " ";
+    //         $textResponse .= "Retail Price: " . $change->retail_price . " ";
+    //         $textResponse .= "Quantity: " . $change->quantity . " ";
+    //         $textResponse .= "-------------------";  // separator between records
+    //     }
+    
+    //     return response($textResponse, 200)->header('Content-Type', 'application/json');
+    // }
+
+    public function changes() {
+       $changes = StockAudit::all(); 
+       return response()->json($changes);
+    }
+
+
 }

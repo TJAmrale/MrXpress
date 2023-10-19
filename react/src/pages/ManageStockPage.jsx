@@ -47,7 +47,7 @@ const ManageStock = () => {
       <section id="manage-stock">
         <div  className="heading">
           <h2>Manage Stock</h2>
-          <Link to="/app/admin/stock/new" className="btn-add">
+          <Link to="/app/admin/stock/new" className="add btn-add">
             Add new
           </Link>
         </div>

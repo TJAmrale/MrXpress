@@ -23,6 +23,7 @@ import ManageBrandPage from "./pages/ManageBrandPage.jsx";
 import ManageBrandForm from "./pages/ManageBrandForm.jsx";
 import ManageSeriesPage from "./pages/ManageSeriesPage.jsx";
 import ManageSeriesForm from "./pages/ManageSeriesForm.jsx";
+import StockChanges from "./pages/StockChanges.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -161,6 +162,10 @@ const router = createBrowserRouter([
           {
             path: "series/:series_id",
             element: <ManageSeriesForm key="SeriesUpdate" />,
+          },
+          {
+            path: "stock_changes",
+            element: <StockChanges/>,
           },
           
 

@@ -19,7 +19,7 @@ class DeviceController extends Controller
     public function index()
 {
 
-    $devices = Device::with(['brand','series'])->orderBy('device_id', 'desc')->paginate(15); // for example, 15 devices per page
+    $devices = Device::with(['brand','series'])->orderBy('device_id', 'desc')->paginate(15); 
     return DeviceResource::collection($devices);
 }
     /**

@@ -47,7 +47,7 @@ const ManageSeriesPage = () => {
       <section id="manage-series">
         <div className="heading">
           <h2>Manage series</h2>
-          <Link to="/app/admin/series/new" className="btn-add">
+          <Link to="/app/admin/series/new" className="add btn-add">
             Add new
           </Link>
         </div>
