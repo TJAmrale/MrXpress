@@ -51,6 +51,22 @@ $card-spacer-y: $spacer * 2;
     }
 }
 
+div.portalHead{
+    text-align: -webkit-center;
+}
+
+div.bookcard{
+    background-color: #f7f7f7;
+    border: none;
+    border-radius: 6px;
+    text-align: -webkit-center;
+}
+
+div.bookcard th{
+    width: 150px;
+}
+
+
 #index-page .card {
     background-color: #f7f7f7;
     border: none;
@@ -64,6 +80,9 @@ $card-spacer-y: $spacer * 2;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
     }
 }
+
+
+
 
 /* Manage Users page */
 #manage-users .heading {

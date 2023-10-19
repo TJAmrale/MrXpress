@@ -6,7 +6,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import IndexPage from "./pages/IndexPage.jsx";
-import TechnicianDashboard from "./pages/TechnicianDashboard.jsx";
+import TechnicianPage from "./pages/TechnicianPage.jsx";
 import ManageUsersPage from "./pages/ManageUsersPage.jsx";
 import ManageUserForm from "./pages/ManageUserForm.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
@@ -23,7 +23,6 @@ import ManageBrandPage from "./pages/ManageBrandPage.jsx";
 import ManageBrandForm from "./pages/ManageBrandForm.jsx";
 import ManageSeriesPage from "./pages/ManageSeriesPage.jsx";
 import ManageSeriesForm from "./pages/ManageSeriesForm.jsx";
-import TechnicianPage from "./pages/TechnicianPage.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -75,20 +74,9 @@ const router = createBrowserRouter([
         path: "technician",
         element: (
           <RouteGuard requiredLevels={[2]}>
-            <Outlet />
+            <TechnicianDashboard />
           </RouteGuard>
         ),
-        children:[
-          {
-            path: "",
-            element: <TechnicianPage/>
-          },
-          {
-            path: "test",
-            element: <TechnicianPage/>
-          }
-
-        ]
       },
       {
         path: "admin",
@@ -101,10 +89,6 @@ const router = createBrowserRouter([
           {
             path: "",
             element: <AdminDashboard />,
-          },
-          {
-            path: "test",
-            element: <TechnicianPage/>
           },
           {
             path: "users",

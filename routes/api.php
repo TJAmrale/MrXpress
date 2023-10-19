@@ -14,6 +14,9 @@ use App\Http\Controllers\Api\ColourController;
 use App\Http\Controllers\Api\test123controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\BookingController;
+use App\Http\Controllers\Api\TechnicianController;
+use App\Http\Controllers\Api\InvoiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,5 +96,3 @@ Route::middleware('auth:sanctum')->group(function () {
 // Routes to register a new user or login a user, doesn't require authentication
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-
-

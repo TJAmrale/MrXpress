@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -130,8 +131,10 @@ function TechnicianPortal({ technician }) {
           </tbody>
         </table>
       </div>
+
     </div>
   );
 }
 
 export default TechnicianPortal;
+
