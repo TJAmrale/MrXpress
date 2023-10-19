@@ -24,6 +24,10 @@ import ManageBrandForm from "./pages/ManageBrandForm.jsx";
 import ManageSeriesPage from "./pages/ManageSeriesPage.jsx";
 import ManageSeriesForm from "./pages/ManageSeriesForm.jsx";
 import StockChanges from "./pages/StockChanges.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
+import EditProfileForm from "./pages/EditProfileForm.jsx";
+import JobsAndRatings from "./pages/JobsAndRatings.jsx";
+import InboxPage from "./pages/InboxPage.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([

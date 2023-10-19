@@ -9,17 +9,14 @@ use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\SeriesController;
 use App\Http\Controllers\Api\StockAuditController;
 use App\Http\Controllers\BookingController;
-<<<<<<< HEAD
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\JobController;
-=======
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\Api\DeviceController;
 use App\Http\Controllers\Api\ColourController;
->>>>>>> master
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\testcontroller;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\JobController;
 
 /*
 |--------------------------------------------------------------------------
@@ -47,13 +44,6 @@ Route::middleware('auth:sanctum')->group(function () {
     
     // Routes for Booking
     Route::post('/book-repair', [BookingController::class, 'store']);
-<<<<<<< HEAD
-
-    Route::put('/profile/edit/{user_id}', [ProfileController::class, 'update']);
-    Route::get('/jobs', [JobController::class, 'index']);
-    Route::get('/jobs/{job_id}', [JobController::class, 'show']);
-    Route::get('/jobs?customer_id={user_id}', [JobController::class, 'show']);
-=======
     Route::post('/confirm-repair', [BookingController::class, 'confirm']);
     Route::get('/get-job-cost/{job_id}', [BookingController::class, 'getJobCost']);
 
@@ -108,13 +98,16 @@ Route::middleware('auth:sanctum')->group(function () {
     // Routes for Stripe
     Route::post('/create-payment-intent', [StripeController::class, 'createPaymentIntent']);
     Route::post('/verify-payment', [StripeController::class, 'verifyPayment']);
->>>>>>> master
+
+    Route::put('/profile/edit/{user_id}', [ProfileController::class, 'update']);
+
+    
+    Route::get('/jobs', [JobController::class, 'index']);
+    Route::get('/jobs/{job_id}', [JobController::class, 'show']);
+    Route::get('/jobs?customer_id={user_id}', [JobController::class, 'show']);
 });
 
 // Routes to register a new user or login a user, doesn't require authentication
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-Route::put('/profile/edit/{user_id}', [ProfileController::class, 'update']);
-Route::get('/profile/edit/{user_id}', [ProfileController::class, 'show']);
-Route::get('/jobs', [JobController::class, 'index']);
 
