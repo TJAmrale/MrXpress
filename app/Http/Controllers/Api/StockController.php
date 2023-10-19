@@ -86,26 +86,26 @@ return StockResource::collection($stocks);
         // Return a 204 No Content status code
         return response("", 204);
     }
-    public function changes() {
-        $changes = StockAudit::all();
+    // public function changes() {
+    //     $changes = StockAudit::all();
         
-        $textResponse = "";
-        foreach($changes as $change) {
-            $textResponse .= "Stock ID: " . $change->stock_id . " ";
-            $textResponse .= "Buy Price: " . $change->buy_price . " ";
-            $textResponse .= "Wholesale Price: " . $change->wholesale_price . " ";
-            $textResponse .= "Retail Price: " . $change->retail_price . " ";
-            $textResponse .= "Quantity: " . $change->quantity . " ";
-            $textResponse .= "-------------------";  // separator between records
-        }
+    //     $textResponse = "";
+    //     foreach($changes as $change) {
+    //         $textResponse .= "Stock ID: " . $change->stock_id . " ";
+    //         $textResponse .= "Buy Price: " . $change->buy_price . " ";
+    //         $textResponse .= "Wholesale Price: " . $change->wholesale_price . " ";
+    //         $textResponse .= "Retail Price: " . $change->retail_price . " ";
+    //         $textResponse .= "Quantity: " . $change->quantity . " ";
+    //         $textResponse .= "-------------------";  // separator between records
+    //     }
     
-        return response($textResponse, 200)->header('Content-Type', 'text/plain');
-    }
+    //     return response($textResponse, 200)->header('Content-Type', 'application/json');
+    // }
 
-    //public function changes() {
-    //    $changes = StockAudit::all(); 
-    //    return response()->json($changes);
-    //}
+    public function changes() {
+       $changes = StockAudit::all(); 
+       return response()->json($changes);
+    }
 
 
 }

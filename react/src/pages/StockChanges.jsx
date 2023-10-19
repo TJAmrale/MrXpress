@@ -18,6 +18,7 @@ const StockChanges = () => {
     axiosClient
       .get("/stock-audits")
       .then(({ data }) => {
+        console.table(data);
         setLoading(false); // Stop loading animation
         setChanges(data.data); // Update the changes state
       })

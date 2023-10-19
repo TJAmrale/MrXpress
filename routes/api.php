@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\StockAuditController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\Api\DeviceController;
+use App\Http\Controllers\Api\ColourController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -63,7 +64,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/brands', [BrandController::class, 'index']);
     Route::get('/device-info', [ModelController::class, 'index']);
     Route::get('/devices/models', [ModelController::class, 'index']); 
-    Route::get('/devices/colours', 'Api\ColourController@index');  
+    Route::get('/devices/colours', [ColourController::class, 'index']);  
     Route::get('/items-stock', [ItemController::class, 'getItems']);
 
     Route::get('/series', [SeriesController::class, 'index']);
