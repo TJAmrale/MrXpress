@@ -8,8 +8,8 @@ import LinkedInImage from "../assets/images/linkedin.png";
 
 function Footer() {
   return (
-    <div className="footer-container">
-      <footer id="footer" className="py-4">
+    <div className="footer-container2">
+      <footer id="footer2" className="py-4">
         <Container fluid>
           <Row>
             {/* Logo */}

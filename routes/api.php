@@ -100,7 +100,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/verify-payment', [StripeController::class, 'verifyPayment']);
 
     Route::put('/profile/edit/{user_id}', [ProfileController::class, 'update']);
-
     
     Route::get('/jobs', [JobController::class, 'index']);
     Route::get('/jobs/{job_id}', [JobController::class, 'show']);

@@ -24,7 +24,7 @@ class UpdateProfileRequest extends FormRequest
         {
             return [
                 'name' => 'string',
-                'email' => 'required|email|unique:users',
+                'email' => 'required|email',
             'phone' => 'required|digits:10|regex:/^04\d+/',
             'address' => 'required|string|max:150',
             'dob' => 'required',
