@@ -6,7 +6,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import IndexPage from "./pages/IndexPage.jsx";
-import TechnicianPage from "./pages/TechnicianPage.jsx";
+import TechnicianPage from "../src/pages/TechnicianPage.jsx"
 import ManageUsersPage from "./pages/ManageUsersPage.jsx";
 import ManageUserForm from "./pages/ManageUserForm.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
@@ -74,7 +74,7 @@ const router = createBrowserRouter([
         path: "technician",
         element: (
           <RouteGuard requiredLevels={[2]}>
-            <TechnicianDashboard />
+            <TechnicianPage />
           </RouteGuard>
         ),
       },
@@ -90,6 +90,11 @@ const router = createBrowserRouter([
             path: "",
             element: <AdminDashboard />,
           },
+          {
+            path: "test",
+            element: <TechnicianPage />,
+          },
+
           {
             path: "users",
             element: <ManageUsersPage />,

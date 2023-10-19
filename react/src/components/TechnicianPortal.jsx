@@ -1,6 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axiosClient from "../axios-client";
 
 function TechnicianPortal({ technician }) {
   const [newJobs, setNewJobs] = useState([]);
@@ -10,7 +10,7 @@ function TechnicianPortal({ technician }) {
   const technician_id = technician.user_id;
 
   const fetchData = (status) => {
-    axios.get(`/api/sort-jobs/${status}`)
+    axiosClient.get(`http://localhost:8000/api/sort-jobs/${status}`)
       .then(response => {
         if (status === 'NEW') {
           setNewJobs(response.data.filteredJobs);
@@ -26,7 +26,7 @@ function TechnicianPortal({ technician }) {
   };
 
   useEffect(() => {
-    axios.defaults.baseURL = 'http://localhost:8000';
+    //axios.defaults.baseURL = 'http://localhost:8000';
     fetchData(status);
   }, [status]);
 
@@ -39,11 +39,11 @@ function TechnicianPortal({ technician }) {
 
 
   const handleAcceptJob = (job_id) => {
-    axios.post(`/api/jobs/${job_id}/assign`, {
+    axiosClient.put(`http://localhost:8000/api/jobs/assign/${job_id}/${technician_id}`, {
       technician_id: technician_id,
     })
     .then(() => {
-
+      console.log(technician_id)
       fetchData('NEW');
     })
     .catch(error => {

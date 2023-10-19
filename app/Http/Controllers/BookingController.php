@@ -30,22 +30,42 @@ class BookingController extends Controller
         return response()->json(['filteredJobs' => $filteredJobs], 200);
     }
 
-    public function assignTechnician(Request $request, Job $job)
-    {
-        $technician_id = $request->input('technician_id');
-        $technician_id = 3;
-        dump($technician_id);
-        $technician = Technician::find($technician_id);
-        dump($technician);
-        if (!$technician) {
-            return response()->json(['error' => 'Technician not found'], 404);
+    // public function assignTechnician(Request $request, Job $job)
+    // {
+    //     $technician_id = $request->input('technician_id');
+    //     $technician_id = 3;
+    //     dump($technician_id);
+    //     $technician = Technician::find($technician_id);
+    //     dump($technician);
+    //     if (!$technician) {
+    //         return response()->json(['error' => 'Technician not found'], 404);
+    //     }
+
+
+    //     $job->update([
+    //         'technician_id' => $technician_id,
+    //         'job_status' => 'IN PROGRESS',
+    //     ]);
+    // }
+
+
+    public function updateTechnicianId($jobId, $technicianId) {
+        // Find the job by its ID
+        $job = Job::find($jobId);
+        $status = "IN PROGRESS";
+    
+        if (!$job) {
+            return response()->json(['error' => 'Job not found'], 404);
         }
-
-
-        $job->update([
-            'technician_id' => $technician_id,
-            'job_status' => 'IN PROGRESS',
-        ]);
+    
+        // Set the technician_id
+        $job->technician_id = $technicianId;
+        $job->job_status = $status;
+    
+        // Save the changes
+        $job->save();
+    
+        return response()->json(['message' => 'Technician assigned to the job successfully'], 200);
     }
 
 
