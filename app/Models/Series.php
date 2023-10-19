@@ -10,12 +10,13 @@ class Series extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'series';
     protected $primaryKey = 'series_id';
     protected $fillable = ['series_name'];
     protected $dates = ['deleted_at'];
 
     public function devices()
     {
-        return $this->hasMany(Device::class, 'series_id', 'series_id');
+        return $this->hasMany(Device::class, 'series_id');
     }
 }

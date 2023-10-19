@@ -1,0 +1,22 @@
+.admin-button {
+    width: 200px;  
+    text-align: center;
+    
+  }
+.add{
+
+  padding: 0.5rem 1rem;
+  background-color: #f5f5dc;
+  border-radius: 6px;
+  font-weight: 500;
+  text-decoration: none;
+  align-content: end;
+
+}
+ 
+#footer {
+  position: fixed;  /* This will make the footer fixed */
+  bottom: 0;        /* Position it at the bottom */
+  width: 100%;      /* Full width */
+  /* rest of your styles */
+}

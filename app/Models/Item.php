@@ -10,7 +10,15 @@ class Item extends Model
 {
     use HasFactory, SoftDeletes;
     
+    protected $table = "items";
     protected $primaryKey = 'item_id';
     protected $fillable = ['item_type', 'item_name', 'description'];
     protected $dates = ['deleted_at'];
+
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class, 'item_id');
+    }
+
+
 }

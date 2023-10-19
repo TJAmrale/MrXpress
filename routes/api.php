@@ -2,9 +2,21 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\StockController;
+use App\Http\Controllers\Api\ItemController;
+use App\Http\Controllers\Api\ModelController;
+use App\Http\Controllers\Api\BrandController;
+use App\Http\Controllers\Api\SeriesController;
+use App\Http\Controllers\Api\StockAuditController;
 use App\Http\Controllers\BookingController;
+<<<<<<< HEAD
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JobController;
+=======
+use App\Http\Controllers\StripeController;
+use App\Http\Controllers\Api\DeviceController;
+use App\Http\Controllers\Api\ColourController;
+>>>>>>> master
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\testcontroller;
@@ -33,16 +45,73 @@ Route::middleware('auth:sanctum')->group(function () {
     // RESTful resource routes for User, includes routes like GET /users, POST /users, etc.
     Route::apiResource('/users', UserController::class);
     
-    // 
+    // Routes for Booking
     Route::post('/book-repair', [BookingController::class, 'store']);
+<<<<<<< HEAD
 
     Route::put('/profile/edit/{user_id}', [ProfileController::class, 'update']);
     Route::get('/jobs', [JobController::class, 'index']);
     Route::get('/jobs/{job_id}', [JobController::class, 'show']);
     Route::get('/jobs?customer_id={user_id}', [JobController::class, 'show']);
+=======
+    Route::post('/confirm-repair', [BookingController::class, 'confirm']);
+    Route::get('/get-job-cost/{job_id}', [BookingController::class, 'getJobCost']);
+
+    // Route::get('/stocks', [App\Http\Controllers\Api\StockController::class, 'index']);
+    Route::apiResource('/stock', StockController::class);
+
+    Route::apiResource('/device', DeviceController::class);
+
+    Route::apiResource('/item', ItemController::class);
+
+    Route::apiResource('/brand', BrandController::class);
+    Route::apiResource('/series', SeriesController::class);
+
+    Route::apiResource('stock-audits', StockAuditController::class);
+
+    // routes/api.php
+
+    Route::get('/stock/{stock_id}', StockController::class . '@show');
+
+
+    Route::get('/brands', [BrandController::class, 'index']);
+    Route::get('/device-info', [ModelController::class, 'index']);
+    Route::get('/devices/models', [ModelController::class, 'index']); 
+    Route::get('/devices/colours', [ColourController::class, 'index']);  
+    Route::get('/items-stock', [ItemController::class, 'getItems']);
+
+    Route::get('/series', [SeriesController::class, 'index']);
+
+
+    
+    // Fetch Brands
+    Route::get('/brands', [DeviceController::class, 'getBrands']);
+
+    // Fetch Series
+    Route::get('/series-stock', [DeviceController::class, 'getSeries']);
+    // Fetch stock for audit
+    Route::get('/stock-changes', [StockController::class, 'changes']);
+
+    
+
+
+
+
+
+    
+    // Route for Booking
+    Route::post('/book-repair', [BookingController::class, 'store']);
+    Route::post('/confirm-repair', [BookingController::class, 'confirm']);
+
+
+
+    // Routes for Stripe
+    Route::post('/create-payment-intent', [StripeController::class, 'createPaymentIntent']);
+    Route::post('/verify-payment', [StripeController::class, 'verifyPayment']);
+>>>>>>> master
 });
 
-// Route to register a new user or login a user, doesn't require authentication
+// Routes to register a new user or login a user, doesn't require authentication
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::put('/profile/edit/{user_id}', [ProfileController::class, 'update']);

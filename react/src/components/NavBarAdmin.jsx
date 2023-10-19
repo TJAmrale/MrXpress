@@ -49,8 +49,8 @@ function NavBarAdmin() {
             <Nav.Link className="px-3" href="#faqs">
               FAQs
             </Nav.Link>
-            <Nav.Link as={Link} className="px-3 me-3" to="/app/admin/users">
-              Users
+            <Nav.Link as={Link} className="px-3 me-3" to="/app/admin">
+              Admin Dashboard 
             </Nav.Link>
             {!token ? (
               <Button variant="primary" className="px-4" href="/login">

@@ -1,7 +1,8 @@
-// import React from 'react';
 
-export default function TechnicianDashboard() {
+function TechnicianDashboard() {
   return (
-    <h2>Technician Dashboard - Coming Soon...</h2>
+    <div>TechnicianDashboard</div>
   )
 }
+
+export default TechnicianDashboard
