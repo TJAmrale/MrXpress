@@ -143,6 +143,9 @@ CREATE TABLE job_stock (
     job_id BIGINT NOT NULL,
     stock_id BIGINT NOT NULL,
     quantity INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
+    deleted_at TIMESTAMP NULL,
     FOREIGN KEY (job_id) REFERENCES jobs (job_id),
     FOREIGN KEY (stock_id) REFERENCES stock (stock_id)
 );
@@ -176,3 +179,13 @@ CREATE TABLE customer_ratings (
     FOREIGN KEY (technician_id) REFERENCES technicians (technician_id),
     FOREIGN KEY (job_id) REFERENCES jobs (job_id)
 );
+
+-- ALTER TABLE job_stock 
+-- ADD created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL;
+
+-- ALTER TABLE job_stock 
+-- ADD updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL;
+
+-- ALTER TABLE job_stock 
+-- ADD deleted_at TIMESTAMP NULL;
+

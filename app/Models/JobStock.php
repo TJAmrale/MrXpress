@@ -10,6 +10,7 @@ class JobStock extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'job_stock';
     protected $primaryKey = 'job_stock_id';
     protected $fillable = ['job_id', 'stock_id', 'quantity'];
 
