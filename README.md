@@ -134,12 +134,7 @@ This project is part of the Western Sydney University's _Professional Experience
 - **Users**: Can request phone repairs and track the status of their requests.
 - **Technicians**: Can accept repair requests and update status of repairs.
 - **Admins**: Can manage all users and technicians and oversee all repair jobs.
-<<<<<<<<< Temporary merge branch 1
-- ** SuperAdmin**: Cancelled.
-=========
 - ~~**1 SuperAdmin**~~: Cancelled.
->>>>>>>>> Temporary merge branch 2
-
 
 ## Contributors
 
