@@ -102,11 +102,10 @@ section {
 
 /* Payment Status Page */
 .payment-status-card {
-  width: 400px;
+  width: 450px;
   height: 900px;
   border-radius: 15px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-  
 }
 
 @media (max-width: 768px) {
@@ -115,6 +114,22 @@ section {
       margin: 0 auto;
   }
 }
+
+/* Payment Success Page */
+.booking-information-receipt {
+  border: 1px dashed #000;
+  padding: 20px 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: #fff;
+  line-height: 1.5;
+}
+
+.booking-information-receipt p {
+  margin: 0;
+  font-size: 14px;
+}
+
 
 /* Breakpoints for general components */
 
