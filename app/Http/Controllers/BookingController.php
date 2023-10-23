@@ -9,11 +9,62 @@ use App\Models\Item;
 use App\Models\Job;
 use App\Models\JobStock;
 use App\Models\Series;
+use App\Models\Technician;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
+
+    public function sortJobStatus($status)
+    {
+        $validStatuses = ["NEW", "IN PROGRESS", "COMPLETED"];
+
+        if (!in_array($status, $validStatuses)) {
+            return response()->json(['error' => 'Invalid status specified'], 400);
+        }
+
+        //Retrieve and filter jobs by the specified job_status
+        $filteredJobs = Job::where('job_status', $status)->orderBy('job_status')->get();
+
+        return response()->json(['filteredJobs' => $filteredJobs], 200);
+    }
+
+    public function updateTechnicianId($jobId, $technicianId) {
+        // Find the job by its ID
+        $job = Job::find($jobId);
+        $status = "IN PROGRESS";
+    
+        if (!$job) {
+            return response()->json(['error' => 'Job not found'], 404);
+        }
+    
+        // Set the technician_id
+        $job->technician_id = $technicianId;
+        $job->job_status = $status;
+    
+        // Save the changes
+        $job->save();
+    
+        return response()->json(['message' => 'Technician assigned to the job successfully'], 200);
+    }
+
+    public function completeJob($jobId) {
+        $job = Job::find($jobId);
+    
+        if (!$job) {
+            return response()->json(['error' => 'Job not found'], 404);
+        }
+    
+        $job->job_status = 'COMPLETED';
+    
+
+        $job->save();
+    
+        return response()->json(['message' => 'Job marked as completed'], 200);
+    }
+
+
     public function store(Request $request)
     {
         $data = $request->all();
@@ -167,4 +218,5 @@ class BookingController extends Controller
 
         return response()->json(['totalCost' => $job->total_cost], 200);
     }
+
 }
