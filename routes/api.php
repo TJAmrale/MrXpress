@@ -47,6 +47,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get-job-cost/{job_id}', [BookingController::class, 'getJobCost']);
     Route::get('/sort-jobs/{status}', [BookingController::class, 'sortJobStatus']);
     Route::put('/jobs/assign/{job_id}/{technician_id}', [BookingController::class, 'updateTechnicianId']);
+    Route::put('jobs/complete/{job_id}', [BookingController::class, 'completeJob']);
+    //Route::get('/sort-jobs/{status}/{technician_id}', [BookingController::class, 'sortJobStatus']);
+
 
 
     // Route::get('/stocks', [App\Http\Controllers\Api\StockController::class, 'index']);

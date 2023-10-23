@@ -40,8 +40,8 @@ function NavBarTechnician() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="">
-            <Nav.Link className="px-3" href="#how-it-works">
-              TBD
+            <Nav.Link className="px-3" href="/app/technician" >
+              Portal
             </Nav.Link>
             <Nav.Link className="px-3" href="">
               TBD
