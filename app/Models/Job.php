@@ -11,8 +11,8 @@ class Job extends Model
     use HasFactory, SoftDeletes;
     
     protected $primaryKey = 'job_id';
-    protected $fillable = ['customer_id', 'technician_id', 'device_id', 'description', 'status', 'date', 'start_time', 'end_time', 'price', 'notes', 'location'];
-    protected $dates = ['deleted_at'];
+    protected $fillable = ['customer_id', 'technician_id', 'custom_address', 'job_status', 'callout_fee', 'total_cost', 'technician_fee', 'admin_fee', 'parts_used'];
+    protected $dates = ['created_at', 'updated_at', 'finished_at', 'deleted_at'];
 
     public function customer()
     {

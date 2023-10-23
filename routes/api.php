@@ -11,12 +11,8 @@ use App\Http\Controllers\Api\StockAuditController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\Api\DeviceController;
-use App\Http\Controllers\Api\ColourController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\testcontroller;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\JobController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +42,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/book-repair', [BookingController::class, 'store']);
     Route::post('/confirm-repair', [BookingController::class, 'confirm']);
     Route::get('/get-job-cost/{job_id}', [BookingController::class, 'getJobCost']);
+    Route::get('/sort-jobs/{status}', [BookingController::class, 'sortJobStatus']);
+    Route::put('/jobs/assign/{job_id}/{technician_id}', [BookingController::class, 'updateTechnicianId']);
+    Route::put('jobs/complete/{job_id}', [BookingController::class, 'completeJob']);
+    //Route::get('/sort-jobs/{status}/{technician_id}', [BookingController::class, 'sortJobStatus']);
+
+
 
     // Route::get('/stocks', [App\Http\Controllers\Api\StockController::class, 'index']);
     Route::apiResource('/stock', StockController::class);
@@ -109,4 +111,5 @@ Route::middleware('auth:sanctum')->group(function () {
 // Routes to register a new user or login a user, doesn't require authentication
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+
 

@@ -42,14 +42,61 @@ $card-spacer-y: $spacer * 2;
     z-index: 1000; 
 }
 
-#index-page .btn-book {
-    transition: transform ease 0.3s;
-
-    &:hover {
-        transform: translateX(4px);
-        -webkit-transform: translateX(4px);
-    }
+#TechPortal {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f7f7f7; 
+    padding: 20px;
 }
+  
+.newJobs {
+    background-color: #d1d1ee; 
+    padding: 20px;
+    margin: 10px 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 15px; 
+}
+  
+.in_progressJobs {
+    background-color: #ffe0e0;
+    padding: 20px;
+    margin: 10px 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); 
+    border-radius: 15px;
+}
+  
+.completedJobs {
+    background-color: #e0ffe0; 
+    padding: 20px;
+    margin: 10px 0;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+}
+  
+#TechPortal h1 {
+    text-align: center;
+}
+  
+#TechPortal h2 {
+    margin-bottom: 10px;
+}
+
+#TechPortal table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#TechPortal th, td{
+    padding: 8px;
+    text-align: left;
+}
+
+#TechPortal th{
+    font-weight: bold;
+}
+
 
 #index-page .card {
     background-color: #f7f7f7;
@@ -64,6 +111,10 @@ $card-spacer-y: $spacer * 2;
         box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
     }
 }
+
+
+
+
 
 /* Manage Users page */
 #manage-users .heading {
