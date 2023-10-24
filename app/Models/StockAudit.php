@@ -11,6 +11,10 @@ class StockAudit extends Model
         'stock_id', 'user_id', 'changes'
     ];
 
+    protected $casts = [
+        'changes' => 'array',
+    ];
+
     public function stock()
     {
         return $this->belongsTo(Stock::class, 'stock_id', 'stock_id');

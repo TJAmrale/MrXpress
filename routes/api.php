@@ -61,6 +61,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('stock-audits', StockAuditController::class);
 
+
+
     // routes/api.php
 
     Route::get('/stock/{stock_id}', StockController::class . '@show');

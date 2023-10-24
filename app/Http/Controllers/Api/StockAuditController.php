@@ -13,7 +13,8 @@ class StockAuditController extends Controller
      */
     public function index()
     {
-        $audits = StockAudit::paginate(20);
+        $audits = StockAudit::with(['user'])->paginate(20);
+
         return StockAuditResource::collection($audits);
     }
 

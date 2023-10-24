@@ -4,6 +4,7 @@ import Loading from "../components/Loading";
 import NavBarAdmin from "../components/NavBarAdmin";
 import Footer from "../components/Footer";
 
+
 const StockChanges = () => {
   const [changes, setChanges] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -26,6 +27,23 @@ const StockChanges = () => {
         setLoading(false); // Stop loading animation on error
       });
   };
+  const formatChanges = (changesString) => {
+    let parsedChanges;
+  
+    try {
+      parsedChanges = JSON.parse(changesString);
+    } catch {
+      return changesString;  // Return the original string if parsing fails
+    }
+  
+    // Convert the changes object into an array of strings
+    const changeStrings = Object.keys(parsedChanges).map(key => {
+      return `${key}: ${parsedChanges[key]}`;
+    });
+  
+    // Join these strings with a comma and a space
+    return changeStrings.join(', ');
+  };
 
   return (
     <>
@@ -41,6 +59,7 @@ const StockChanges = () => {
                 <th>Stock Audit ID</th>
                 <th>Stock ID</th>
                 <th>User ID</th>
+                <th>Name</th>
                 <th>Changes</th>
                 <th>Created At</th>
                 <th>Updated At</th>
@@ -59,7 +78,8 @@ const StockChanges = () => {
                     <td>{change.stock_audit_id}</td>
                     <td>{change.stock_id}</td>
                     <td>{change.user_id}</td>
-                    <td>{JSON.stringify(change.changes)}</td>
+                    <td>{change.user?.name}</td>
+                    <td>{formatChanges(change.changes)}</td>
                     <td>{change.created_at}</td>
                     <td>{change.updated_at}</td>
                   </tr>
