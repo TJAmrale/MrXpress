@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import { useUserContext } from "../contexts/UserProvider";
 import axiosClient from "../axios-client";
 import TechnicianPortal from "../components/TechnicianPortal"
+import Footer from "../components/Footer"
 
 function TechnicianPage() {
   const { user, setUser } = useUserContext();
@@ -18,6 +19,7 @@ function TechnicianPage() {
   return (
     <div>
         <TechnicianPortal technician={user} />
+        <Footer/>
     </div>
   );
 }
