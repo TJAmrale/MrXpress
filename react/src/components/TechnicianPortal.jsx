@@ -4,6 +4,9 @@ import Button from 'react-bootstrap/Button';
 import NavBarTechnician from './NavBarTechnician'
 
 
+//Jobs(job_id)->job_stock(stock_id)->stock(device_id, item_id)->devices(series_id, model)->series(series_name)->items(item_type, item_name)
+
+
 function TechnicianPortal({ technician }) {
   const [newJobs, setNewJobs] = useState([]);
   const [inProgressJobs, setInProgressJobs] = useState([]);
@@ -25,11 +28,11 @@ function TechnicianPortal({ technician }) {
       .get(url)
       .then((response) => {
         if (status === 'NEW') {
-          setNewJobs(response.data.jobsWithCustomerDetails);
+          setNewJobs(response.data.jobsWithDetails);
         } else if (status === 'IN PROGRESS') {
-          setInProgressJobs(response.data.jobsWithCustomerDetails);
+          setInProgressJobs(response.data.jobsWithDetails);
         } else if (status === 'COMPLETED') {
-          setCompletedJobs(response.data.jobsWithCustomerDetails);
+          setCompletedJobs(response.data.jobsWithDetails);
         }
       })
       .catch((error) => {
@@ -43,6 +46,7 @@ function TechnicianPortal({ technician }) {
     fetchData('IN PROGRESS', technician_id);
     fetchData('COMPLETED', technician_id);
   }, [technician_id]);
+
 
   const handleAcceptJob = (job_id) => {
     setConfirmationJobId(job_id);
@@ -100,143 +104,179 @@ function TechnicianPortal({ technician }) {
       <h3>Welcome {technician.name}</h3>
       <div className='newJobs'>
         <h2>NEW Jobs</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Job ID</th>
-              <th>Total Cost</th>
-              <th>Job Status</th>
-              <th>Postcode</th>
-            </tr>
-          </thead>
-          <tbody>
-            {newJobs && newJobs.length > 0 ? (
-              newJobs.map((job) => ( // job parameter is added here
-                <tr key={job.job_id}>
-                  <td>{job.job_id}</td>
-                  <td>{job.job_status}</td>
-                  <td>${job.total_cost}</td>
-                  {job.custom_address ? (
-                    <>
-                      <td>{job.custom_address.slice(-4)}</td>
-                    </>
-                  ) : (
-                    <td>{job.address.slice(-4)}</td>
-                  )}
-                  <td>
-
-                    {confirmationJobId === job.job_id ? (
-                      <div>
-                        Are you sure?
-                        <Button variant="outline-success" onClick={() => confirmAction(job.job_id)}>Yes</Button>
-                        <Button variant="outline-danger" onClick={() => setConfirmationJobId(null)}>Cancel</Button>
-                      </div>
-                    ) : (
-                      job.job_status === 'NEW' && (
-                        <Button variant="info" onClick={() => handleAcceptJob(job.job_id)}>Accept</Button>
-                      )
-                    )}
-                  </td>
-                </tr>
-              ))
-            ) : (
+          <table>
+            <thead>
               <tr>
-                <td colSpan="4">No new jobs available.</td>
+                <th>Job ID</th>
+                <th>Job Status</th>
+                <th>Total Cost</th>
+                <th>Post Code</th>
+                <th>Device</th>
+                <th>Type</th>
+                <th>Item</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {newJobs && newJobs.length > 0 ? (
+                newJobs.map((job) => (
+                  <tr key={job.job_id}>
+                    <td>{job.job_id}</td>
+                    <td>{job.job_status}</td>
+                    <td>${job.total_cost}</td>
+                    {job.custom_address ? (
+                      <td>{job.custom_address.slice(-4)}</td>
+                    ) : (
+                      <td>{job.address.slice(-4)}</td>
+                    )}
+                    {job.item_details.map((item, index) => (
+                      <React.Fragment key={index}>
+                        <td>{item.series_name} {item.model}</td>
+                        <td>{item.item_type}</td>
+                        <td>{item.item_name}</td>
+                      </React.Fragment>
+                    ))}
+                    <td>
+                      {confirmationJobId === job.job_id ? (
+                        <div>
+                          Are you sure?
+                          <Button variant="outline-success" onClick={() => confirmAction(job.job_id)}>
+                            Yes
+                          </Button>
+                          <Button variant="outline-danger" onClick={() => setConfirmationJobId(null)}>
+                            Cancel
+                          </Button>
+                        </div>
+                      ) : (
+                        job.job_status === 'NEW' && (
+                          <Button variant="info" onClick={() => handleAcceptJob(job.job_id)}>
+                            Accept
+                          </Button>
+                        )
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6">No new jobs available.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
       </div>
 
       <div className='in_progressJobs'>
-        <h2>IN PROGRESS Jobs</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Job ID</th>
-              <th>Job Status</th>
-              <th>Total Cost</th>
-              <th>Customer Address</th>
-              <th>Number</th>
-            </tr>
-          </thead>
-          <tbody>
-            {inProgressJobs && inProgressJobs.length > 0 ? (
-              inProgressJobs.map((job) => (
-                <tr key={job.job_id}>
-                  <td>{job.job_id}</td>
-                  <td>{job.job_status}</td>
-                  <td>${job.total_cost}</td>
-                  {job.custom_address ? (
-                    <>
-                      <td>{job.custom_address}</td>
-                    </>
-                  ) : (
-                    <td>{job.address}</td>
-                  )}
-                  <td>{job.phone}</td>
-                  <td>
-                    {confirmationJobId === job.job_id ? (
-                      <div>
-                        Are you sure?
-                        <Button variant="outline-success" onClick={() => confirmAction(job.job_id)}>Yes</Button>
-                        <Button variant="outline-danger" onClick={() => setConfirmationJobId(null)}>Cancel</Button>
-                      </div>
-                    ) : (
-                      job.job_status === 'IN PROGRESS' && (
-                        <Button variant="success" onClick={() => handleCompleteJob(job.job_id)}>Finish</Button>
-                      )
-                    )}
-                  </td>
-                </tr>
-              ))
-            ) : (
+        <h2>IN PROGRESS</h2>
+          <table>
+            <thead>
               <tr>
-                <td colSpan="4">No jobs in progress.</td>
+                <th>Job ID</th>
+                <th>Job Status</th>
+                <th>Total Cost</th>
+                <th>Number</th>
+                <th>Address</th>
+                <th>Device</th>
+                <th>Type</th>
+                <th>Item</th>
               </tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {inProgressJobs && inProgressJobs.length > 0 ? (
+                inProgressJobs.map((job) => (
+                  <tr key={job.job_id}>
+                    <td>{job.job_id}</td>
+                    <td>{job.job_status}</td>
+                    <td>${job.total_cost}</td>
+                    <td>{job.phone}</td>
+                    {job.custom_address ? (
+                      <td>{job.custom_address}</td>
+                    ) : (
+                      <td>{job.address}</td>
+                    )}
+                    {job.item_details.map((item, index) => (
+                      <React.Fragment key={index}>
+                        <td>{item.series_name} {item.model}</td>
+                        <td>{item.item_type}</td>
+                        <td>{item.item_name}</td>
+                      </React.Fragment>
+                    ))}
+                    <td>
+                      {confirmationJobId === job.job_id ? (
+                        <div>
+                          Are you sure?
+                          <Button variant="outline-success" onClick={() => confirmAction(job.job_id)}>
+                            Yes
+                          </Button>
+                          <Button variant="outline-danger" onClick={() => setConfirmationJobId(null)}>
+                            Cancel
+                          </Button>
+                        </div>
+                      ) : (
+                        job.job_status === 'IN PROGRESS' && (
+                          <Button variant="success" onClick={() => handleCompleteJob(job.job_id)}>
+                            Accept
+                          </Button>
+                        )
+                      )}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="6">No new jobs available.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
       </div>
 
       <div className='completedJobs'>
-        <h2>COMPLETED Jobs</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Job ID</th>
-              <th>Job Status</th>
-              <th>Total Cost</th>
-              <th>Postcode</th>
-            </tr>
-          </thead>
-          <tbody>
-            {completedJobs && completedJobs.length>0 ? (
-              completedJobs.map((job) => (
-              <tr key={job.job_id}>
-                <td>{job.job_id}</td>
-                <td>{job.job_status}</td>
-                <td>{job.total_cost}</td>
-                {job.custom_address ? (
-                    <>
-                      <td>{job.custom_address.slice(-4)}</td>
-                    </>
-                  ) : (
-                    <td>{job.address.slice(-4)}</td>
-                  )}
-                
-                <td>
-                  <Button variant="primary">Invoice</Button>
-                </td>
+        <h2>NEW Jobs</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Job ID</th>
+                <th>Job Status</th>
+                <th>Total Cost</th>
+                <th>Post Code</th>
+                <th>Device</th>
+                <th>Type</th>
+                <th>Item</th>
+                <th>Completed</th>
               </tr>
-              ))
+            </thead>
+            <tbody>
+              {completedJobs && completedJobs.length > 0 ? (
+                completedJobs.map((job) => (
+                  <tr key={job.job_id}>
+                    <td>{job.job_id}</td>
+                    <td>{job.job_status}</td>
+                    <td>${job.total_cost}</td>
+                    {job.custom_address ? (
+                      <td>{job.custom_address.slice(-4)}</td>
+                    ) : (
+                      <td>{job.address.slice(-4)}</td>
+                    )}
+                    {job.item_details.map((item, index) => (
+                      <React.Fragment key={index}>
+                        <td>{item.series_name} {item.model}</td>
+                        <td>{item.item_type}</td>
+                        <td>{item.item_name}</td>
+                      </React.Fragment>
+                    ))}
+                    <td>{job.finished_at.slice(0, 10)}</td>
+                    <td>
+                      <Button variant="primary">Invoice</Button>
+                    </td>
+                  </tr>
+                ))
               ) : (
                 <tr>
-                   <td colSpan="4">No jobs completed.</td>
+                  <td colSpan="6">No new jobs available.</td>
                 </tr>
               )}
-          </tbody>
-        </table>
+            </tbody>
+          </table>
       </div>
     </div>
     </>

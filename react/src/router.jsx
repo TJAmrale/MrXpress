@@ -119,7 +119,7 @@ const router = createBrowserRouter([
         children: [
           {
             path: "",
-            element: <TechnicianPage />
+            element: <TechnicianPage />,
           },
 
           {
