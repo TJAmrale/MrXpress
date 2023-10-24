@@ -12,11 +12,13 @@ use App\Models\Series;
 use App\Models\Technician;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class BookingController extends Controller
 {
 
-    public function sortJobStatus($status)
+
+    public function sortJobStatus($status, $technician_id)
     {
         $validStatuses = ["NEW", "IN PROGRESS", "COMPLETED"];
 
@@ -24,11 +26,52 @@ class BookingController extends Controller
             return response()->json(['error' => 'Invalid status specified'], 400);
         }
 
-        //Retrieve and filter jobs by the specified job_status
-        $filteredJobs = Job::where('job_status', $status)->orderBy('job_status')->get();
+        // Retrieve and filter jobs by the specified job_status and technician_id
+        $query = Job::where('job_status', $status);
 
-        return response()->json(['filteredJobs' => $filteredJobs], 200);
+        if ($status !== "NEW") {
+            // If status is not "NEW," filter by technician_id
+            $query->where('technician_id', $technician_id);
+        } else {
+            // If status is "NEW," include jobs with null technician_id
+            $query->where(function($q) use ($technician_id) {
+                $q->where('technician_id', $technician_id)
+                    ->orWhereNull('technician_id');
+            });
+        }
+
+        $filteredJobs = $query->orderBy('job_status')->get();
+
+        $jobsWithCustomerDetails = [];
+
+        foreach ($filteredJobs as $job) {
+            // Get the customer_id from the job
+            $customerId = $job->customer_id;
+
+            // Retrieve the customer's details from the users table
+            $customer = User::find($customerId);
+
+            if (!$customer) {
+                return response()->json(['error' => 'Customer not found'], 404);
+            }
+
+            // Include customer details along with job status
+            $jobWithDetails = [
+                'job_id' => $job->job_id,
+                'job_status' => $job->job_status,
+                'total_cost' => $job->total_cost,
+                'custom_address' => $job->custom_address,
+                'address' => $customer->address,
+                'phone' => $customer->phone,
+                // Add other job details as needed
+            ];
+
+            $jobsWithCustomerDetails[] = $jobWithDetails;
+        }
+
+        return response()->json(['jobsWithCustomerDetails' => $jobsWithCustomerDetails], 200);
     }
+
 
     public function updateTechnicianId($jobId, $technicianId) {
         // Find the job by its ID
