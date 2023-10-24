@@ -12,11 +12,13 @@ use App\Models\Series;
 use App\Models\Technician;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class BookingController extends Controller
 {
 
-    public function sortJobStatus($status)
+
+    public function sortJobStatus($status, $technician_id)
     {
         $validStatuses = ["NEW", "IN PROGRESS", "COMPLETED"];
 
@@ -24,11 +26,70 @@ class BookingController extends Controller
             return response()->json(['error' => 'Invalid status specified'], 400);
         }
 
-        //Retrieve and filter jobs by the specified job_status
-        $filteredJobs = Job::where('job_status', $status)->orderBy('job_status')->get();
+        //Retrieve and filter jobs by the specified job_status and technician_id
+        $query = Job::where('job_status', $status);
 
-        return response()->json(['filteredJobs' => $filteredJobs], 200);
+        if ($status !== "NEW") {
+            // If status is not "NEW," filter by technician_id
+            $query->where('technician_id', $technician_id);
+        } else {
+            //If status is "NEW," include jobs with a null technician_id
+            $query->where(function ($q) use ($technician_id) {
+                $q->where('technician_id', $technician_id)
+                    ->orWhereNull('technician_id');
+            });
+        }
+
+        $filteredJobs = $query->orderBy('job_status')->get();
+
+        $jobsWithDetails = [];
+
+        foreach ($filteredJobs as $job) {
+            $customerId = $job->customer_id;
+            $customer = User::find($customerId);
+
+            if (!$customer) {
+                return response()->json(['error' => 'Customer not found'], 404);
+            }
+
+            //Get the related JobStock records for the job
+            $jobStocks = $job->stocksUsed;
+
+            $itemDetails = [];
+            foreach ($jobStocks as $jobStock) {
+                $stock = $jobStock->stock;
+                $device = $stock->device;
+                $series = $device->series;
+                $item = $stock->item;
+
+                //Extract the item details
+                $itemDetails[] = [
+                    'model' => $device->model,
+                    'series_name' => $series->series_name,
+                    'item_type' => $item->item_type,
+                    'item_name' => $item->item_name,
+                ];
+            }
+
+            //now combine customer and item details
+            $jobWithDetails = [
+                'job_id' => $job->job_id,
+                'job_status' => $job->job_status,
+                'total_cost' => $job->total_cost,
+                'custom_address' => $job->custom_address,
+                'address' => $customer->address,
+                'phone' => $customer->phone,
+                'finished_at'=> $job->finished_at,
+                'item_details' => $itemDetails,
+                // Add other job details as needed
+            ];
+
+            $jobsWithDetails[] = $jobWithDetails;
+        }
+
+        return response()->json(['jobsWithDetails' => $jobsWithDetails], 200);
     }
+
 
     public function updateTechnicianId($jobId, $technicianId) {
         // Find the job by its ID
@@ -56,14 +117,16 @@ class BookingController extends Controller
             return response()->json(['error' => 'Job not found'], 404);
         }
     
-        $job->job_status = 'COMPLETED';
+        // Check if the job is already completed to avoid updating the timestamp multiple times
+        if ($job->job_status !== 'COMPLETED') {
+            $job->job_status = 'COMPLETED';
+            $job->finished_at = now(); // Set the finished_at column to the current timestamp
     
-
-        $job->save();
+            $job->save();
+        }
     
         return response()->json(['message' => 'Job marked as completed'], 200);
     }
-
 
     public function store(Request $request)
     {
