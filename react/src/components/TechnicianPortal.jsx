@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axiosClient from '../axios-client';
 import Button from 'react-bootstrap/Button';
 import NavBarTechnician from './NavBarTechnician'
+import InvoiceView from './InvoiceView';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 
 //Jobs(job_id)->job_stock(stock_id)->stock(device_id, item_id)->devices(series_id, model)->series(series_name)->items(item_type, item_name)
@@ -12,6 +15,7 @@ function TechnicianPortal({ technician }) {
   const [inProgressJobs, setInProgressJobs] = useState([]);
   const [completedJobs, setCompletedJobs] = useState([]);
   const [customerDetails, setCustomerDetails] = useState({});
+  const [selectedJob, setSelectedJob] = useState(null);
   const [status, setStatus] = useState('NEW');
   const technician_id = technician.user_id;
 
@@ -67,6 +71,7 @@ function TechnicianPortal({ technician }) {
             technician_id: technician_id,
           })
           .then(() => {
+            toast.info("Job Accepted");
             console.log(technician_id);
             fetchData('NEW');
             setConfirmationJobId(null);
@@ -81,6 +86,7 @@ function TechnicianPortal({ technician }) {
         axiosClient
           .put(`http://localhost:8000/api/jobs/complete/${job_id}`)
           .then(() => {
+            toast.success("Job Completed");
             fetchData('IN PROGRESS');
             fetchData('COMPLETED');
             setConfirmationJobId(null);
@@ -93,6 +99,14 @@ function TechnicianPortal({ technician }) {
           });
       }
     }
+  };
+
+  const handleInvoice = (job) => {
+    setSelectedJob(job);
+  };
+
+  const closeInvoice = () => {
+    setSelectedJob(null);
   };
 
 
@@ -231,7 +245,7 @@ function TechnicianPortal({ technician }) {
       </div>
 
       <div className='completedJobs'>
-        <h2>NEW Jobs</h2>
+        <h2>Completed Jobs</h2>
           <table>
             <thead>
               <tr>
@@ -266,7 +280,7 @@ function TechnicianPortal({ technician }) {
                     ))}
                     <td>{job.finished_at.slice(0, 10)}</td>
                     <td>
-                      <Button variant="primary">Invoice</Button>
+                      <Button variant="primary" onClick={() => handleInvoice(job)}>Invoice</Button>
                     </td>
                   </tr>
                 ))
@@ -278,6 +292,12 @@ function TechnicianPortal({ technician }) {
             </tbody>
           </table>
       </div>
+      {selectedJob && (
+        <div>
+          <InvoiceView job={selectedJob} closeInvoice={closeInvoice} />
+        </div>
+      )}
+      <ToastContainer/>
     </div>
     </>
   );
