@@ -6,7 +6,7 @@ import LoginPage from "./pages/LoginPage.jsx";
 import RegisterPage from "./pages/RegisterPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import IndexPage from "./pages/IndexPage.jsx";
-import TechnicianDashboard from "./pages/TechnicianDashboard.jsx";
+import TechnicianPage from "../src/pages/TechnicianPage.jsx"
 import ManageUsersPage from "./pages/ManageUsersPage.jsx";
 import ManageUserForm from "./pages/ManageUserForm.jsx";
 import AdminDashboard from "./pages/AdminDashboard.jsx";
@@ -23,6 +23,13 @@ import ManageBrandPage from "./pages/ManageBrandPage.jsx";
 import ManageBrandForm from "./pages/ManageBrandForm.jsx";
 import ManageSeriesPage from "./pages/ManageSeriesPage.jsx";
 import ManageSeriesForm from "./pages/ManageSeriesForm.jsx";
+import InvoiceView from "./components/InvoiceView.jsx";
+import TechnicianPortal from "./components/TechnicianPortal.jsx";
+import StockChanges from "./pages/StockChanges.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
+import EditProfileForm from "./pages/EditProfileForm.jsx";
+import JobsAndRatings from "./pages/JobsAndRatings.jsx";
+import InboxPage from "./pages/InboxPage.jsx";
 
 // Define the router configuration using `createBrowserRouter`
 const router = createBrowserRouter([
@@ -69,14 +76,58 @@ const router = createBrowserRouter([
           },
         ],
       },
+      {
+        path: "profile",
+        element: (
+          <RouteGuard requiredLevels={[1, 2, 3]}>
+            <ProfilePage />
+          </RouteGuard>
+        ),
+      },
+      {
+        path: "profile/edit",
+        element: (
+          <RouteGuard requiredLevels={[1, 2, 3]}>
+            <EditProfileForm />
+          </RouteGuard>
+        ),
+      },
+      {
+          path: "profile/jobs",
+          element: (
+            <RouteGuard requiredLevels={[3]}>
+              <JobsAndRatings />
+            </RouteGuard>
+          ),
+      },
+      {
+        path: "profile/inbox",
+        element: (
+          <RouteGuard requiredLevels={[3]}>
+            <InboxPage />
+          </RouteGuard>
+        ),
+    },
       // Route to display a page specifically for technicians
       {
         path: "technician",
         element: (
           <RouteGuard requiredLevels={[2]}>
-            <TechnicianDashboard />
+            <Outlet />
           </RouteGuard>
         ),
+        children: [
+          {
+            path: "",
+            element: <TechnicianPage />,
+          },
+
+          {
+            path: "invoice",
+            element: <InvoiceView />,
+          },
+
+        ],
       },
       {
         path: "admin",
@@ -90,6 +141,11 @@ const router = createBrowserRouter([
             path: "",
             element: <AdminDashboard />,
           },
+          {
+            path: "test",
+            element: <TechnicianPage />,
+          },
+
           {
             path: "users",
             element: <ManageUsersPage />,
@@ -161,6 +217,10 @@ const router = createBrowserRouter([
           {
             path: "series/:series_id",
             element: <ManageSeriesForm key="SeriesUpdate" />,
+          },
+          {
+            path: "stock_changes",
+            element: <StockChanges/>,
           },
           
 

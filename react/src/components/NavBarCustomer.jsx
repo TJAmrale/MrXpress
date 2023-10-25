@@ -78,8 +78,8 @@ function NavBarCustomer() {
             >
               How It Works
             </Nav.Link>
-            <Nav.Link as={Link} className="px-3" to="/app/book-repair">
-              Books a Repair
+            <Nav.Link className="px-3" href="">
+              Book a Repair
             </Nav.Link>
             <Nav.Link
               className="px-3"
@@ -97,7 +97,7 @@ function NavBarCustomer() {
               </Button>
             ) : (
               <>
-                <Nav.Link className="px-3" href="">
+                <Nav.Link className="px-3" href="/app/profile">
                   {user.name}
                 </Nav.Link>
                 <Button

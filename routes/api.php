@@ -7,11 +7,13 @@ use App\Http\Controllers\Api\ItemController;
 use App\Http\Controllers\Api\ModelController;
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\SeriesController;
+use App\Http\Controllers\Api\StockAuditController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\Api\DeviceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +33,9 @@ Route::middleware('auth:sanctum')->group(function () {
         return $request->user();
     });
 
+    Route::get('/get-customer-details/{job_id}', [BookingController::class, 'getCustomerDetails']);
+
+
     // Route to logout authenticated user
     Route::post('logout', [AuthController::class, 'logout']);
 
@@ -41,6 +46,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/book-repair', [BookingController::class, 'store']);
     Route::post('/confirm-repair', [BookingController::class, 'confirm']);
     Route::get('/get-job-cost/{job_id}', [BookingController::class, 'getJobCost']);
+    Route::get('/sort-jobs/{status}/{technician_id}', [BookingController::class, 'sortJobStatus']);
+    Route::get('/sort-jobs/{status}', [BookingController::class, 'sortJobStatus']);
+
+    Route::put('/jobs/assign/{job_id}/{technician_id}', [BookingController::class, 'updateTechnicianId']);
+    Route::put('jobs/complete/{job_id}', [BookingController::class, 'completeJob']);
+
+
 
     // Route::get('/stocks', [App\Http\Controllers\Api\StockController::class, 'index']);
     Route::apiResource('/stock', StockController::class);
@@ -52,18 +64,23 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('/brand', BrandController::class);
     Route::apiResource('/series', SeriesController::class);
 
+    Route::apiResource('stock-audits', StockAuditController::class);
+
+
+
     // routes/api.php
 
     Route::get('/stock/{stock_id}', StockController::class . '@show');
 
 
-    Route::get('/brands', 'Api\BrandController@index');
+    Route::get('/brands', [BrandController::class, 'index']);
     Route::get('/device-info', [ModelController::class, 'index']);
     Route::get('/devices/models', [ModelController::class, 'index']); 
-    Route::get('/devices/colours', 'Api\ColourController@index');  
+    Route::get('/devices/colours', [ColourController::class, 'index']);  
     Route::get('/items-stock', [ItemController::class, 'getItems']);
 
-    Route::get('/series', 'App\Http\Controllers\Api\SeriesController@index');
+    Route::get('/series', [SeriesController::class, 'index']);
+
 
     
     // Fetch Brands
@@ -71,6 +88,12 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Fetch Series
     Route::get('/series-stock', [DeviceController::class, 'getSeries']);
+    // Fetch stock for audit
+    Route::get('/stock-changes', [StockController::class, 'changes']);
+
+    
+
+
 
 
 
@@ -84,6 +107,12 @@ Route::middleware('auth:sanctum')->group(function () {
     // Routes for Stripe
     Route::post('/create-payment-intent', [StripeController::class, 'createPaymentIntent']);
     Route::post('/verify-payment', [StripeController::class, 'verifyPayment']);
+
+    Route::put('/profile/edit/{user_id}', [ProfileController::class, 'update']);
+    
+    Route::get('/jobs', [JobController::class, 'index']);
+    Route::get('/jobs/{job_id}', [JobController::class, 'show']);
+    Route::get('/jobs?customer_id={user_id}', [JobController::class, 'show']);
 });
 
 // Routes to register a new user or login a user, doesn't require authentication

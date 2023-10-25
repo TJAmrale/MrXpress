@@ -44,10 +44,10 @@ const ManageBrandPage = () => {
   return (
     <>
       <NavBarAdmin />
-      <section id="manage-brand">
-        <div className="heading">
+      <section id="manage-brand" className="custom-container">
+        <div className="heading" >
           <h2>Manage Brand</h2>
-          <Link to="/app/admin/brand/new" className="btn-add">
+          <Link to="/app/admin/brand/new" className="add btn-add ">
             Add new
           </Link>
         </div>

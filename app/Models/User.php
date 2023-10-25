@@ -9,6 +9,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use OwenIt\Auditing\Contracts\Auditable;
+use App\Models\StockAudit;
+
 
 class User extends Authenticatable implements Auditable
 {
@@ -68,4 +70,9 @@ class User extends Authenticatable implements Auditable
     {
         return $this->hasOne(Technician::class, 'technician_id');
     }
+    public function stockAudit()
+{
+    return $this->hasMany(StockAudit::class, 'user_id', 'user_id');
+}
+
 }

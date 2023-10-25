@@ -3,8 +3,8 @@ import { Accordion } from "react-bootstrap";
 function FAQs() {
   const FAQData = [
     {
-      header: "1. How long does a typical phone repair take?",
-      body: "Most standard repairs, such as screen or battery replacements, are done within 1-2 hours. However, more complex issues might take longer.",
+      header: "1. How long is a typical phone repair?",
+      body: "Most standard repairs, such as screen or battery replacements, are done within 24 hours. However, more complex issues may take longer.",
     },
     {
       header: "2. Do you offer a warranty on your repairs?",
@@ -16,7 +16,7 @@ function FAQs() {
     },
     {
       header: "4. What if my device is beyond repair?",
-      body: "If our technicians determine that your device cannot be repaired or if it's not cost-effective to do so, we will inform you. We also offer trade-in services where you can exchange your old device for a discount on a new or refurbished one.",
+      body: "If our technicians determine that your device cannot be repaired, or if it is not cost-effective to do so, we will inform you. We also offer trade-in services where you can exchange your old device for a discount on a new or refurbished one.",
     },
     {
       header: "5. Will my data be safe during repair?",

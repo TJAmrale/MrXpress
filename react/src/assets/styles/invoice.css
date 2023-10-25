@@ -1,0 +1,110 @@
+#invoicemake {
+    box-shadow: 0 0 1in -0.25in rgba(0, 0, 0, 0.5);
+    padding: 2mm;
+    margin: 0 auto;
+    width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    background: #FFF;
+    position: absolute;
+    border-radius: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.invlogo {
+    text-align: center;
+}
+
+.invlogo img {
+    max-width: 20%;
+    height: auto;
+}
+
+
+
+.invinfo h2 {
+    font-size: 1.5em;
+    color: #000000;
+}
+
+.invinfo p {
+    text-align: right;
+    font-size: .7em;
+    color: #666;
+    line-height: 1.2em;
+}
+
+.invoiceheading {
+    font-size: 1em;
+    background: #f3dada;
+}
+
+#invoptions table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+#invoptions th:nth-child(3),
+#invoptions td:nth-child(3),
+#invoptions th:nth-child(2),
+#invoptions td:nth-child(2) {
+    text-align: right;
+}
+
+#invmid, #invdescription, #invmoney {
+    border-bottom: 1px solid #c62d42;
+}
+.containeri{
+    background: #eedfdf;
+    border-radius: 10px;
+}
+
+.containeri table {
+    width: 100%;
+    table-layout: fixed;
+}
+
+.containeri th,
+.containeri td {
+    text-align: right;
+    padding-right: 5px;
+}
+
+/* Media query for screens with a maximum width of 600px*/
+@media (max-width: 600px) {
+    #invoicemake {
+        width: 100%; 
+        padding: 10px; 
+    }
+    
+    .invinfo h2 {
+        font-size: 1.2em; 
+    }
+
+    .invinfo p {
+        font-size: 0.8em; 
+    }
+
+    .invoiceheading {
+        font-size: 0.9em;
+    }
+
+    #invoptions table {
+        width: 100%;
+    }
+
+    #options th:nth-child(3),
+    #options td:nth-child(3),
+    #options th:nth-child(2),
+    #options td:nth-child(2) {
+        text-align: left; 
+    }
+
+    .containeri th,
+    .containeri td {
+        text-align: left; 
+        padding-right: 0; 
+    }
+}

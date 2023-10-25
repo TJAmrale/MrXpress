@@ -40,17 +40,16 @@ function NavBarAdmin() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="">
-            <Nav.Link className="px-3" href="#how-it-works">
-              How It Works
+
+            <Nav.Link className="px-3 me-3" href="/app/admin/jobs">
+              Jobs
             </Nav.Link>
-            <Nav.Link className="px-3" href="">
-              Books a Repair
+            <Nav.Link className="px-3 me-3" href="/app/admin/stock">
+              Stocks
             </Nav.Link>
-            <Nav.Link className="px-3" href="#faqs">
-              FAQ
-            </Nav.Link>
-            <Nav.Link as={Link} className="px-3 me-3" to="/app/admin/users">
-              Users
+
+            <Nav.Link as={Link} className="px-3 me-3" to="/app/admin">
+              Dashboard 
             </Nav.Link>
             {!token ? (
               <Button variant="primary" className="px-4" href="/login">
@@ -58,7 +57,7 @@ function NavBarAdmin() {
               </Button>
             ) : (
               <>
-                <Nav.Link className="px-3" href="">
+                <Nav.Link className="px-3" href="/app/profile">
                   {user.name}
                 </Nav.Link>
                 <Button onClick={onLogout} variant="outline-primary" className="px-4" href="/">

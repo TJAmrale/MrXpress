@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Api;
-use App\Http\Controllers\Api\DeviceController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Device; 
@@ -19,7 +18,7 @@ class DeviceController extends Controller
     public function index()
 {
 
-    $devices = Device::with(['brand','series'])->orderBy('device_id', 'desc')->paginate(15); // for example, 15 devices per page
+    $devices = Device::with(['brand','series'])->orderBy('device_id', 'desc')->paginate(15); 
     return DeviceResource::collection($devices);
 }
     /**
