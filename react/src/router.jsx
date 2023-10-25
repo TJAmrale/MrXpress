@@ -1,4 +1,4 @@
-import { Outlet, Route, createBrowserRouter } from "react-router-dom";
+import { Outlet, createBrowserRouter } from "react-router-dom";
 import AuthenticatedLayout from "./components/AuthenticatedLayout.jsx";
 import GuestLayout from "./components/GuestLayout.jsx";
 import RouteGuard from "./components/RouteGuard.jsx";

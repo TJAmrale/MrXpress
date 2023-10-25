@@ -78,7 +78,7 @@ function NavBarCustomer() {
             >
               How It Works
             </Nav.Link>
-            <Nav.Link className="px-3" href="">
+            <Nav.Link as={Link} className="px-3" to="/app/book-repair">
               Book a Repair
             </Nav.Link>
             <Nav.Link

@@ -73,6 +73,21 @@ export default function PaymentPage() {
     });
   }, []);
 
+  const bookingInformation = {
+    device: `${customerSelection.device.brand} ${customerSelection.device.model} ${customerSelection.device.colour}`,
+    repairType: customerSelection.repair_type,
+    accessories: customerSelection.accessories.join(", "),
+    totalCost: amount,
+    phoneNumber: user.phone,
+    address: user.address
+  }
+
+  if (customAddress) {
+    bookingInformation.address = customAddress;
+  }
+
+  localStorage.setItem('bookingInformation', JSON.stringify(bookingInformation));
+
   // Return UI -----------------------------------------------
   return !customerSelection ? (
     <NotFoundPage />

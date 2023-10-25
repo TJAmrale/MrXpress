@@ -246,7 +246,7 @@ class BookingController extends Controller
                 $accessory = Item::where('item_name', $accessoryName)->first();
                 if ($accessory) {
                     // Fetch the stock record for the given item_id
-                    $stock = Stock::where('item_id', $part->item_id)->first();
+                    $stock = Stock::where('item_id', $accessory->item_id)->first();
 
                     if ($stock) {
                         $jobStock = new JobStock();
