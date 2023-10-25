@@ -25,8 +25,8 @@ function TechnicianPortal({ technician }) {
   const fetchData = (status, technician_id) => {
     let url =
       status === 'NEW'
-        ? `http://localhost:8000/api/sort-jobs/${status}/null`
-        : `http://localhost:8000/api/sort-jobs/${status}/${technician_id}`;
+        ? `/sort-jobs/${status}/null`
+        : `/sort-jobs/${status}/${technician_id}`;
 
     axiosClient
       .get(url)
@@ -67,7 +67,7 @@ function TechnicianPortal({ technician }) {
     if (confirmationJobId === job_id) {
       if (confirmationAction === 'accept') {
         axiosClient
-          .put(`http://localhost:8000/api/jobs/assign/${job_id}/${technician_id}`, {
+          .put(`/jobs/assign/${job_id}/${technician_id}`, {
             technician_id: technician_id,
           })
           .then(() => {
@@ -84,7 +84,7 @@ function TechnicianPortal({ technician }) {
           });
       } else if (confirmationAction === 'complete') {
         axiosClient
-          .put(`http://localhost:8000/api/jobs/complete/${job_id}`)
+          .put(`/jobs/complete/${job_id}`)
           .then(() => {
             toast.success("Job Completed");
             fetchData('IN PROGRESS');
@@ -126,8 +126,6 @@ function TechnicianPortal({ technician }) {
                 <th>Total Cost</th>
                 <th>Post Code</th>
                 <th>Device</th>
-                <th>Type</th>
-                <th>Item</th>
               </tr>
             </thead>
             <tbody>
@@ -142,16 +140,24 @@ function TechnicianPortal({ technician }) {
                     ) : (
                       <td>{job.address.slice(-4)}</td>
                     )}
-                    {job.item_details.map((item, index) => (
-                      <React.Fragment key={index}>
-                        <td>{item.series_name} {item.model}</td>
-                        <td>{item.item_type}</td>
-                        <td>{item.item_name}</td>
-                      </React.Fragment>
-                    ))}
+                    <td>
+                      {job.item_details.map((item, itemIndex) => (
+                        <React.Fragment key={itemIndex}>
+                          {itemIndex === 0 && ( // Display series_name and model for the first item
+                            <div>
+                              <td>{item.series_name} {item.model}</td>
+                            </div>
+                          )}
+                          <div>
+                            <td>{item.item_type}</td>
+                            <td>{item.item_name}</td>
+                          </div>
+                        </React.Fragment>
+                      ))}
+                    </td>
                     <td>
                       {confirmationJobId === job.job_id ? (
-                        <div>
+                        <div className="button-container">
                           Are you sure?
                           <Button variant="outline-success" onClick={() => confirmAction(job.job_id)}>
                             Yes
@@ -162,9 +168,11 @@ function TechnicianPortal({ technician }) {
                         </div>
                       ) : (
                         job.job_status === 'NEW' && (
-                          <Button variant="info" onClick={() => handleAcceptJob(job.job_id)}>
-                            Accept
-                          </Button>
+                          <div className="button-container">
+                            <Button variant="info" onClick={() => handleAcceptJob(job.job_id)}>
+                              Accept
+                            </Button>
+                          </div>
                         )
                       )}
                     </td>
@@ -190,8 +198,6 @@ function TechnicianPortal({ technician }) {
                 <th>Number</th>
                 <th>Address</th>
                 <th>Device</th>
-                <th>Type</th>
-                <th>Item</th>
               </tr>
             </thead>
             <tbody>
@@ -207,13 +213,21 @@ function TechnicianPortal({ technician }) {
                     ) : (
                       <td>{job.address}</td>
                     )}
-                    {job.item_details.map((item, index) => (
-                      <React.Fragment key={index}>
-                        <td>{item.series_name} {item.model}</td>
-                        <td>{item.item_type}</td>
-                        <td>{item.item_name}</td>
-                      </React.Fragment>
-                    ))}
+                    <td>
+                      {job.item_details.map((item, itemIndex) => (
+                        <React.Fragment key={itemIndex}>
+                          {itemIndex === 0 && ( // Display series_name and model for the first item
+                            <div>
+                              <td>{item.series_name} {item.model}</td>
+                            </div>
+                          )}
+                          <div>
+                            <td>{item.item_type}</td>
+                            <td>{item.item_name}</td>
+                          </div>
+                        </React.Fragment>
+                      ))}
+                    </td>
                     <td>
                       {confirmationJobId === job.job_id ? (
                         <div>
@@ -254,8 +268,6 @@ function TechnicianPortal({ technician }) {
                 <th>Total Cost</th>
                 <th>Post Code</th>
                 <th>Device</th>
-                <th>Type</th>
-                <th>Item</th>
                 <th>Completed</th>
               </tr>
             </thead>
@@ -271,13 +283,21 @@ function TechnicianPortal({ technician }) {
                     ) : (
                       <td>{job.address.slice(-4)}</td>
                     )}
-                    {job.item_details.map((item, index) => (
-                      <React.Fragment key={index}>
-                        <td>{item.series_name} {item.model}</td>
-                        <td>{item.item_type}</td>
-                        <td>{item.item_name}</td>
-                      </React.Fragment>
-                    ))}
+                    <td>
+                      {job.item_details.map((item, itemIndex) => (
+                        <React.Fragment key={itemIndex}>
+                          {itemIndex === 0 && ( // Display series_name and model for the first item
+                            <div>
+                              <td>{item.series_name} {item.model}</td>
+                            </div>
+                          )}
+                          <div>
+                            <td>{item.item_type}</td>
+                            <td>{item.item_name}</td>
+                          </div>
+                        </React.Fragment>
+                      ))}
+                    </td>
                     <td>{job.finished_at.slice(0, 10)}</td>
                     <td>
                       <Button variant="primary" onClick={() => handleInvoice(job)}>Invoice</Button>

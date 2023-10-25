@@ -3,7 +3,8 @@
     padding: 2mm;
     margin: 0 auto;
     width: 500px;
-    height: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
     background: #FFF;
     position: absolute;
     border-radius: 20px;
@@ -12,23 +13,23 @@
     transform: translate(-50%, -50%);
 }
 
-.logo {
+.invlogo {
     text-align: center;
 }
 
-.logo img {
+.invlogo img {
     max-width: 20%;
     height: auto;
 }
 
 
 
-h2 {
+.invinfo h2 {
     font-size: 1.5em;
     color: #000000;
 }
 
-p {
+.invinfo p {
     text-align: right;
     font-size: .7em;
     color: #666;
@@ -40,23 +41,24 @@ p {
     background: #f3dada;
 }
 
-#options table {
+#invoptions table {
     width: 100%;
     table-layout: fixed;
 }
 
-#options th:nth-child(3),
-#options td:nth-child(3),
-#options th:nth-child(2),
-#options td:nth-child(2) {
+#invoptions th:nth-child(3),
+#invoptions td:nth-child(3),
+#invoptions th:nth-child(2),
+#invoptions td:nth-child(2) {
     text-align: right;
 }
 
-#mid, #description, #money {
+#invmid, #invdescription, #invmoney {
     border-bottom: 1px solid #c62d42;
 }
 .containeri{
     background: #eedfdf;
+    border-radius: 10px;
 }
 
 .containeri table {
@@ -77,11 +79,11 @@ p {
         padding: 10px; 
     }
     
-    h2 {
+    .invinfo h2 {
         font-size: 1.2em; 
     }
 
-    p {
+    .invinfo p {
         font-size: 0.8em; 
     }
 
@@ -89,7 +91,7 @@ p {
         font-size: 0.9em;
     }
 
-    #options table {
+    #invoptions table {
         width: 100%;
     }
 
