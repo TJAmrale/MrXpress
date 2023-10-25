@@ -13,6 +13,7 @@ use App\Http\Controllers\StripeController;
 use App\Http\Controllers\Api\DeviceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,7 +51,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('/jobs/assign/{job_id}/{technician_id}', [BookingController::class, 'updateTechnicianId']);
     Route::put('jobs/complete/{job_id}', [BookingController::class, 'completeJob']);
-    //Route::get('/sort-jobs/{status}/{technician_id}', [BookingController::class, 'sortJobStatus']);
 
 
 
