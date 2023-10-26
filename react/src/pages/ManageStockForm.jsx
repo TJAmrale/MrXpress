@@ -48,7 +48,6 @@ function ManageStockForm() {
       axiosClient
         .get(`/stock/${stock_id}`)
         .then((response) => {
-          console.log(response.data);
           setLoading(false);
           setStockItem(response.data);
         })
@@ -65,7 +64,6 @@ function ManageStockForm() {
         .put(`/stock/${stockItem.stock_id}`, stockItem)
         .then(() => {
           // TODO Show notificaiton
-          console.log(stockItem);
           navigate("/app/admin/stock");
         })
         .catch((err) => {
@@ -78,7 +76,6 @@ function ManageStockForm() {
       axiosClient
         .post("/stock", stockItem)
         .then(() => {
-          console.log(stockItem);
           navigate("/app/admin/stock");
         })
         .catch((err) => {

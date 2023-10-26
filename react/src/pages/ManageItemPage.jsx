@@ -4,6 +4,10 @@ import axiosClient from "../axios-client";
 import Loading from "../components/Loading";
 import NavBarAdmin from "../components/NavBarAdmin";
 import Footer from "../components/Footer";
+import Table from 'react-bootstrap/Table';
+import {FaRegEdit } from "react-icons/fa";
+import {HiTrash } from "react-icons/hi";
+
 
 
 const ManageItemPage = () => {
@@ -21,7 +25,6 @@ const ManageItemPage = () => {
       .get("/item")
       .then(({ data }) => {
         setLoading(false);
-        console.log(data);
         setItems(data.data);
       })
       .catch(() => {
@@ -50,7 +53,7 @@ const ManageItemPage = () => {
           </Link>
         </div>
         <div className="card">
-          <table>
+          <Table responsive striped>
             <thead>
               <tr>
                 <th>Item ID</th>
@@ -79,14 +82,14 @@ const ManageItemPage = () => {
                     <td>{item.created_at}</td>
                     <td>{item.updated_at}</td>
                     <td>
-                      <Link to={"/app/admin/item/" + item.item_id}>Edit</Link>
-                      <button onClick={() => onDelete(item)}>Delete</button>
+                      <Link to={"/app/admin/item/" + item.item_id}><FaRegEdit size={"1.75em"} /></Link>
+                      <button onClick={() => onDelete(item)}><HiTrash size={"1em"}/></button>
                     </td>
                   </tr>
                 ))
               )}
             </tbody>
-          </table>
+          </Table>
         </div>
       </section>
       <Footer />

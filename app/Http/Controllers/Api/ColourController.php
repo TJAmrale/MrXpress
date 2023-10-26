@@ -9,7 +9,9 @@ use App\Models\Device;
 class ColourController extends Controller
 {
     
-
+    /**
+     * Display a listing of the resource.
+     */
     public function index() {
         return Device::select('colours')->distinct()->get();
     }

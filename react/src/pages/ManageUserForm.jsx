@@ -45,7 +45,7 @@ function ManageUserForm() {
         .put(`/users/${user.id}`, user)
         .then(() => {
           // TODO Show notificaiton
-          console.log(user);
+
           navigate("/app/admin/users");
         })
         .catch((err) => {
@@ -60,7 +60,6 @@ function ManageUserForm() {
         .post("/users", user)
         .then(() => {
           // TODO Show notificaiton
-          console.log(user);
           navigate("/app/admin/users");
         })
         .catch((err) => {

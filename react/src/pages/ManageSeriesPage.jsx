@@ -4,6 +4,11 @@ import axiosClient from "../axios-client";
 import Loading from "../components/Loading";
 import NavBarAdmin from "../components/NavBarAdmin";
 import Footer from "../components/Footer";
+import Table from 'react-bootstrap/Table';
+import {FaRegEdit } from "react-icons/fa";
+import {HiTrash } from "react-icons/hi";
+
+
 
 const ManageSeriesPage = () => {
   const [series, setseries] = useState([]);
@@ -20,7 +25,6 @@ const ManageSeriesPage = () => {
       .get("/series")
       .then(({ data }) => {
         setLoading(false);
-        console.log(data);
         setseries(data.data); // Update the series state
       })
       .catch(() => {
@@ -52,7 +56,7 @@ const ManageSeriesPage = () => {
           </Link>
         </div>
         <div className="card">
-          <table>
+          <Table responsive striped>
             <thead>
               <tr>
                 <th>series ID</th>
@@ -78,14 +82,14 @@ const ManageSeriesPage = () => {
                     <td>{series.updated_at}</td>
                     
                     <td>
-                    <Link to={"/app/admin/series/" + series.series_id}>Edit</Link>
-                      <button onClick={() => onDelete(series)}>Delete</button>
+                    <Link to={"/app/admin/series/" + series.series_id}><FaRegEdit size={"1.75em"} /></Link>
+                      <button onClick={() => onDelete(series)}><HiTrash size={"1em"}/></button>
                     </td>
                   </tr>
                 ))
               )}
             </tbody>
-          </table>
+          </Table>
         </div>
       </section>
       <Footer />

@@ -41,7 +41,7 @@ class Stock extends Model
                 \Log::error('Failed to create stock audit log: ' . $e->getMessage());
             }
         });
-    }
+    } 
     
 
 }

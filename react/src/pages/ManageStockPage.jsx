@@ -4,6 +4,10 @@ import axiosClient from "../axios-client";
 import Loading from "../components/Loading";
 import NavBarAdmin from "../components/NavBarAdmin";
 import Footer from "../components/Footer";
+import Table from 'react-bootstrap/Table';
+import {FaRegEdit } from "react-icons/fa";
+import {HiTrash } from "react-icons/hi";
+
 
 const ManageStock = () => {
   const [stock, setStock] = useState([]);
@@ -20,7 +24,6 @@ const ManageStock = () => {
       .get("/stock")
       .then(({ data }) => { // Stop loading animation
         setLoading(false);
-        console.log(data);
         setStock(data.data); // Update the stock state
       })
       .catch(() => {
@@ -52,7 +55,7 @@ const ManageStock = () => {
           </Link>
         </div>
         <div className="card">
-          <table>
+          <Table responsive striped>
             <thead>
               <tr>
                 <th>Stock ID</th>
@@ -83,7 +86,7 @@ const ManageStock = () => {
               ) : (
                 stock.map((stock) => (
                   <tr key={stock.stock_id}>
-                    {console.log(stock)}
+
                     <td>{stock.stock_id}</td>
                     <td>{stock.device_id}</td>
                     <td>{stock.device?.brand?.brand_name}</td>
@@ -101,15 +104,18 @@ const ManageStock = () => {
                     <td>{stock.updated_at}</td>
                     
                     <td>
-                    <Link to={"/app/admin/stock/" + stock.stock_id}>Edit</Link> 
-                      <button onClick={() => onDelete(stock)}>Delete</button>
+                    <Link to={"/app/admin/stock/" + stock.stock_id}><FaRegEdit size={"1.75em"} /></Link> 
+                      <button onClick={() => onDelete(stock)}><HiTrash size={"1em"}/></button>
                     </td>
                   </tr>
                 ))
               )}
             </tbody>
-          </table>
+            
+          </Table>
+          
         </div>
+        
       </section>
       <Footer />
     </>

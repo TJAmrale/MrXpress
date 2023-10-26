@@ -20,7 +20,6 @@ function ManageUsers() {
       .get("/users")
       .then(({ data }) => {
         setLoading(false); // Stop loading animation
-        console.log(data);
         setUsers(data.data); // Update the users state
       })
       .catch(() => {
@@ -75,7 +74,6 @@ function ManageUsers() {
               ) : (
                 users.map((user) => (
                   <tr key={user.id}>
-                    {console.log(user)}
                     <td>{user.id}</td>
                     <td>{user.name}</td>
                     <td>{user.email}</td>

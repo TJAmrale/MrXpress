@@ -8,7 +8,9 @@ use App\Models\Device;
 
 class ModelController extends Controller
 {
-    
+    /**
+     * Display a listing of the resource.
+     */
 
     public function index() {
         return Device::with(['brand', 'series'])
