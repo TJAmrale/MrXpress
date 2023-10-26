@@ -56,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     //Cutomer
     Route::get('/jobs/sort/{status}/{customer_id}', [JobController::class, 'CsortJobStatus']);
+    Route::put('/job/cancel/{job_id}', [JobController::class, 'cancelJob']);
 
     // Route::get('/stocks', [App\Http\Controllers\Api\StockController::class, 'index']);
     Route::apiResource('/stock', StockController::class);

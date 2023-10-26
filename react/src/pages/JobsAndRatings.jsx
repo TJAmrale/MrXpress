@@ -8,17 +8,19 @@ import NavBarTechnician from '../components/NavBarTechnician';
 import NavBarCustomer from '../components/NavBarCustomer';
 import PFP from "../assets/images/Default_pfp.png";
 import "../profile.css";
+import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from "../components/Loading";
 import axiosClient from "../axios-client";
 import Table from 'react-bootstrap/Table';
+import Button from 'react-bootstrap/Button';
 
 function JobsAndRatings() {
   const [CnewJobs, CsetNewJobs] = useState([]);
   const [CinProgressJobs, CsetInProgressJobs] = useState([]);
   const [CcompletedJobs, CsetCompletedJobs] = useState([]);
-  // const [activeJobs, setActiveJobs] = useState([]);
-  // const [pastJobs, setPastJobs] = useState([]);  
+  const [cancelJobId, setcancelJobId] = useState(null);
+  const [confirmationAction, setConfirmationAction] = useState(null); 
   const [loading, setLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, setUser, token, accessLevel } = useUserContext({
@@ -60,6 +62,30 @@ function JobsAndRatings() {
     getJobs('IN PROGRESS', customer_id);
     getJobs('COMPLETED', customer_id);
   }, [customer_id]);
+
+
+  const handleCancelJob = (job_id) => {
+    setcancelJobId(job_id);
+    setConfirmationAction('accept');
+  };
+
+  const confirmAction = (job_id) => {
+    if (cancelJobId === job_id) {
+      if (confirmationAction === 'accept') {
+        axiosClient
+          .put(`/job/cancel/${job_id}/`, {})
+          .then(() => {
+            toast.success("Job Cancelled"); // Assuming you want to display a success message
+            window.location.reload(); // Reload the page
+          })
+          .catch((error) => {
+            console.error(error);
+            setcancelJobId(null);
+            setConfirmationAction(null);
+          });
+      } 
+    }
+  };
 
 
   return (
@@ -138,6 +164,27 @@ function JobsAndRatings() {
                       )}
                     </div>
                   ))}
+                </td>
+                <td>
+                      {cancelJobId === job.job_id ? (
+                        <div className="button-container">
+                          Are you sure?
+                          <Button variant="outline-danger" onClick={() => confirmAction(job.job_id)}>
+                            Yes
+                          </Button>
+                          <Button variant="outline-success" onClick={() => setcancelJobId(null)}>
+                            No
+                          </Button>
+                        </div>
+                      ) : (
+                        job.job_status === 'NEW' && (
+                          <div className="button-container">
+                            <Button variant="danger" onClick={() => handleCancelJob(job.job_id)}>
+                              Cancel
+                            </Button>
+                          </div>
+                        )
+                      )}
                 </td>
               </tr>
             ))
@@ -228,6 +275,7 @@ function JobsAndRatings() {
             )}
           </tbody>
         </Table>
+        <ToastContainer/>
     </div>
   </section>
       <Footer />

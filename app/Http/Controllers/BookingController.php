@@ -133,11 +133,11 @@ class BookingController extends Controller
                 $job->finished_at = now(); // Set the finished_at column to the current timestamp
 
                 // Capture the funds
-                $paymentIntent = PaymentIntent::retrieve(
-                    $job->payment_intent_id
-                );
-                $paymentIntent->capture();
-                $job->payment_status = "succeeded";
+                // $paymentIntent = PaymentIntent::retrieve(
+                //     $job->payment_intent_id
+                // );
+                // $paymentIntent->capture();
+                // $job->payment_status = "succeeded";
 
                 $job->save();
 

@@ -6,6 +6,8 @@ import InvoiceView from './InvoiceView';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Table from 'react-bootstrap/Table';
+import FeedbackForm from "../components/FeedbackForm";
+
 
 
 //Jobs(job_id)->job_stock(stock_id)->stock(device_id, item_id)->devices(series_id, model)->series(series_name)->items(item_type, item_name)
@@ -15,10 +17,10 @@ function TechnicianPortal({ technician }) {
   const [newJobs, setNewJobs] = useState([]);
   const [inProgressJobs, setInProgressJobs] = useState([]);
   const [completedJobs, setCompletedJobs] = useState([]);
-  const [customerDetails, setCustomerDetails] = useState({});
   const [selectedJob, setSelectedJob] = useState(null);
-  const [status, setStatus] = useState('NEW');
   const technician_id = technician.user_id;
+  const [showRatingForm, setShowRatingForm] = useState(false);
+  const [jobIdForRating, setjobIdForRating] = useState(null);
 
   const [confirmationJobId, setConfirmationJobId] = useState(null);
   const [confirmationAction, setConfirmationAction] = useState(null);
@@ -77,6 +79,7 @@ function TechnicianPortal({ technician }) {
             fetchData('NEW');
             setConfirmationJobId(null);
             setConfirmationAction(null);
+            window.location.reload();
           })
           .catch((error) => {
             console.error(error);
@@ -92,6 +95,9 @@ function TechnicianPortal({ technician }) {
             fetchData('COMPLETED');
             setConfirmationJobId(null);
             setConfirmationAction(null);
+            //window.location.reload();
+            setjobIdForRating(job_id);
+            setShowRatingForm(true);
           })
           .catch((error) => {
             console.error(error);
@@ -111,14 +117,26 @@ function TechnicianPortal({ technician }) {
   };
 
 
+  const handleCloseRatingForm = () => {
+    // Close the rating form and reset the bookingIdForRating
+    setjobIdForRating(null);
+    setShowRatingForm(false);
+  };
+
+
 
   return (
     <><NavBarTechnician />
     <div id='TechPortal'>
       <h1>Technician Portal</h1>
       <h3>Welcome {technician.name}</h3>
+      <div className='jobnav'>
+        <a href="#NEW">New Jobs</a>
+        <a href="#IN PROGRESS">In Progress Jobs</a>
+        <a href="#COMPLETED">Completed Jobs</a>
+      </div>
       <div className='newJobs'>
-        <h2>NEW Jobs</h2>
+        <h2 id="NEW">NEW Jobs</h2>
           <Table responsive="md" striped >
             <thead>
               <tr>
@@ -181,7 +199,7 @@ function TechnicianPortal({ technician }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6">No jobs in progress available.</td>
+                  <td colSpan="6">No new jobs available.</td>
                 </tr>
               )}
             </tbody>
@@ -189,7 +207,7 @@ function TechnicianPortal({ technician }) {
       </div>
 
       <div className='in_progressJobs'>
-        <h2>IN PROGRESS</h2>
+        <h2 id="IN PROGRESS">IN PROGRESS</h2>
           <Table responsive="md" striped>
             <thead>
               <tr>
@@ -252,7 +270,7 @@ function TechnicianPortal({ technician }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6">No jobs completed</td>
+                  <td colSpan="6">No jobs in progress</td>
                 </tr>
               )}
             </tbody>
@@ -260,7 +278,7 @@ function TechnicianPortal({ technician }) {
       </div>
 
       <div className='completedJobs'>
-        <h2>Completed Jobs</h2>
+        <h2 id="COMPLETED">Completed Jobs</h2>
           <Table responsive="md" striped>
             <thead>
               <tr>
@@ -307,12 +325,19 @@ function TechnicianPortal({ technician }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6">No new jobs available.</td>
+                  <td colSpan="6">No jobs completed</td>
                 </tr>
               )}
             </tbody>
           </Table>
       </div>
+      {showRatingForm && jobIdForRating !== null && (
+        <FeedbackForm
+          user={technician} // Pass the technician object
+          jobId={jobIdForRating} // Pass the jobId
+          onClose={handleCloseRatingForm}
+        />
+      )}
       {selectedJob && (
         <div>
           <InvoiceView job={selectedJob} closeInvoice={closeInvoice} />

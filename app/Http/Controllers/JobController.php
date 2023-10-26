@@ -78,6 +78,25 @@ class JobController extends Controller
     }
 
 
+    public function cancelJob($jobId)
+    {
+        // Find the job by its ID
+        $job = Job::find($jobId);
+        $status = "CANCELLED";
+
+        if (!$job) {
+            return response()->json(['error' => 'Job not found'], 404);
+        }
+
+        // Set the technician_id
+        $job->job_status = $status;
+
+        // Save the changes
+        $job->save();
+
+        return response()->json(['message' => 'Cancelled'], 200);
+    }
+
 
 
 
