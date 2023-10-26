@@ -42,7 +42,7 @@ function NavBar() {
             <Nav.Link className="px-3" href="#how-it-works">
               How It Works
             </Nav.Link>
-            <Nav.Link className="px-3" href="">
+            <Nav.Link className="px-3" href="/login">
               Book a Repair
             </Nav.Link>
             <Nav.Link className="px-3" href="#faqs">

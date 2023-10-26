@@ -38,7 +38,7 @@ function FAQs() {
 
   return (
     <section id="faqs" className="custom-container">
-      <h2 className="section-heading text-center">FAQs</h2>
+      <h2 className="section-heading text-center text-body">FAQs</h2>
       <Accordion>
         {FAQData.map((item, index) => (
           <Accordion.Item eventKey={index} key={index}>
