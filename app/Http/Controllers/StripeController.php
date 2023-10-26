@@ -75,7 +75,7 @@ class StripeController extends Controller
                     $job->payment_intent_id = $data['payment_intent'];
                     $job->amount = $paymentIntent->amount;
                     $job->currency = $paymentIntent->currency;
-                    $job->payment_status = "succeeded";
+                    $job->payment_status = "pending";
                     if (isset($data['custom_address']) && !empty($data['custom_address'])) {
                         $job->custom_address = $data['custom_address'];
                     }

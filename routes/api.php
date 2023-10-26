@@ -41,7 +41,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // RESTful resource routes for User, includes routes like GET /users, POST /users, etc.
     Route::apiResource('/users', UserController::class);
-    
+
     // Routes for Booking
     Route::post('/book-repair', [BookingController::class, 'store']);
     Route::post('/confirm-repair', [BookingController::class, 'confirm']);
@@ -75,41 +75,27 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/brands', [BrandController::class, 'index']);
     Route::get('/device-info', [ModelController::class, 'index']);
-    Route::get('/devices/models', [ModelController::class, 'index']); 
-    Route::get('/devices/colours', [ColourController::class, 'index']);  
+    Route::get('/devices/models', [ModelController::class, 'index']);
+    Route::get('/devices/colours', [ColourController::class, 'index']);
     Route::get('/items-stock', [ItemController::class, 'getItems']);
 
     Route::get('/series', [SeriesController::class, 'index']);
 
-
-    
     // Fetch Brands
     Route::get('/brands', [DeviceController::class, 'getBrands']);
 
     // Fetch Series
     Route::get('/series-stock', [DeviceController::class, 'getSeries']);
+    
     // Fetch stock for audit
     Route::get('/stock-changes', [StockController::class, 'changes']);
-
-    
-
-
-
-
-
-    
-    // Route for Booking
-    Route::post('/book-repair', [BookingController::class, 'store']);
-    Route::post('/confirm-repair', [BookingController::class, 'confirm']);
-
-
 
     // Routes for Stripe
     Route::post('/create-payment-intent', [StripeController::class, 'createPaymentIntent']);
     Route::post('/verify-payment', [StripeController::class, 'verifyPayment']);
 
     Route::put('/profile/edit/{user_id}', [ProfileController::class, 'update']);
-    
+
     Route::get('/jobs', [JobController::class, 'index']);
     Route::get('/jobs/{job_id}', [JobController::class, 'show']);
     Route::get('/jobs?customer_id={user_id}', [JobController::class, 'show']);
@@ -118,5 +104,3 @@ Route::middleware('auth:sanctum')->group(function () {
 // Routes to register a new user or login a user, doesn't require authentication
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
-
-

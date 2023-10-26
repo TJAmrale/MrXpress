@@ -13,6 +13,8 @@ use App\Models\Technician;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
 
 class BookingController extends Controller
 {
@@ -79,7 +81,7 @@ class BookingController extends Controller
                 'custom_address' => $job->custom_address,
                 'address' => $customer->address,
                 'phone' => $customer->phone,
-                'finished_at'=> $job->finished_at,
+                'finished_at' => $job->finished_at,
                 'item_details' => $itemDetails,
                 // Add other job details as needed
             ];
@@ -91,40 +93,64 @@ class BookingController extends Controller
     }
 
 
-    public function updateTechnicianId($jobId, $technicianId) {
+    public function updateTechnicianId($jobId, $technicianId)
+    {
         // Find the job by its ID
         $job = Job::find($jobId);
         $status = "IN PROGRESS";
-    
+
         if (!$job) {
             return response()->json(['error' => 'Job not found'], 404);
         }
-    
+
         // Set the technician_id
         $job->technician_id = $technicianId;
         $job->job_status = $status;
-    
+
         // Save the changes
         $job->save();
-    
+
         return response()->json(['message' => 'Technician assigned to the job successfully'], 200);
     }
 
-    public function completeJob($jobId) {
-        $job = Job::find($jobId);
-    
-        if (!$job) {
-            return response()->json(['error' => 'Job not found'], 404);
+    public function completeJob($jobId)
+    {
+        // Begin a transaction to ensure all database operations are atomic
+        DB::beginTransaction();
+
+        try {
+            $job = Job::find($jobId);
+
+            if (!$job) {
+                return response()->json(['error' => 'Job not found'], 404);
+            }
+
+            Stripe::setApiKey(config('services.stripe.secret'));
+
+            // Check if the job is already completed to avoid updating the timestamp multiple times
+            if ($job->job_status !== 'COMPLETED') {
+                $job->job_status = 'COMPLETED';
+                $job->finished_at = now(); // Set the finished_at column to the current timestamp
+
+                // Capture the funds
+                $paymentIntent = PaymentIntent::retrieve(
+                    $job->payment_intent_id
+                );
+                $paymentIntent->capture();
+                $job->payment_status = "succeeded";
+
+                $job->save();
+
+                // If everything is successful, commit the transaction
+                DB::commit();
+                return response()->json(['message' => 'Confirm Job completion successfully!'], 200);
+            }
+        } catch (\Exception $e) {
+            // If there's any error, rollback the entire transaction
+            DB::rollBack();
+            return response()->json(['message' => 'Confirm Job completion failed. Please try again.'], 500);
         }
-    
-        // Check if the job is already completed to avoid updating the timestamp multiple times
-        if ($job->job_status !== 'COMPLETED') {
-            $job->job_status = 'COMPLETED';
-            $job->finished_at = now(); // Set the finished_at column to the current timestamp
-    
-            $job->save();
-        }
-    
+
         return response()->json(['message' => 'Job marked as completed'], 200);
     }
 
@@ -281,5 +307,4 @@ class BookingController extends Controller
 
         return response()->json(['totalCost' => $job->total_cost], 200);
     }
-
 }
