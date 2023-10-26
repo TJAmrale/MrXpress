@@ -4,6 +4,11 @@ import axiosClient from "../axios-client";
 import Loading from "../components/Loading";
 import NavBarAdmin from "../components/NavBarAdmin";
 import Footer from "../components/Footer";
+import Table from 'react-bootstrap/Table';
+import {FaRegEdit } from "react-icons/fa";
+import {HiTrash } from "react-icons/hi";
+
+
 
 const ManageDevice = () => {
   const [devices, setDevices] = useState([]);
@@ -20,7 +25,6 @@ const ManageDevice = () => {
       .get("/device")
       .then(({ data }) => {
         setLoading(false);
-        console.log(data)
         setDevices(data.data);
       })
       .catch(() => {
@@ -50,7 +54,7 @@ const ManageDevice = () => {
           </Link>
         </div>
         <div className="card">
-          <table>
+          <Table responsive striped >
             <thead>
               <tr>
                 <th>Device ID</th>
@@ -85,17 +89,20 @@ const ManageDevice = () => {
                     <td>{device.created_at}</td>
                     <td>{device.updated_at}</td>
                     <td>
-                      <Link to={"/app/admin/device/" + device.device_id}>Edit</Link> 
-                      <button onClick={() => onDelete(device)}>Delete</button>
+                      <Link to={"/app/admin/device/" + device.device_id}><FaRegEdit size={"1.75em"} /></Link> 
+                      <button onClick={() => onDelete(device)}><HiTrash size={"1em"}/></button>
                     </td>
                   </tr>
                 ))
               )}
             </tbody>
-          </table>
+          </Table>
+
+                
         </div>
       </section>
       <Footer />
+
     </>
   );
 };

@@ -4,6 +4,10 @@ import axiosClient from "../axios-client";
 import Loading from "../components/Loading";
 import NavBarAdmin from "../components/NavBarAdmin";
 import Footer from "../components/Footer";
+import Table from 'react-bootstrap/Table';
+import {FaRegEdit } from "react-icons/fa";
+import {HiTrash } from "react-icons/hi";
+
 
 const ManageBrandPage = () => {
   const [brand, setBrands] = useState([]);
@@ -20,7 +24,6 @@ const ManageBrandPage = () => {
       .get("/brand")
       .then(({ data }) => {
         setLoading(false);
-        console.log(data);
         setBrands(data.data); // Update the brands state
       })
       .catch(() => {
@@ -52,7 +55,7 @@ const ManageBrandPage = () => {
           </Link>
         </div>
         <div className="card">
-          <table>
+          <Table responsive striped>
             <thead>
               <tr>
                 <th>Brand ID</th>
@@ -78,14 +81,14 @@ const ManageBrandPage = () => {
                     <td>{brand.updated_at}</td>
                     
                     <td>
-                    <Link to={"/app/admin/brand/" + brand.brand_id}>Edit</Link>
-                      <button onClick={() => onDelete(brand)}>Delete</button>
+                    <Link to={"/app/admin/brand/" + brand.brand_id}><FaRegEdit size={"1.75em"} /></Link>
+                      <button onClick={() => onDelete(brand)}><HiTrash size={"1em"}/></button>
                     </td>
                   </tr>
                 ))
               )}
             </tbody>
-          </table>
+          </Table>
         </div>
       </section>
       <Footer />

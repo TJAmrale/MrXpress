@@ -45,6 +45,7 @@ function ManageItemForm() {
                 })
                 .catch((err) => {
                     const response = err.response;
+
                     if (response && response.status === 422) {
                         setErrors(response.data.errors);
                     }
@@ -121,6 +122,7 @@ function ManageItemForm() {
                     )}
                 </div>
             </section>
+            
         </>
     );
 }

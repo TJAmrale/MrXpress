@@ -52,7 +52,7 @@ function ManageDeviceForm() {
         .get(`/device/${device_id}`)
         .then((response) => {
           setLoading(false);
-          console.log(device);
+
           setDevice(response.data);
         })
         .catch(() => {
@@ -67,7 +67,7 @@ function ManageDeviceForm() {
       axiosClient
         .put(`/device/${device.device_id}`, device)
         .then(() => {
-            console.log(device);
+
           navigate("/app/admin/device");
         })
         .catch((err) => {
@@ -80,7 +80,6 @@ function ManageDeviceForm() {
       axiosClient
         .post("/device", device)
         .then(() => {
-            console.log(device);
           navigate("/app/admin/device");
         })
         .catch((err) => {

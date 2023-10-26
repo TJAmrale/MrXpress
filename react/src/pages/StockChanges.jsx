@@ -3,6 +3,7 @@ import axiosClient from "../axios-client";
 import Loading from "../components/Loading";
 import NavBarAdmin from "../components/NavBarAdmin";
 import Footer from "../components/Footer";
+import Table from 'react-bootstrap/Table';
 
 
 const StockChanges = () => {
@@ -19,7 +20,6 @@ const StockChanges = () => {
     axiosClient
       .get("/stock-audits")
       .then(({ data }) => {
-        console.table(data);
         setLoading(false); // Stop loading animation
         setChanges(data.data); // Update the changes state
       })
@@ -53,7 +53,7 @@ const StockChanges = () => {
           <h2>Stock Changes</h2>
         </div>
         <div className="card">
-          <table>
+          <Table responsive striped>
             <thead>
               <tr>
                 <th>Stock Audit ID</th>
@@ -86,7 +86,7 @@ const StockChanges = () => {
                 ))
               )}
             </tbody>
-          </table>
+          </Table>
         </div>
       </section>
       <Footer />

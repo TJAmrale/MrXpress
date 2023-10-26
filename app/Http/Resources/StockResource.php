@@ -21,7 +21,7 @@ class StockResource extends JsonResource
             'device_id' => $this->device_id,
             'device' => [
                 'model' => $this->device->model,
-                'color' => $this->device->colours, // Added color
+                'color' => $this->device->colours,
                 'brand' => [
                     'brand_name' => optional($this->device->brand)->brand_name,
                 ],
@@ -32,7 +32,7 @@ class StockResource extends JsonResource
             'item_id' => $this->item_id,
             'item' => [
                 'item_name' => optional($this->item)->item_name,
-                'item_type' => optional($this->item)->item_type, // Added item type
+                'item_type' => optional($this->item)->item_type, 
             ],
             'buy_price' => $this->buy_price,
             'wholesale_price' => $this->wholesale_price,
