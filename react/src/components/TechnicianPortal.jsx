@@ -5,6 +5,7 @@ import NavBarTechnician from './NavBarTechnician'
 import InvoiceView from './InvoiceView';
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Table from 'react-bootstrap/Table';
 
 
 //Jobs(job_id)->job_stock(stock_id)->stock(device_id, item_id)->devices(series_id, model)->series(series_name)->items(item_type, item_name)
@@ -118,7 +119,7 @@ function TechnicianPortal({ technician }) {
       <h3>Welcome {technician.name}</h3>
       <div className='newJobs'>
         <h2>NEW Jobs</h2>
-          <table>
+          <Table responsive="md" striped >
             <thead>
               <tr>
                 <th>Job ID</th>
@@ -180,16 +181,16 @@ function TechnicianPortal({ technician }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6">No new jobs available.</td>
+                  <td colSpan="6">No jobs in progress available.</td>
                 </tr>
               )}
             </tbody>
-          </table>
+          </Table>
       </div>
 
       <div className='in_progressJobs'>
         <h2>IN PROGRESS</h2>
-          <table>
+          <Table responsive="md" striped>
             <thead>
               <tr>
                 <th>Job ID</th>
@@ -242,7 +243,7 @@ function TechnicianPortal({ technician }) {
                       ) : (
                         job.job_status === 'IN PROGRESS' && (
                           <Button variant="success" onClick={() => handleCompleteJob(job.job_id)}>
-                            Accept
+                            Finish
                           </Button>
                         )
                       )}
@@ -251,16 +252,16 @@ function TechnicianPortal({ technician }) {
                 ))
               ) : (
                 <tr>
-                  <td colSpan="6">No new jobs available.</td>
+                  <td colSpan="6">No jobs completed</td>
                 </tr>
               )}
             </tbody>
-          </table>
+          </Table>
       </div>
 
       <div className='completedJobs'>
         <h2>Completed Jobs</h2>
-          <table>
+          <Table responsive="md" striped>
             <thead>
               <tr>
                 <th>Job ID</th>
@@ -310,7 +311,7 @@ function TechnicianPortal({ technician }) {
                 </tr>
               )}
             </tbody>
-          </table>
+          </Table>
       </div>
       {selectedJob && (
         <div>

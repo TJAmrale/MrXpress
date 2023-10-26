@@ -43,15 +43,6 @@ function NavBarTechnician() {
             <Nav.Link className="px-3" href="/app/technician" >
               Portal
             </Nav.Link>
-            <Nav.Link className="px-3" href="">
-              TBD
-            </Nav.Link>
-            <Nav.Link className="px-3" href="#faqs">
-              TBD
-            </Nav.Link>
-            <Nav.Link as={Link} className="px-3 me-3" to="">
-              TBD
-            </Nav.Link>
             {!token ? (
               <Button variant="primary" className="px-4" href="/login">
                 Login
