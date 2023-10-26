@@ -11,10 +11,14 @@ import "../profile.css";
 import 'react-toastify/dist/ReactToastify.css';
 import Loading from "../components/Loading";
 import axiosClient from "../axios-client";
+import Table from 'react-bootstrap/Table';
 
 function JobsAndRatings() {
-  const [activeJobs, setActiveJobs] = useState([]);
-  const [pastJobs, setPastJobs] = useState([]);  
+  const [CnewJobs, CsetNewJobs] = useState([]);
+  const [CinProgressJobs, CsetInProgressJobs] = useState([]);
+  const [CcompletedJobs, CsetCompletedJobs] = useState([]);
+  // const [activeJobs, setActiveJobs] = useState([]);
+  // const [pastJobs, setPastJobs] = useState([]);  
   const [loading, setLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, setUser, token, accessLevel } = useUserContext({
@@ -25,51 +29,38 @@ function JobsAndRatings() {
     address: "",
     dob: "",
   });
-  console.log(user);
-  
+  const customer_id = user.user_id;
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
 
-  useEffect(() => {
-    if (user.customer_id) {
-      setLoading(true);
-      axiosClient.get(`/jobs?customer_id=${user.customer_id}`)
-        .then((response) => {
-          setLoading(false);
-          setUser(response.data);
-        })
-        .catch(() => {
-          setLoading(false);
-        });
-    }
-  }, [user.customer_id]);
-
-   // Fetch all users from the API
-   const getJobs = () => {
+   //Fetch all jobs according to customer_id
+   const getJobs = (status, customer_id) => {
+    let url = `/jobs/sort/${status}/${customer_id}`;
     setLoading(true); // Start loading animation
     axiosClient
-      .get(`/jobs?customer_id=${user.customer_id}`)
-      .then(({ data }) => {
-        const allJobs = data.jobs;
-        const activeJobs = allJobs.filter(
-          (job) =>
-            job.job_status === 'NEW' ||
-            job.job_status === 'IN PROGRESS' ||
-            job.job_status === 'ON HOLD'
-        );
-        const pastJobs = allJobs.filter(
-          (job) =>
-            job.job_status === 'CANCELLED' || job.job_status === 'COMPLETED'
-        );
+      .get(url)
+      .then((response) => {
+        if (status === 'NEW') {
+          CsetNewJobs(response.data.jobsWithDetails);
+        } else if (status === 'IN PROGRESS') {
+          CsetInProgressJobs(response.data.jobsWithDetails);
+        } else if (status === 'COMPLETED') {
+          CsetCompletedJobs(response.data.jobsWithDetails);
+        }
         setLoading(false); // Stop loading animation
-        setActiveJobs(activeJobs); // Update the active jobs state
-        setPastJobs(pastJobs); // Update the past jobs state
       })
       .catch(() => {
-        setLoading(false); // Stop loading animation on error
+        setLoading(false); 
       });
   };
+
+  useEffect(() => {
+    getJobs('NEW', customer_id);
+    getJobs('IN PROGRESS', customer_id);
+    getJobs('COMPLETED', customer_id);
+  }, [customer_id]);
+
 
   return (
     <>
@@ -115,70 +106,130 @@ function JobsAndRatings() {
     </div>
 
     <section id="manage-users" className="custom-container">
-  <div className="card">
-    <table>
-      <thead>
-        <tr>
-          <th>Active Jobs</th>
-        </tr>
-      </thead>
-      <tbody>
-        {loading ? (
+    <div className="card">
+      <h2 style={{ color: "#000000" }}>Ordered</h2>
+      <Table responsive="md" striped>
+        <thead>
           <tr>
-            <td colSpan="5" className="text-center">
-              <Loading />
-            </td>
+            <th>Job ID</th>
+            <th>Job Status</th>
+            <th>Total Cost</th>
+            <th>Device</th>
           </tr>
-        ) : (
-          activeJobs.map((job) => (
-            <tr key={job.job_id}>
-              <td>{job.job_id}</td>
-              <td>{job.customer_id}</td>
-              <td>{job.technician_id}</td>
-              <td>{job.job_status}</td>
-              <td>{job.total_cost}</td>
-              <td>{job.created_at}</td>
-              <td>{job.updated_at}</td>
+        </thead>
+        <tbody>
+          {loading ? (
+            <tr>
+              <td colSpan="5" className="text-center">
+                <Loading />
+              </td>
             </tr>
-          ))
-        )}
-      </tbody>
-    </table>
-  </div>
-</section>
+          ) : (
+            CnewJobs.map((job) => (
+              <tr key={job.job_id}>
+                <td>{job.job_id}</td>
+                <td>{job.job_status}</td>
+                <td>${job.total_cost}</td>
+                <td>
+                  {job.item_details.map((item, itemIndex) => (
+                    <div key={itemIndex}>
+                      {itemIndex === 0 && (
+                        <span>{item.series_name} {item.model}<br></br></span>
+                      )}
+                    </div>
+                  ))}
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </Table>
+    </div>
+  </section>
 
-<section id="manage-users" className="custom-container">
-  <div className="card">
-    <table>
-      <thead>
-        <tr>
-          <th>Past Jobs</th>
-        </tr>
-      </thead>
-      <tbody>
-        {loading ? (
-          <tr>
-            <td colSpan="5" className="text-center">
-              <Loading />
-            </td>
-          </tr>
-        ) : (
-          pastJobs.map((job) => (
-            <tr key={job.job_id}>
-              <td>{job.job_id}</td>
-              <td>{job.customer_id}</td>
-              <td>{job.technician_id}</td>
-              <td>{job.job_status}</td>
-              <td>{job.total_cost}</td>
-              <td>{job.created_at}</td>
-              <td>{job.updated_at}</td>
+  <section id="manage-users" className="custom-container">
+    <div className="card">
+    <h2 style={{ color: "#000000" }}>Active</h2>
+        <Table responsive="md" striped>
+          <thead>
+            <tr>
+              <th>Job ID</th>
+              <th>Job Status</th>
+              <th>Total Cost</th>
+              <th>Device</th>
             </tr>
-          ))
-        )}
-      </tbody>
-    </table>
-  </div>
-</section>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="5" className="text-center">
+                  <Loading />
+                </td>
+              </tr>
+            ) : (
+              CinProgressJobs.map((job) => (
+                <tr key={job.job_id}>
+                  <td>{job.job_id}</td>
+                  <td>{job.job_status}</td>
+                  <td>${job.total_cost}</td>
+                  <td>
+                    {job.item_details.map((item, itemIndex) => (
+                      <div key={itemIndex}>
+                        {itemIndex === 0 && (
+                          <span>{item.series_name} {item.model}<br></br></span>
+                        )}
+                      </div>
+                    ))}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </Table>
+    </div>
+  </section>
+
+  <section id="manage-users" className="custom-container">
+    <div className="card">
+    <h2 style={{ color: "#000000" }}>Completed</h2>
+        <Table responsive="md" striped>
+          <thead>
+            <tr>
+              <th>Job ID</th>
+              <th>Job Status</th>
+              <th>Total Cost</th>
+              <th>Device</th>
+            </tr>
+          </thead>
+          <tbody>
+            {loading ? (
+              <tr>
+                <td colSpan="5" className="text-center">
+                  <Loading />
+                </td>
+              </tr>
+            ) : (
+              CcompletedJobs.map((job) => (
+                <tr key={job.job_id}>
+                  <td>{job.job_id}</td>
+                  <td>{job.job_status}</td>
+                  <td>${job.total_cost}</td>
+                  <td>
+                    {job.item_details.map((item, itemIndex) => (
+                      <div key={itemIndex}>
+                        {itemIndex === 0 && (
+                          <span>{item.series_name} {item.model}<br></br></span>
+                        )}
+                      </div>
+                    ))}
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </Table>
+    </div>
+  </section>
       <Footer />
     </>
   );

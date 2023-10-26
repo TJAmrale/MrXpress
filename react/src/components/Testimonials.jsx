@@ -5,7 +5,7 @@ import { Carousel } from "react-bootstrap";
 function Testimonials() {
   return (
     <section id="testimonials">
-      <h2 className="section-heading text-center">What Our Clients Say</h2>
+      <h2 className="section-heading text-center text-body">What Our Clients Say</h2>
       <Carousel data-bs-theme="dark">
       <Carousel.Item>
         <div className="img-box"><img src="https://i.ibb.co/d5DY64w/img1.jpg" alt=""/></div>

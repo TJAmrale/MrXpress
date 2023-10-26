@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\DeviceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\JobController;
 
 /*
 |--------------------------------------------------------------------------
@@ -53,6 +54,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('jobs/complete/{job_id}', [BookingController::class, 'completeJob']);
 
 
+    //Cutomer
+    Route::get('/jobs/sort/{status}/{customer_id}', [JobController::class, 'CsortJobStatus']);
 
     // Route::get('/stocks', [App\Http\Controllers\Api\StockController::class, 'index']);
     Route::apiResource('/stock', StockController::class);

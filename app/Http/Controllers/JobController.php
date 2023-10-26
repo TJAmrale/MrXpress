@@ -2,24 +2,96 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Brand;
+use App\Models\Device;
+use App\Models\Stock;
+use App\Models\Item;
 use App\Models\Job;
+use App\Models\JobStock;
+use App\Models\Series;
+use App\Models\Technician;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class JobController extends Controller
 {
-    public function index(Request $request)
-{
-    // Check if the user is authenticated
-    if ($request->user()) {
-        // Retrieve a list of jobs associated with the logged-in user
-        $jobs = Job::where('customer_id', $request->user()->customer_id)->get();
+    public function CsortJobStatus($status, $customer_id)
+    {
 
-        return response()->json(['jobs' => $jobs], 200);
-    } else {
-        // User is not authenticated, return an error response
-        return response()->json(['error' => 'User is not authenticated'], 401);
+        \Log::info('Customer ID: ' . $customer_id);
+        $validStatuses = ["NEW", "IN PROGRESS", "COMPLETED"];
+
+        if (!in_array($status, $validStatuses)) {
+            return response()->json(['error' => 'Invalid status specified'], 400);
+        }
+
+        // Retrieve and filter jobs by the specified job_status and customer_id
+        $query = Job::where('job_status', $status)
+            ->where('customer_id', $customer_id);
+
+        $filteredJobs = $query->orderBy('job_status')->get();
+
+        $jobsWithDetails = [];
+
+        foreach ($filteredJobs as $job) {
+            $customerId = $job->customer_id;
+            $customer = User::find($customerId);
+
+            if (!$customer) {
+                return response()->json(['error' => 'Customer not found'], 404);
+            }
+
+            // Get the related JobStock records for the job
+            $jobStocks = $job->stocksUsed;
+
+            $itemDetails = [];
+            foreach ($jobStocks as $jobStock) {
+                $stock = $jobStock->stock;
+                $device = $stock->device;
+                $series = $device->series;
+                $item = $stock->item;
+
+                // Extract the item details
+                $itemDetails[] = [
+                    'model' => $device->model,
+                    'series_name' => $series->series_name,
+                    'item_type' => $item->item_type,
+                    'item_name' => $item->item_name,
+                ];
+            }
+
+            // Now combine customer and item details
+            $jobWithDetails = [
+                'job_id' => $job->job_id,
+                'job_status' => $job->job_status,
+                'total_cost' => $job->total_cost,
+                'finished_at'=> $job->finished_at,
+                'item_details' => $itemDetails,
+                // Add other job details as needed
+            ];
+
+            $jobsWithDetails[] = $jobWithDetails;
+        }
+
+        return response()->json(['jobsWithDetails' => $jobsWithDetails], 200);
     }
-}
+
+
+
+
+
+    public function index(Request $request)
+    {
+        // Check if the user is authenticated
+        if ($request->user()) {
+            // User is authenticated; no need to retrieve jobs here
+            return response()->json(['message' => 'Authenticated user'], 200);
+        } else {
+            // User is not authenticated, return an error response
+            return response()->json(['error' => 'User is not authenticated'], 401);
+        }
+    }
 
 
 
