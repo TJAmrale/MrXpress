@@ -13,6 +13,8 @@ use App\Models\Technician;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
 
 class JobController extends Controller
 {
@@ -77,7 +79,6 @@ class JobController extends Controller
         return response()->json(['jobsWithDetails' => $jobsWithDetails], 200);
     }
 
-
     public function cancelJob($jobId)
     {
         // Find the job by its ID
@@ -97,29 +98,45 @@ class JobController extends Controller
         return response()->json(['message' => 'Cancelled'], 200);
     }
 
-
-
-    public function cancelAcceptJob($jobId)
+    public function cancelAcceptedJob($jobId)
     {
-        // Find the job by its ID
-        $job = Job::find($jobId);
-        $status = "CANCELLED";
+        // Begin a transaction to ensure all database operations are atomic
+        DB::beginTransaction();
 
-        if (!$job) {
-            return response()->json(['error' => 'Job not found'], 404);
+        try {
+            // Find the job by its ID
+            $job = Job::find($jobId);
+            $status = "CANCELLED";
+
+            if (!$job) {
+                return response()->json(['error' => 'Job not found'], 404);
+            }
+
+            Stripe::setApiKey(config('services.stripe.secret'));
+
+            $job->job_status = $status;
+            $job->callout_fee = 50.00;
+            $job->amount = 50.00;
+
+            $paymentIntent = PaymentIntent::retrieve(
+                $job->payment_intent_id
+            );
+            $paymentIntent->capture(['amount_to_capture' => 5000]);
+            $job->payment_status = "succeeded";
+
+            // Save the changes
+            $job->save();
+            // If everything is successful, commit the transaction
+            DB::commit();
+            return response()->json(['message' => 'Confirm Job completion successfully!'], 200);
+        } catch (\Exception $e) {
+            // If there's any error, rollback the entire transaction
+            DB::rollBack();
+            return response()->json(['message' => 'Confirm Job completion failed. Please try again.'], 500);
         }
-
-        // Set the technician_id
-        $job->job_status = $status;
-
-        // Save the changes
-        $job->save();
 
         return response()->json(['message' => 'Cancelled'], 200);
     }
-
-
-
 
     public function index(Request $request)
     {
@@ -133,8 +150,6 @@ class JobController extends Controller
         }
     }
 
-
-
     public function show($id)
     {
         // Retrieve a specific job by its ID
@@ -146,7 +161,6 @@ class JobController extends Controller
 
         return response()->json(['job' => $job], 200);
     }
-
 }
 
 /*
