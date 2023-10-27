@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\ModelController;
 use App\Http\Controllers\Api\BrandController;
 use App\Http\Controllers\Api\SeriesController;
 use App\Http\Controllers\Api\StockAuditController;
+use App\Http\Controllers\RepairSelectController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\Api\DeviceController;
@@ -97,9 +98,17 @@ Route::middleware('auth:sanctum')->group(function () {
 
     // Fetch Series
     Route::get('/series-stock', [DeviceController::class, 'getSeries']);
-    
+
     // Fetch stock for audit
     Route::get('/stock-changes', [StockController::class, 'changes']);
+
+    // Route for RepairSelect
+    Route::get('/repair-select-brands', [RepairSelectController::class, 'brands']);
+    Route::get('/repair-select-series', [RepairSelectController::class, 'series']);
+    Route::get('/repair-select-models', [RepairSelectController::class, 'models']);
+    Route::get('/repair-select-colours', [RepairSelectController::class, 'colours']);
+    Route::get('/repair-select-repairtype', [RepairSelectController::class, 'repairtype']);
+    Route::get('/repair-select-accessories', [RepairSelectController::class, 'accessories']);
 
     // Routes for Stripe
     Route::post('/create-payment-intent', [StripeController::class, 'createPaymentIntent']);
