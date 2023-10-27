@@ -42,6 +42,10 @@ $card-spacer-y: $spacer * 2;
     z-index: 1000; 
 }
 
+.navbar-brand {
+    color: $primary;
+}
+
 #index-page .btn-book {
     transition: transform ease 0.3s;
 

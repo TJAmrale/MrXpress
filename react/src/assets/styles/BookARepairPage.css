@@ -1,0 +1,27 @@
+.optionButtons {
+  text-align: center;
+  background-color: #c62d42;
+  padding: 15px;
+  margin: 10px;
+  color: white;
+}
+
+.centreDiv {
+  text-align: center;
+}
+
+.hiddenButtons button {
+  text-align: center;
+  background-color: transparent;
+  border: none;
+}
+
+
+
+
+#footer {
+  position: fixed;  /* This will make the footer fixed */
+  bottom: 0;        /* Position it at the bottom */
+  width: 100%;      /* Full width */
+  /* rest of your styles */
+}
