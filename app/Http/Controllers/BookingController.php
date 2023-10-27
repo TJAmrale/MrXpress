@@ -119,32 +119,41 @@ class BookingController extends Controller
         DB::beginTransaction();
 
         try {
-            $job = Job::find($jobId);
+            $job = Job::with('stocksUsed.stock')->find($jobId);
 
             if (!$job) {
                 return response()->json(['error' => 'Job not found'], 404);
             }
 
-            Stripe::setApiKey(config('services.stripe.secret'));
+            // Check if the job is already completed to avoid updating the timestamp multiple times
+            if ($job->job_status === 'COMPLETED') {
+                return response()->json(['message' => 'Job already marked as completed'], 400);
+            }
+
+            // Loop through stocksUsed (JobStocks) to get individual stock
+            foreach ($job->stocksUsed as $jobStock) {
+                $stock = $jobStock->stock;
+                $stock->quantity -= 1;
+                $stock->save();
+            }
 
             // Check if the job is already completed to avoid updating the timestamp multiple times
-            if ($job->job_status !== 'COMPLETED') {
-                $job->job_status = 'COMPLETED';
-                $job->finished_at = now(); // Set the finished_at column to the current timestamp
+            $job->job_status = 'COMPLETED';
+            $job->finished_at = now(); // Set the finished_at column to the current timestamp
 
-                // Capture the funds
-                $paymentIntent = PaymentIntent::retrieve(
-                    $job->payment_intent_id
-                );
-                $paymentIntent->capture();
-                $job->payment_status = "succeeded";
+            // Capture the funds
+            Stripe::setApiKey(config('services.stripe.secret'));
+            $paymentIntent = PaymentIntent::retrieve(
+                $job->payment_intent_id
+            );
+            $paymentIntent->capture();
+            $job->payment_status = "succeeded";
 
-                $job->save();
+            $job->save();
 
-                // If everything is successful, commit the transaction
-                DB::commit();
-                return response()->json(['message' => 'Confirm Job completion successfully!'], 200);
-            }
+            // If everything is successful, commit the transaction
+            DB::commit();
+            return response()->json(['message' => 'Confirm Job completion successfully!'], 200);
         } catch (\Exception $e) {
             // If there's any error, rollback the entire transaction
             DB::rollBack();
