@@ -20,7 +20,9 @@ function JobsAndRatings() {
   const [CinProgressJobs, CsetInProgressJobs] = useState([]);
   const [CcompletedJobs, CsetCompletedJobs] = useState([]);
   const [cancelJobId, setcancelJobId] = useState(null);
+  const [cancelAcceptedJobId, setcancelAcceptedJobId] = useState(null);
   const [confirmationAction, setConfirmationAction] = useState(null); 
+  const [confirmationAction2, setConfirmationAction2] = useState(null); 
   const [loading, setLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, setUser, token, accessLevel } = useUserContext({
@@ -69,6 +71,12 @@ function JobsAndRatings() {
     setConfirmationAction('accept');
   };
 
+
+  const handleCancelAcceptedJob = (job_id) => {
+    setcancelAcceptedJobId(job_id);
+    setConfirmationAction2('accept');
+  };
+
   const confirmAction = (job_id) => {
     if (cancelJobId === job_id) {
       if (confirmationAction === 'accept') {
@@ -82,6 +90,26 @@ function JobsAndRatings() {
             console.error(error);
             setcancelJobId(null);
             setConfirmationAction(null);
+          });
+      } 
+    }
+  };
+
+
+
+  const confirmAction2 = (job_id) => {
+    if (cancelAcceptedJobId === job_id) {
+      if (confirmationAction2 === 'accept') {
+        axiosClient
+          .put(`/job/cancel-accepted/${job_id}/`, {})
+          .then(() => {
+            toast.success("Job Cancelled"); // Assuming you want to display a success message
+            window.location.reload(); // Reload the page
+          })
+          .catch((error) => {
+            console.error(error);
+            setcancelAcceptedJobId(null);
+            setConfirmationAction2(null);
           });
       } 
     }
@@ -228,6 +256,27 @@ function JobsAndRatings() {
                       </div>
                     ))}
                   </td>
+                  <td>
+                      {cancelAcceptedJobId === job.job_id ? (
+                        <div className="button-container">
+                          Are you sure?
+                          <Button variant="outline-danger" onClick={() => confirmAction2(job.job_id)}>
+                            Yes
+                          </Button>
+                          <Button variant="outline-success" onClick={() => setcancelAcceptedJobId(null)}>
+                            No
+                          </Button>
+                        </div>
+                      ) : (
+                        job.job_status === 'IN PROGRESS' && (
+                          <div className="button-container">
+                            <Button variant="danger" onClick={() => handleCancelAcceptedJob(job.job_id)}>
+                              Cancel
+                            </Button>
+                          </div>
+                        )
+                      )}
+                </td>
                 </tr>
               ))
             )}
