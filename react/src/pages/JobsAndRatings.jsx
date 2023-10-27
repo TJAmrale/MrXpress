@@ -276,7 +276,7 @@ function JobsAndRatings() {
                   <td>
                       {cancelAcceptedJobId === job.job_id ? (
                         <div className="button-container">
-                          Are you sure?
+                          Are you sure? You will be charge $50 for the cancellation.
                           <Button variant="outline-danger" onClick={() => confirmAction2(job.job_id)}>
                             Yes
                           </Button>

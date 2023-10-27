@@ -54,11 +54,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('jobs/complete/{job_id}', [BookingController::class, 'completeJob']);
 
 
-    //Cutomer
+    //Customer
     Route::get('/jobs/sort/{status}/{customer_id}', [JobController::class, 'CsortJobStatus']);
     Route::put('/job/cancel/{job_id}', [JobController::class, 'cancelJob']);
-
-    Route::put('/job/cancel-accepted/{job_id}', [JobController::class, 'cancelAcceptJob']);
+    Route::put('/job/cancel-accepted/{job_id}', [JobController::class, 'cancelAcceptedJob']);
 
     Route::post('/storeTechnicianRating', [JobController::class, 'storeTechnicianRating']);
     Route::post('/storeCustomerRating', [JobController::class, 'storeCustomerRating']);
