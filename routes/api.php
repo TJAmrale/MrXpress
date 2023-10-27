@@ -60,9 +60,13 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::put('/job/cancel-accepted/{job_id}', [JobController::class, 'cancelAcceptJob']);
 
+    Route::post('/storeTechnicianRating', [JobController::class, 'storeTechnicianRating']);
+    Route::post('/storeCustomerRating', [JobController::class, 'storeCustomerRating']);
 
 
-    // Route::get('/stocks', [App\Http\Controllers\Api\StockController::class, 'index']);
+
+
+
     Route::apiResource('/stock', StockController::class);
 
     Route::apiResource('/device', DeviceController::class);
@@ -102,7 +106,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/create-payment-intent', [StripeController::class, 'createPaymentIntent']);
     Route::post('/verify-payment', [StripeController::class, 'verifyPayment']);
 
+    //profile
     Route::put('/profile/edit/{user_id}', [ProfileController::class, 'update']);
+    Route::get('/profile/ratings/{type}/{user_id}', [ProfileController::class, 'getRatings']);
+
+
 
     Route::get('/jobs', [JobController::class, 'index']);
     Route::get('/jobs/{job_id}', [JobController::class, 'show']);

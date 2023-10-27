@@ -13,13 +13,15 @@ use App\Models\Technician;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
+use App\Models\TechnicianRatings;
+use App\Models\CustomerRatings;
+
 
 class JobController extends Controller
 {
     public function CsortJobStatus($status, $customer_id)
     {
 
-        \Log::info('Customer ID: ' . $customer_id);
         $validStatuses = ["NEW", "IN PROGRESS", "COMPLETED"];
 
         if (!in_array($status, $validStatuses)) {
@@ -119,6 +121,73 @@ class JobController extends Controller
     }
 
 
+    public function storeTechnicianRating(Request $request)
+    {
+        $jobId = $request->input('jobId');
+        $rating = $request->input('rating');
+        $comments = $request->input('comments');
+
+        // Find the job by jobId to obtain customer_id and technician_id
+        $job = Job::where('job_id', $jobId)->first();
+
+        if (!$job) {
+            return response()->json(['error' => 'Job not found'], 404);
+        }
+
+        $customer_id = $job->customer_id;
+        $technician_id = $job->technician_id;
+
+        // Create a new TechnicianRatings record
+        $customerRating = new TechnicianRatings();
+        $customerRating->job_id = $jobId;
+        $customerRating->rating = $rating;
+        $customerRating->comments = $comments;
+        $customerRating->customer_id = $customer_id;
+        $customerRating->technician_id = $technician_id;
+
+        $customerRating->save();
+
+        return response()->json(['message' => 'Rating and comment saved successfully'], 200);
+    }
+
+
+    public function storeCustomerRating(Request $request)
+    {
+        $jobId = $request->input('jobId');
+        $rating = $request->input('rating');
+        $comments = $request->input('comments');
+
+        // Find the job by jobId to obtain customer_id and technician_id
+        $job = Job::where('job_id', $jobId)->first();
+
+        if (!$job) {
+            return response()->json(['error' => 'Job not found'], 404);
+        }
+
+        $existingRating = CustomerRatings::where('job_id', $jobId)->first();
+
+        if ($existingRating) {
+            // Return an error response if a rating entry already exists
+            return response()->json(['error' => 'Rating entry already exists for this job'], 400);
+        }
+
+        $customer_id = $job->customer_id;
+        $technician_id = $job->technician_id;
+
+        // Create a new TechnicianRatings record
+        $technicianRating = new CustomerRatings();
+        $technicianRating->job_id = $jobId;
+        $technicianRating->rating = $rating;
+        $technicianRating->comments = $comments;
+        $technicianRating->customer_id = $customer_id;
+        $technicianRating->technician_id = $technician_id;
+
+        $technicianRating->save();
+
+        return response()->json(['message' => 'Rating and comment saved successfully'], 200);
+    }
+
+
 
 
     public function index(Request $request)
@@ -149,50 +218,3 @@ class JobController extends Controller
 
 }
 
-/*
-    public function store(Request $request)
-    {
-        // Create a new job based on the data in the request
-        $data = $request->all();
-        // ...
-
-        // Save the job to the database
-        $job = new Job();
-        // Set job properties based on $data
-        // $job->property = $data['property'];
-        $job->save();
-
-        return response()->json(['message' => 'Job created successfully'], 201);
-    }
-
-    public function update(Request $request, $id)
-    {
-        // Update an existing job by its ID
-        $job = Job::find($id);
-
-        if (!$job) {
-            return response()->json(['error' => 'Job not found'], 404);
-        }
-
-        $data = $request->all();
-        // Update job properties based on $data
-        // $job->property = $data['property'];
-        $job->save();
-
-        return response()->json(['message' => 'Job updated successfully'], 200);
-    }
-
-    public function destroy($id)
-    {
-        // Delete a job by its ID
-        $job = Job::find($id);
-
-        if (!$job) {
-            return response()->json(['error' => 'Job not found'], 404);
-        }
-
-        $job->delete();
-
-        return response()->json(['message' => 'Job deleted successfully'], 200);
-    }
-*/

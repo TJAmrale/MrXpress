@@ -73,7 +73,7 @@ class BookingController extends Controller
                 ];
             }
 
-            //now combine customer and item details
+            // Now combine customer and item details
             $jobWithDetails = [
                 'job_id' => $job->job_id,
                 'job_status' => $job->job_status,

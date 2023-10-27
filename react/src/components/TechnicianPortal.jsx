@@ -8,11 +8,6 @@ import "react-toastify/dist/ReactToastify.css";
 import Table from 'react-bootstrap/Table';
 import FeedbackForm from "../components/FeedbackForm";
 
-
-
-//Jobs(job_id)->job_stock(stock_id)->stock(device_id, item_id)->devices(series_id, model)->series(series_name)->items(item_type, item_name)
-
-
 function TechnicianPortal({ technician }) {
   const [newJobs, setNewJobs] = useState([]);
   const [inProgressJobs, setInProgressJobs] = useState([]);
@@ -28,12 +23,12 @@ function TechnicianPortal({ technician }) {
   const fetchData = (status, technician_id) => {
     let url =
       status === 'NEW'
-        ? `/sort-jobs/${status}/null`
+        ? `/sort-jobs/${status}/null` //NEW jobs wont have a technician_id assigned to them
         : `/sort-jobs/${status}/${technician_id}`;
 
     axiosClient
       .get(url)
-      .then((response) => {
+      .then((response) => { //get data from the controller
         if (status === 'NEW') {
           setNewJobs(response.data.jobsWithDetails);
         } else if (status === 'IN PROGRESS') {
@@ -48,55 +43,60 @@ function TechnicianPortal({ technician }) {
   };
 
   useEffect(() => {
-    // Fetch data for each job status
+    //Fetch data for each job status
     fetchData('NEW', null);
     fetchData('IN PROGRESS', technician_id);
     fetchData('COMPLETED', technician_id);
   }, [technician_id]);
 
 
-  const handleAcceptJob = (job_id) => {
+  const handleAcceptJob = (job_id) => { //Confirmation for accepting job
     setConfirmationJobId(job_id);
     setConfirmationAction('accept');
   };
 
-  const handleCompleteJob = (job_id) => {
+  const handleCompleteJob = (job_id) => { //confirmation for completing job
     setConfirmationJobId(job_id);
     setConfirmationAction('complete');
   };
 
 
   const confirmAction = (job_id) => {
+//this checks if user is trying to accept a job so NEW->IN PROGRESS or is trying to finish IN PROGRESS->COMPLETED
     if (confirmationJobId === job_id) {
       if (confirmationAction === 'accept') {
+        //if action is NEW then send to updateTechnicianId function in controller via route
         axiosClient
           .put(`/jobs/assign/${job_id}/${technician_id}`, {
             technician_id: technician_id,
           })
           .then(() => {
-            toast.info("Job Accepted");
-            console.log(technician_id);
-            fetchData('NEW');
+            toast.info("Job Accepted"); //toast notifcation 
+            fetchData('NEW'); //refetch the NEW jobs
+            //closes the confirmation buttons and deletes the stored value
             setConfirmationJobId(null);
             setConfirmationAction(null);
-            window.location.reload();
+            window.location.reload();//reloads the page
           })
           .catch((error) => {
             console.error(error);
-            setConfirmationJobId(null);
+            setConfirmationJobId(null); //get rid of value if error occurs
             setConfirmationAction(null);
           });
       } else if (confirmationAction === 'complete') {
+        //if action is complete then send to completeJob in controller via route
         axiosClient
           .put(`/jobs/complete/${job_id}`)
           .then(() => {
-            toast.success("Job Completed");
-            fetchData('IN PROGRESS');
+            toast.success("Job Completed");//toast notifcation 
+            fetchData('IN PROGRESS'); //refetch data
             fetchData('COMPLETED');
+            //closes the confirmation buttons and deletes the stored value
             setConfirmationJobId(null);
             setConfirmationAction(null);
-            //window.location.reload();
+            //specify job_id for jobIdForRating to pass onto the feedback form
             setjobIdForRating(job_id);
+            //true makes the feedbackform appear
             setShowRatingForm(true);
           })
           .catch((error) => {
@@ -109,16 +109,18 @@ function TechnicianPortal({ technician }) {
   };
 
   const handleInvoice = (job) => {
+    //send the selected job to InvoiceView so it can generate an invoice
     setSelectedJob(job);
   };
 
   const closeInvoice = () => {
-    setSelectedJob(null);
+    //close the invoice and reset values
+    setSelectedJob(null); 
   };
 
 
   const handleCloseRatingForm = () => {
-    // Close the rating form and reset the bookingIdForRating
+    //close the rating form and reset the bookingIdForRating
     setjobIdForRating(null);
     setShowRatingForm(false);
   };
@@ -126,11 +128,12 @@ function TechnicianPortal({ technician }) {
 
 
   return (
-    <><NavBarTechnician />
+    <><NavBarTechnician /> 
     <div id='TechPortal'>
       <h1>Technician Portal</h1>
       <h3>Welcome {technician.name}</h3>
       <div className='jobnav'>
+        {/* Links to navigate between tables */}
         <a href="#NEW">New Jobs</a>
         <a href="#IN PROGRESS">In Progress Jobs</a>
         <a href="#COMPLETED">Completed Jobs</a>
@@ -148,6 +151,8 @@ function TechnicianPortal({ technician }) {
               </tr>
             </thead>
             <tbody>
+              {/*does the array exist and is the length > 0*/}
+              {/* map allows to iterate over each job object */}
               {newJobs && newJobs.length > 0 ? (
                 newJobs.map((job) => (
                   <tr key={job.job_id}>
@@ -155,12 +160,13 @@ function TechnicianPortal({ technician }) {
                     <td>{job.job_status}</td>
                     <td>${job.total_cost}</td>
                     {job.custom_address ? (
-                      <td>{job.custom_address.slice(-4)}</td>
+                      <td>{job.custom_address.slice(-4)}</td> //only display the postcode
                     ) : (
                       <td>{job.address.slice(-4)}</td>
                     )}
                     <td>
-                      {job.item_details.map((item, itemIndex) => (
+                      {job.item_details.map((item, itemIndex) => ( 
+                        //iterate theough the item_details object which is inside the job object
                         <React.Fragment key={itemIndex}>
                           {itemIndex === 0 && ( // Display series_name and model for the first item
                             <div>
@@ -175,7 +181,7 @@ function TechnicianPortal({ technician }) {
                       ))}
                     </td>
                     <td>
-                      {confirmationJobId === job.job_id ? (
+                      {confirmationJobId === job.job_id ? ( //get the job_id for controller and display confirmation buttons
                         <div className="button-container">
                           Are you sure?
                           <Button variant="outline-success" onClick={() => confirmAction(job.job_id)}>

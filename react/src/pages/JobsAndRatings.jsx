@@ -14,6 +14,9 @@ import Loading from "../components/Loading";
 import axiosClient from "../axios-client";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import FeedbackForm from "../components/FeedbackForm";
+
+
 
 function JobsAndRatings() {
   const [CnewJobs, CsetNewJobs] = useState([]);
@@ -25,6 +28,9 @@ function JobsAndRatings() {
   const [confirmationAction2, setConfirmationAction2] = useState(null); 
   const [loading, setLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showRatingForm, setShowRatingForm] = useState(false);
+  const [jobIdForRating, setjobIdForRating] = useState(null);
+
   const { user, setUser, token, accessLevel } = useUserContext({
     user_id: "",
     name: "",
@@ -115,6 +121,17 @@ function JobsAndRatings() {
     }
   };
 
+  const handleCloseRatingForm = () => {
+    // Close the rating form and reset the bookingIdForRating
+    setjobIdForRating(null);
+    setShowRatingForm(false);
+  };
+
+
+  const handleReview = (job_id) =>{
+    setjobIdForRating(job_id);
+    setShowRatingForm(true);
+  }
 
   return (
     <>
@@ -319,11 +336,21 @@ function JobsAndRatings() {
                       </div>
                     ))}
                   </td>
+                  <td>
+                    <Button variant="primary" onClick={() => handleReview(job.job_id)}> Rate Technician </Button>
+                  </td>
                 </tr>
               ))
             )}
           </tbody>
         </Table>
+        {showRatingForm && jobIdForRating !== null && (
+        <FeedbackForm
+          user={user} //Pass the technician object
+          jobId={jobIdForRating} //Pass the jobId
+          onClose={handleCloseRatingForm}
+        />
+      )}
         <ToastContainer/>
     </div>
   </section>
@@ -333,9 +360,3 @@ function JobsAndRatings() {
 }
 
 export default JobsAndRatings;
-
-
-/*
-Notes
-
-*/

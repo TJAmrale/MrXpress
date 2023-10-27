@@ -6,9 +6,11 @@ import NavBar from '../components/NavBar';
 import NavBarAdmin from '../components/NavBarAdmin';
 import NavBarTechnician from '../components/NavBarTechnician';
 import NavBarCustomer from '../components/NavBarCustomer';
+import axiosClient from '../axios-client';
 import PFP from "../assets/images/Default_pfp.png";
 import "../profile.css";
 import 'react-toastify/dist/ReactToastify.css';
+import { AiFillStar} from "react-icons/ai";
 
 function ProfilePage() {
   const { user, setUser, token, accessLevel } = useUserContext({
@@ -21,10 +23,48 @@ function ProfilePage() {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [ratings, setRatings] = useState([]);
+  const [averageRating, setAverageRating] = useState(0);
   
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+
+  useEffect(() => {
+    // Fetch the ratings for the user based on their access level
+    if (user.user_id) {
+      const route = accessLevel == 3 ? 'customer' : accessLevel == 2 ? 'technician' : '';
+  
+      if (route) {
+        axiosClient
+          .get(`/profile/ratings/${route}/${user.user_id}`)
+          .then((response) => {
+            if (response.status === 200) {
+              return response.data;
+            } else {
+              throw new Error('Network response was not ok');
+            }
+          })
+          .then((data) => {
+            const receivedRatings = data;
+  
+            // Calculate the average rating
+            const totalRating = receivedRatings.reduce((acc, rating) => acc + rating, 0);
+            const avgRating = receivedRatings.length > 0 ? totalRating / receivedRatings.length : 0;
+  
+            const formattedAvgRating = avgRating.toFixed(2);
+            setRatings(receivedRatings);
+            setAverageRating(formattedAvgRating);
+          })
+          .catch((error) => {
+            console.error("Error fetching ratings", error);
+          });
+      }
+    }
+  }, [user.user_id, accessLevel]);
+
+  // Your component rendering code here
 
   return (
     <>
@@ -80,6 +120,7 @@ function ProfilePage() {
           <div className="center">
           <h2>{user.name}</h2> 
           </div>
+          <h3>Rating:  {averageRating}<AiFillStar/></h3>
           <hr id="profile-line"></hr>
           
           <div className="user-details-box">
