@@ -143,9 +143,6 @@ CREATE TABLE job_stock (
     job_id BIGINT NOT NULL,
     stock_id BIGINT NOT NULL,
     quantity INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP NOT NULL,
-    deleted_at TIMESTAMP NULL,
     FOREIGN KEY (job_id) REFERENCES jobs (job_id),
     FOREIGN KEY (stock_id) REFERENCES stock (stock_id)
 );
